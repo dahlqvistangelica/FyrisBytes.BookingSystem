@@ -5,7 +5,6 @@ public class BookingManager
 
     public List<Room> AllBookings { get; set; }
     public List<Room> AllRooms { get; set; }
-
     public List<string> Developers { get; set; }
 
     public BookingManager()
@@ -19,11 +18,10 @@ public class BookingManager
     public bool SaveAllData()
     {
         //Sparar all data till respektive fil, bool för användar val om fel händer
-        bool successFulFirst = SaveData.SaveToFile(AllBookings, "allbooking.json");
-        bool successFulSecond = SaveData.SaveToFile(AllRooms, "allrooms.Json");
-        bool successFulThird = SaveData.SaveToFile(Developers, "developers.json");
-        return successFulFirst && successFulSecond && successFulThird;
-
+        bool savedBooking = SaveData.SaveToFile(AllBookings, "allbooking.json");
+        bool savedRooms = SaveData.SaveToFile(AllRooms, "allrooms.Json");
+        bool savedDevs = SaveData.SaveToFile(Developers, "developers.json");
+        return savedBooking && savedBooking && savedDevs;
     }
 
     public void SortLists()
