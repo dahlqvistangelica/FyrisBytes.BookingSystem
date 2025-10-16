@@ -22,7 +22,6 @@ public class BookingManager
         bool savedRooms = SaveData.SaveToFile(AllRooms, "allrooms.Json");
         bool savedDevs = SaveData.SaveToFile(Developers, "developers.json");
         return savedBooking && savedBooking && savedDevs;
-
     }
 
     public void SortLists()
