@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 public class BookingManager
 {
-    public List<Room> AllBookings { get; set; }
+    public List<Booking> AllBookings { get; set; }
     public List<Room> AllRooms { get; set; }
     public List<string> Developers { get; set; }
 
     public BookingManager()
     {
         //Laddar data ifrån JSON filer, om filen inte finns blir det en tom lista
-        AllBookings = StoreData.LoadFromFile<Room>("allbooking.json");
+        AllBookings = StoreData.LoadFromFile<Booking>("allbooking.json");
         AllRooms = StoreData.LoadFromFile<Room>("allrooms.json");
         Developers = StoreData.LoadFromFile<string>("developers.json");
 

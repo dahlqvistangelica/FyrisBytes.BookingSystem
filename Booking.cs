@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-    internal class Booking
+    public class Booking
     {
         public DateTime BookingStart { get; set; }
         private DateTime _BookingStart;
