@@ -24,6 +24,7 @@ public static class Menu
                     break;
                 case 3:
                     Console.WriteLine("Programmet kommer nu avslutas.");
+                    manager.SaveAllData();
                     Console.ReadLine();
                     break;
                 default:
