@@ -1,7 +1,5 @@
 ﻿using System;
 
-namespace IBookableInterface
-{
     public interface IBookable //Tai
     {
         static void NewBooking() //Tai //TODO
@@ -156,4 +154,3 @@ namespace IBookableInterface
             }
         }
     }
-}

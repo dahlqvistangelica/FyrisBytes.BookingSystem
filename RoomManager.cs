@@ -1,27 +1,26 @@
 ﻿using System;
 
-public class RoomManager
+public static class RoomManager
 {
-
-    public void UserCreateRoom()
+    
+    public static Room UserCreateRoom()
     {
         int seats = UserInputManager.UserInputToInt("Hur många platser har rummet?");
         if (seats < 8)
-            CreateGroupRoom(seats);
+            return CreateGroupRoom(seats);
         else
-            CreateClassRoom(seats);
+            return CreateClassRoom(seats);
     }
-    public GroupRoom CreateGroupRoom(int seats)
+
+    public static GroupRoom CreateGroupRoom(int seats)
     {
         int roomId = UserInputManager.UserInputToInt("Vad har rummet för id?");
         int emergencyExit = UserInputManager.UserInputToInt("Hur många nödutgångar har rummet?");
         bool handicappedAccess = UserInputManager.UserInputYesNo("Är rummet handikappanpassat?", "Du måste svara ja eller nej.");
         bool whiteboard = UserInputManager.UserInputYesNo("Finns det en whiteboard?", "Du måste svara ja eller nej.");
-
-        var room = new GroupRoom(roomId, seats, handicappedAccess, emergencyExit, whiteboard);
-        return room;
+        return new GroupRoom(roomId, seats, handicappedAccess, emergencyExit, whiteboard);
     }
-    public ClassRoom CreateClassRoom(int seats)
+    public static ClassRoom CreateClassRoom(int seats)
     {
         int roomId = UserInputManager.UserInputToInt("Vad har rummet för id?");
         int emergencyExit = UserInputManager.UserInputToInt("Hur många nödutgångar har rummet?");
@@ -29,7 +28,6 @@ public class RoomManager
         bool whiteboard = UserInputManager.UserInputYesNo("Finns det en whiteboard?", "Du måste svara ja eller nej.");
         bool projector = UserInputManager.UserInputYesNo("Finns det projector?", "Du måste svara ja eller nej.");
         bool speaker = UserInputManager.UserInputYesNo("Finns det högtalarsystem?", "Du måste svara ja eller nej.");
-        ClassRoom room = new ClassRoom(roomId, seats, handicappedAccess, emergencyExit, whiteboard, projector, speaker);
-        return room;
+        return new ClassRoom(roomId, seats, handicappedAccess, emergencyExit, whiteboard, projector, speaker);
     }
 }
