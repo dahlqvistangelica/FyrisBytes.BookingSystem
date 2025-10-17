@@ -2,26 +2,29 @@
 
 namespace IBookableInterface
 {
-    public interface IBookable //Tai
+    public static interface IBookable //Tai
     {
         static void NewBooking() //Tai //TODO
         {
             List<string> salarLista = new List<string> { "Sal1", "Sal2", "Sal3", "Sal4" };
             //TODO - ^^^ ändra till korrekt lista för salarna ^^^
             Console.WriteLine("--- Ny Bokning ---");
-            DateTime date = UserInputManager.UserCreateDateTime("Ange datum för bokning (ÅÅÅÅ-MM-DD): ", "Datumet måste skrivas i formatet ÅÅÅÅ-MM-DD.");
-            Console.Write($"Ange starttid för bokning den {date}: ");
-
-            Console.Write($"Ange sluttid för bokning den {date}: [EJ IMPLEMENTEAT]");//ta input till datetime tid
-            Console.Write("Ange hur länge du vill boka en sal: [EJ IMPLEMENTEAT]"); //alt. detta //Ska tiden läggas in i date? Kommer användaren kunna skriva allt i rätt format som krävs?
-
-            //ta input, gör till timespan -> få ut en datetime när det ska sluta
+            Console.WriteLine("Start av bokning:");
+            DateTime bookingStart = UserInputManager.UserCreateDateTime();
+            Console.WriteLine("Slut av bokning:");
+            DateTime bookingEnd = UserInputManager.UserCreateDateTime();
 
             Console.WriteLine("Följande salar är lediga att boka för din angivna tid: ");
             for (int i = 0; i < salarLista.Count; i++)
             {
-                //TODO: OM salen inte är bokad: DATUM och KLOCKSLAGEN som användaren vill ha:
-                Console.WriteLine($"[{i + 1}] {salarLista[i]}"); //byt ut salarLista[i] till namn på salen, med dess egenskaper
+                if (salarLista[i] == "")//tiden som valts.booked == true)
+                    continue;
+                else
+                {
+                    Console.WriteLine($"[{i + 1}] {salarLista[i]}"); //byt ut salarLista[i] till namn på salen, med dess egenskaper
+
+                }
+                    //TODO: OM salen inte är bokad: DATUM och KLOCKSLAGEN som användaren vill ha:
             }
             int roomToBook = UserInputManager.UserInputToIntMinus1("\nVälj sal att boka: ");
 
@@ -139,7 +142,7 @@ namespace IBookableInterface
             }
             //TODO Korrigera AllBookings formatet ^
         }
-        static void ChangeBookingSuccessPrintToScreen(bool success) //Tai
+        public void ChangeBookingSuccessPrintToScreen(bool success) //Tai
         {
             if (success == true)
             {
