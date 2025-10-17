@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BookingManager
 {
-    public List<Room> AllBookings { get; set; }
+    public List<Booking> AllBookings { get; set; }
     public List<Room> AllRooms { get; set; }
     public List<string> Developers { get; set; }
 
