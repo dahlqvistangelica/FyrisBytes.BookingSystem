@@ -1,0 +1,7 @@
+Readme
+
+Huvudansvar 
+Angelica : Class Room och subclass Group/ClassRoom, Meny
+Tai : IBooking
+Olof: Filskrivning/hämtning samt Lists
+Filip: UserInput, Booking

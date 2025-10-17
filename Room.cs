@@ -1,30 +1,29 @@
 ﻿using System;
 
-
-    // <summary>
-    /// Lokalklass, parent till GroupRoom och ClassRoom. Skapar objekt för varje lokal.
-    /// </summary>
-    public class Room
+/// <summary>
+/// Lokalklass, parent till GroupRoom och ClassRoom. Skapar objekt för varje lokal.
+/// </summary>
+public class Room
     {
         private int _roomID;
         public int RoomID
         {
             get => _roomID;
-            set { _roomID = value; }
+            init { _roomID = value; }
         }
         private int _seatAmount;
         public virtual int SeatAmount
         {
             get => _seatAmount;
-            set
+            init
             {
                 if (value <= 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "Du måste ha minst en plats i ett rum.");
                 _seatAmount = value;
             }
         }
-        public virtual bool HandicappedAccessible { get; set; }
-        public int EmergencyExits { get; set; }
+        public virtual bool HandicappedAccessible { get; init; }
+        public int EmergencyExits { get; init; }
 
         public bool WhiteBoard;
         public Room(int idNumb, int seats, bool handAccess, int emergencyExits, bool whiteboard)
@@ -45,7 +44,7 @@
         public override int SeatAmount
         {
             get => base.SeatAmount;
-            set
+            init
             {
                 if (value > 8)
                     throw new ArgumentOutOfRangeException(nameof(value), "Grupprum kan inte ha fler än 8 sittplatser.");
@@ -65,7 +64,7 @@
         public override int SeatAmount
         {
             get => base.SeatAmount;
-            set
+            init
             {
                 if (value < 8)
                     throw new ArgumentOutOfRangeException(nameof(value), "Salar kan inte ha under 8 platser.");
@@ -74,7 +73,7 @@
         public override bool HandicappedAccessible
         {
             get => base.HandicappedAccessible;
-            set
+            init
             {
                 if (!value)
                     throw new ArgumentException("Salar måste vara handikappanpassade. ");
@@ -88,3 +87,4 @@
         }
 
     }
+

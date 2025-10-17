@@ -1,4 +1,6 @@
-﻿namespace IBookableInterface
+﻿using System;
+
+namespace IBookableInterface
 {
     public interface IBookable //Tai
     {
