@@ -7,9 +7,8 @@ public static class RoomManager
     {
         int seats = UserInputManager.UserInputToInt("Hur många platser har rummet?");
         if (seats < 8)
-            return CreateGroupRoom(seats);
-        else
-            return CreateClassRoom(seats);
+        { return CreateGroupRoom(seats); }
+        return CreateClassRoom(seats);
     }
 
     public static GroupRoom CreateGroupRoom(int seats)
@@ -22,6 +21,7 @@ public static class RoomManager
     }
     public static ClassRoom CreateClassRoom(int seats)
     {
+        
         int roomId = UserInputManager.UserInputToInt("Vad har rummet för id?");
         int emergencyExit = UserInputManager.UserInputToInt("Hur många nödutgångar har rummet?");
         bool handicappedAccess = UserInputManager.UserInputYesNo("Är rummet handikappanpassat?");
