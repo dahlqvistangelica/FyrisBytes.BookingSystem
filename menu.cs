@@ -23,7 +23,9 @@ public static class Menu
                     ControllBookingScreen(manager);
                     break;
                 case 3:
+                    manager.SaveAllData();
                     Console.WriteLine("Programmet kommer nu avslutas.");
+                    manager.SaveAllData();
                     Console.ReadLine();
                     break;
                 default:
@@ -54,11 +56,12 @@ public static class Menu
             {
                 case 1:
                     Console.Clear();
-                    bookingManager.AllRooms.Add(RoomManager.UserCreateRoom());
+                    bookingManager.AllRooms.Add(RoomManager.UserCreateRoom(bookingManager));
                     Console.ReadLine();
                     break;
                 case 2:
                     Console.Clear();
+                    RoomManager.DisplayRooms(bookingManager);
                     Console.ReadLine();
                     break;
                 case 3:
