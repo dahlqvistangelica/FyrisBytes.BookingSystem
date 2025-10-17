@@ -7,6 +7,7 @@ public static class Menu
     /// </summary>
     public static void StartUpScreen()
     {
+        var manager = new BookingManager();
         int input;
         do
         {
@@ -16,10 +17,10 @@ public static class Menu
             switch (input)
             {
                 case 1:
-                    ControllRoomScreen();
+                    ControllRoomScreen(manager);
                     break;
                 case 2:
-                    ControllBookingScreen();
+                    ControllBookingScreen(manager);
                     break;
                 case 3:
                     Console.WriteLine("Programmet kommer nu avslutas.");
@@ -36,7 +37,7 @@ public static class Menu
     /// <summary>
     /// Meny för att hantera lokaler.
     /// </summary>
-    public static void ControllRoomScreen()
+    public static void ControllRoomScreen(BookingManager bookingManager)
     {
         int input;
         do
@@ -53,12 +54,11 @@ public static class Menu
             {
                 case 1:
                     Console.Clear();
-                    Console.WriteLine("Skapa ny lokal");
+                    bookingManager.AllRooms.Add(RoomManager.UserCreateRoom());
                     Console.ReadLine();
                     break;
                 case 2:
                     Console.Clear();
-                    Console.WriteLine("Visa befintliga lokaler");
                     Console.ReadLine();
                     break;
                 case 3:
@@ -75,7 +75,7 @@ public static class Menu
     /// <summary>
     /// Meny för att hantera bokningar i systemet.
     /// </summary>
-    public static void ControllBookingScreen()
+    public static void ControllBookingScreen(BookingManager bookingManager)
     {
         int input;
         do

@@ -1,8 +1,6 @@
 ﻿using System;
 using BookingSystem.BookingManager;
 
-namespace IBookableInterface
-{
     public interface IBookable //Tai
     {
         static void NewBooking() //Tai
@@ -168,4 +166,3 @@ namespace IBookableInterface
             }
         }
     }
-}
