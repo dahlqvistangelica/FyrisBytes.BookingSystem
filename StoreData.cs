@@ -16,7 +16,6 @@ public class StoreData
 
             //Skriv JSON string till fil
             File.WriteAllText(filePath, jsonString);
-            Console.WriteLine("Data sparades korrekt");
             return true;
         }
         catch (Exception e)
@@ -32,7 +31,6 @@ public class StoreData
         //Kollar om filen finns
         if (!File.Exists(filePath))
         {
-            Console.WriteLine("Kunde inte hitta filen");
             return new List<T>();
         }
         try
