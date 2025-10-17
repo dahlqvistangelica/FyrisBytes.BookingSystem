@@ -1,13 +1,13 @@
 ﻿using System;
+using BookingSystem.BookingManager;
 
 namespace IBookableInterface
 {
-    public static interface IBookable //Tai
+    public interface IBookable //Tai
     {
-        static void NewBooking() //Tai //TODO
+        static void NewBooking() //Tai
         {
-            List<string> salarLista = new List<string> { "Sal1", "Sal2", "Sal3", "Sal4" };
-            //TODO - ^^^ ändra till korrekt lista för salarna ^^^
+            var bookingList = BookingManager.AllBookings;
             Console.WriteLine("--- Ny Bokning ---");
             Console.WriteLine("Start av bokning:");
             DateTime bookingStart = UserInputManager.UserCreateDateTime();
@@ -24,7 +24,6 @@ namespace IBookableInterface
                     Console.WriteLine($"[{i + 1}] {salarLista[i]}"); //byt ut salarLista[i] till namn på salen, med dess egenskaper
 
                 }
-                    //TODO: OM salen inte är bokad: DATUM och KLOCKSLAGEN som användaren vill ha:
             }
             int roomToBook = UserInputManager.UserInputToIntMinus1("\nVälj sal att boka: ");
 
@@ -83,13 +82,23 @@ namespace IBookableInterface
         static bool UpdateBookingTime(int whichBookingToChange) //Tai
         {
             Console.Write("Ange ny starttid för bokningen: ");
-
-            //input till datetime tid
-            //replace i bokningslista[whichBookingToChange]
+            DateTime bookingStart = UserInputManager.UserCreateDateTime();
             Console.Write("Ange hur länge bokningen ska vara: ");
-            //input till timespan, datetime starttid + timespan = sluttid
-            //input Confirm korrekt tid ja/nej
-            //Lägg in ny tid i bokningslistan[whichBookingToChange]
+            DateTime bookingEnd = UserInputManager.UserCreateDateTime();
+            int userconfirm = UserInputManager.UserInputToInt
+                (
+                    "Bokningen är satt till:" +
+                    "\nBokningens start: " + bookingStart.ToString() +
+                    "\nBokningens slut: " + bookingEnd.ToString() +
+                    "\nBekräfta tid:" +
+                    "\n[1] Bekräfta" +
+                    "\n[2] Ignorera"
+                );
+            if (userconfirm == 1)
+            {
+                //replace i bokningslista[whichBookingToChange]
+                //Lägg in ny tid i bokningslistan[whichBookingToChange]
+            }
             bool success = true; //confirm if success
             return success;
         }
@@ -142,7 +151,7 @@ namespace IBookableInterface
             }
             //TODO Korrigera AllBookings formatet ^
         }
-        public void ChangeBookingSuccessPrintToScreen(bool success) //Tai
+        public static void ChangeBookingSuccessPrintToScreen(bool success) //Tai
         {
             if (success == true)
             {
