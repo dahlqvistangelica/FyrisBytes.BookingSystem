@@ -1,6 +1,8 @@
 ﻿using System;
 using static System.Net.Mime.MediaTypeNames;
-
+/// <summary>
+/// En class för säker handering och validering av användarinmatad data. //Filip
+/// </summary>
 static class UserInputManager
 {
     /// <summary>
@@ -120,7 +122,7 @@ static class UserInputManager
     /// <param name="prompt"></param>
     /// <param name="errorMessage"></param>
     /// <returns></returns>
-    internal static bool UserInputYesNo(string prompt, string errorMessage)
+    internal static bool UserInputYesNo(string prompt)
     {
         while (true)
         {
@@ -139,7 +141,7 @@ static class UserInputManager
                 }
                 else Console.WriteLine("Dina val måste vara [ja] eller [nej]");
             }
-            else Console.WriteLine(errorMessage);
+            else Console.WriteLine("Något gick fel");
         }
     }
     /// <summary>
