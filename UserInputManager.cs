@@ -2,6 +2,11 @@
 
 static class UserInputManager
 {
+    /// <summary>
+    /// En metod för att säkert ta in och konvertera användarinput till int.
+    /// </summary>
+    /// <param name="prompt"></param>
+    /// <returns></returns>
         internal static int UserInputToInt(string prompt)
         {
             while (true)
@@ -18,6 +23,11 @@ static class UserInputManager
                 }
             }
         }
+    /// <summary>
+    /// metod för att konvertera användarinput till int -1. för använding till indexval i listor osv.
+    /// </summary>
+    /// <param name="prompt"></param>
+    /// <returns></returns>
         internal static int UserInputToIntMinus1(string prompt)
         {
             while (true)
@@ -62,6 +72,12 @@ static class UserInputManager
                 }
             }
         }
+    /// <summary>
+    /// Säker hantering av Användarinput och konvertering till double
+    /// </summary>
+    /// <param name="prompt"></param>
+    /// <param name="errorMessage"></param>
+    /// <returns></returns>
         internal static double UserInputToDouble(string prompt, string errorMessage)
         {
             while (true)
@@ -78,6 +94,12 @@ static class UserInputManager
                 }
             }
         }
+    /// <summary>
+    /// En metod för säker hantering av användarstringar
+    /// </summary>
+    /// <param name="prompt"></param>
+    /// <param name="errorMessage"></param>
+    /// <returns></returns>
         internal static string UserInputSafeString(string prompt, string errorMessage)
         {
             while (true)
@@ -91,6 +113,12 @@ static class UserInputManager
                 else Console.WriteLine(errorMessage);
             }
         }
+    /// <summary>
+    /// En metod för att ställa Ja/Nej Frågor till användaren
+    /// </summary>
+    /// <param name="prompt"></param>
+    /// <param name="errorMessage"></param>
+    /// <returns></returns>
         internal static bool UserInputYesNo(string prompt, string errorMessage)
         {
             while (true)
@@ -113,6 +141,10 @@ static class UserInputManager
                 else Console.WriteLine(errorMessage);
             }
         }
+    /// <summary>
+    /// En metod som skapar ett DateTime men där Datumet sätts och tiden är 00:00:00
+    /// </summary>
+    /// <returns></returns>
         internal static DateTime UserCreateDate()
         {
             while (true)
@@ -126,14 +158,14 @@ static class UserInputManager
             }
         }
         /// <summary>
-        /// En Metod som låter anvöndaren skapa ett DateTime
+        /// En Metod som låter anvöndaren skapa ett DateTime med både Datum och Tid
         /// </summary>
         /// <returns></returns>
         internal static DateTime UserCreateDateTime()
         {
             while (true)
             {
-                int year = UserInputToIntWithLimitations("Ange ett årtal [yyyy]", 9999, 0);
+                int year = UserInputToIntWithLimitations("Ange ett årtal [åååå]", 9999, 0);
                 int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
                 int maxvalueDate = DateTime.DaysInMonth(year, month);
                 int day = UserInputToIntWithLimitations("Ange ett datum[dd]", maxvalueDate, 0);
