@@ -24,6 +24,10 @@ static class UserInputManager
             {
                 Console.WriteLine("Input var null");
             }
+            else if (!Int32.TryParse(input, out inputInInt))
+            {
+                Console.WriteLine("Felaktigt värde");
+            }
         }
     }
     /// <summary>
@@ -44,6 +48,10 @@ static class UserInputManager
             else if (input == null)
             {
                 Console.WriteLine("Input var null");
+            }
+            else if (!Int32.TryParse(input, out inputInInt))
+            {
+                Console.WriteLine("Felaktigt värde");
             }
         }
     }
@@ -69,6 +77,10 @@ static class UserInputManager
                 else if (inputInInt < minValue)
                     Console.WriteLine($"Input får inte vara mindre än {minValue}");
             }
+            else if (!Int32.TryParse(input, out inputInInt))
+            {
+                Console.WriteLine("Felaktigt värde");
+            }
             else if (input == null)
             {
                 Console.WriteLine("Input får inte vara null!");
@@ -90,6 +102,10 @@ static class UserInputManager
             if (input != null && Double.TryParse(input.Replace(".", ","), out double inputInDouble))
             {
                 return inputInDouble;
+            }
+            else if (!(input != null && Double.TryParse(input.Replace(".", ","), out inputInDouble)))
+            {
+                Console.WriteLine("Felaktigt värde");
             }
             else if (input == null)
             {
