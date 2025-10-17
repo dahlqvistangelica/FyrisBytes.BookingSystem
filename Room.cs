@@ -35,7 +35,40 @@ public class Room
             WhiteBoard = whiteboard;
         }
         public Room() : this(0, 1, false, 0, false) { }
+
+    public static bool CheckRoomID(int roomID, BookingManager bookingManager)
+    {
+        foreach (Room room in bookingManager.AllRooms)
+            if (roomID == room.RoomID)
+                return false;
+        return true;
     }
+    public static int GetSeats()
+    {
+        int seats = UserInputManager.UserInputToInt("Hur många platser har rummet?");
+        return seats;
+    }
+    public static int GetID()
+    {
+        int roomId = UserInputManager.UserInputToInt("Vad har rummet för id?");
+        return roomId;
+    }
+    public static int GetEmergencyExits()
+    {
+        int emergencyExit = UserInputManager.UserInputToInt("Hur många nödutgångar har rummet?");
+        return emergencyExit;
+    }
+    public static bool GetHandicappedAccess()
+    {
+        bool handicappedAccess = UserInputManager.UserInputYesNo("Är rummet handikappanpassat?");
+        return handicappedAccess;
+    }
+    public static bool GetWhiteBoard()
+    {
+        bool whiteboard = UserInputManager.UserInputYesNo("Finns det en whiteboard?");
+        return whiteboard;
+    }
+}
     /// <summary>
     /// Childclass för grupprum, kan ha max 8 platser annars kastar den error. Ska ha ett id, max 8 sittplatser, kan vara handikappanpassat och ha fler utrymningsvägar.
     /// </summary>
@@ -57,7 +90,7 @@ public class Room
     /// <summary>
     /// Childclass för klassrum(sal), måste ha minst 8 platser, måste vara handikappanpassad. Ska ha ett id, minst 8 sittplatser, handikappanpassning, utrymningsvägar. Kan också ha projector och speakersystem.
     /// </summary>
-    public class ClassRoom : Room //Sal med minst 8 platser, måste vara handikappanpassad.
+    public class ClassRoom : Room  //Sal med minst 8 platser, måste vara handikappanpassad.
     {
         public bool Projector;
         public bool SpeakerSystem;
@@ -86,6 +119,15 @@ public class Room
             Projector = projector;
             SpeakerSystem = speaker;
         }
-
+    public static bool GetProjector()
+    {
+        bool projector = UserInputManager.UserInputYesNo("Finns det projector?");
+        return projector;
     }
+    public static bool GetSpeaker()
+    {
+        bool speaker = UserInputManager.UserInputYesNo("Finns det högtalarsystem?");
+        return speaker;
+    }
+}
 

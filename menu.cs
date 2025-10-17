@@ -56,7 +56,7 @@ public static class Menu
             {
                 case 1:
                     Console.Clear();
-                    bookingManager.AllRooms.Add(RoomManager.UserCreateRoom());
+                    bookingManager.AllRooms.Add(RoomManager.UserCreateRoom(bookingManager));
                     Console.ReadLine();
                     break;
                 case 2:
