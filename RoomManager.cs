@@ -44,10 +44,17 @@ public static class RoomManager
     }
     public static void DisplayRooms(BookingManager manager)
     {
-        foreach (Room room in manager.AllRooms)
+        Console.WriteLine("-- Tillgängliga rum --");
+        Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t Projector \t Speaker");
+        foreach (var room in manager.AllRooms)
         {
-            Console.WriteLine($"ID: {room.RoomID}");
-            Console.WriteLine($"Platser: {room.SeatAmount}");
+            
+            Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.HandicappedAccessible ? "ja" : "nej")} \t");
+            if (room is ClassRoom classRoom)
+            {
+                Console.Write($"{(classRoom.Projector ? "ja" : "nej")} \t {(classRoom.SpeakerSystem ? "ja" : "nej")}");
+            }
+                Console.WriteLine();
         }
     }
 }

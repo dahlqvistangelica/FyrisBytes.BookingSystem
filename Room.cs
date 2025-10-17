@@ -25,7 +25,7 @@ public class Room
         public virtual bool HandicappedAccessible { get; init; }
         public int EmergencyExits { get; init; }
 
-        public bool WhiteBoard;
+        public bool WhiteBoard { get; init; }
         public Room(int idNumb, int seats, bool handAccess, int emergencyExits, bool whiteboard)
         {
             RoomID = idNumb;
@@ -92,8 +92,8 @@ public class Room
     /// </summary>
     public class ClassRoom : Room  //Sal med minst 8 platser, måste vara handikappanpassad.
     {
-        public bool Projector;
-        public bool SpeakerSystem;
+        public bool Projector { get; init; }
+        public bool SpeakerSystem { get; init; }
         public override int SeatAmount
         {
             get => base.SeatAmount;
