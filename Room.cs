@@ -68,6 +68,7 @@ public class Room
             {
                 if (value < 8)
                     throw new ArgumentOutOfRangeException(nameof(value), "Salar kan inte ha under 8 platser.");
+            base.SeatAmount = value;
             }
         }
         public override bool HandicappedAccessible

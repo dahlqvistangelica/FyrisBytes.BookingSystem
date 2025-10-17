@@ -6,8 +6,8 @@ public static class RoomManager
     public static Room UserCreateRoom()
     {
         int seats = UserInputManager.UserInputToInt("Hur många platser har rummet?");
-        if (seats < 8)
-        { return CreateGroupRoom(seats); }
+        if(seats < 8)
+        { return CreateGroupRoom(seats);  }
         return CreateClassRoom(seats);
     }
 
