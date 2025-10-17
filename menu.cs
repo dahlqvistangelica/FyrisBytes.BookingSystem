@@ -23,6 +23,7 @@ public static class Menu
                     ControllBookingScreen(manager);
                     break;
                 case 3:
+                    manager.SaveAllData();
                     Console.WriteLine("Programmet kommer nu avslutas.");
                     manager.SaveAllData();
                     Console.ReadLine();
@@ -60,6 +61,7 @@ public static class Menu
                     break;
                 case 2:
                     Console.Clear();
+                    RoomManager.DisplayRooms(bookingManager);
                     Console.ReadLine();
                     break;
                 case 3:

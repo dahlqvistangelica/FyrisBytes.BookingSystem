@@ -30,4 +30,12 @@ public static class RoomManager
         bool speaker = UserInputManager.UserInputYesNo("Finns det högtalarsystem?");
         return new ClassRoom(roomId, seats, handicappedAccess, emergencyExit, whiteboard, projector, speaker);
     }
-}
+    public static void DisplayRooms(BookingManager manager)
+    {
+        foreach(Room room in manager.AllRooms)
+        { Console.WriteLine($"ID: {room.RoomID}");
+          Console.WriteLine($"Platser: {room.SeatAmount}");
+        }
+    }
+    }
+
