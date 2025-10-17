@@ -9,7 +9,7 @@ namespace IBookableInterface
             List<string> salarLista = new List<string> { "Sal1", "Sal2", "Sal3", "Sal4" };
             //TODO - ^^^ ändra till korrekt lista för salarna ^^^
             Console.WriteLine("--- Ny Bokning ---");
-            DateTime date = UserInputManager.UserCreateDateTime("Ange datum för bokning (ÅÅÅÅ-MM-DD): ", "Datumet måste skrivas i formatet ÅÅÅÅ-MM-DD.");
+            DateTime date = UserInputManager.UserCreateDateTime();
             Console.Write($"Ange starttid för bokning den {date}: ");
 
             Console.Write($"Ange sluttid för bokning den {date}: [EJ IMPLEMENTEAT]");//ta input till datetime tid
@@ -38,7 +38,7 @@ namespace IBookableInterface
         {
 
             Console.WriteLine("--- Uppdatera Bokning ---");
-            DateTime date = UserInputManager.UserCreateDateTime("Ange datum för att ta fram aktuella bokningar (ÅÅÅÅ-MM-DD): ", "Du måste ange datumet i formatet ÅÅÅÅ-MM-DD.");
+            DateTime date = UserInputManager.UserCreateDateTime();
             Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
             for (int i = 0; i < AllBookings.Count; i++) //TODO: Nå korrekt bokningslista
             {
@@ -72,7 +72,7 @@ namespace IBookableInterface
         }
         static bool UpdateBookingDate(int whichBookingToChange) //Tai
         {
-            DateTime date = UserInputManager.UserCreateDateTime("Ange nytt datum för bokningen (ÅÅÅÅ-MM-DD): ", "Du måste ange datumet i formatet ÅÅÅÅ-MM-DD");
+            DateTime date = UserInputManager.UserCreateDateTime();
             //TODO: replace i bokningslista[whichBookingToChange]
             bool success = true; //TODO: confirm if success
             return success;
@@ -114,7 +114,7 @@ namespace IBookableInterface
 
         static void DeleteBooking()//Tai
         {
-            DateTime date = UserInputManager.UserCreateDateTime("Ange datum (ÅÅÅÅ-MM-DD) för bokningen du vill ta bort: ", "Du måste ange datumet i formatet (ÅÅÅÅ-MM-DD).");
+            DateTime date = UserInputManager.UserCreateDateTime();
             BookingsPrintList(date);
         }
         static void ListAllBookingsWithinTimeframe() //Tai
