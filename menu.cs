@@ -43,7 +43,7 @@ public static class Menu
     /// <summary>
     /// Meny för att hantera lokaler.
     /// </summary>
-    public static void ControllRoomScreen(BookingManager bookingManager)
+    public static void ControllRoomScreen(BookingManager manager)
     {
         int input;
         do
@@ -62,13 +62,13 @@ public static class Menu
                     Console.Clear();
                     int seats = RoomManager.GetSeats();
                     if(RoomManager.DetermineRoomType(seats))
-                    { bookingManager.AllGroupRooms.Add(RoomManager.CreateGroupRoom(seats, bookingManager)); }
+                    { manager.AllGroupRooms.Add(RoomManager.CreateGroupRoom(seats, manager)); }
                     else
-                    { bookingManager.AllClassRooms.Add(RoomManager.CreateClassRoom(seats, bookingManager)); }
+                    { manager.AllClassRooms.Add(RoomManager.CreateClassRoom(seats, manager)); }
                     break;
                 case 2:
                     Console.Clear();
-                    RoomManager.DisplayRooms(bookingManager);
+                    RoomManager.DisplayRooms(manager);
                     Console.ReadLine();
                     break;
                 case 3:
