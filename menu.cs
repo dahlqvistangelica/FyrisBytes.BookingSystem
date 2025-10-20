@@ -56,16 +56,19 @@ public static class Menu
     /// </summary>
     public static void ControllRoomScreen(BookingManager manager)
     {
+        manager.SortRoomLists();
         int input;
         do
         {
             Console.Clear();
             Console.WriteLine("-- Hantera salar --");
             input = UserInputManager.UserInputToIntWithLimitations(
-                "[1] Skapa ny lokal. \n" +
-                "[2] Visa befintliga lokaler. \n" +
-                "[3] Ändra lokalsinformation. \n" +
-                "[4] Tillbaka till huvudmenyn\nVälj: ", 4, 0);
+                "[1] Lägg till rum. \n" +
+                "[2] Visa klassrum. \n" +
+                "[3] Visa grupprum. \n" +
+                "[4] Visa alla rum. \n" +
+                "[5] Ändra lokalsinformation. \n" +
+                "[6] Tillbaka till huvudmenyn\nVälj: ", 6, 0);
 
             switch (input)
             {
@@ -79,10 +82,20 @@ public static class Menu
                     break;
                 case 2:
                     Console.Clear();
-                    RoomManager.DisplayRooms(manager);
+                    RoomManager.DisplayClassRooms(manager);
                     Console.ReadLine();
                     break;
                 case 3:
+                    Console.Clear();
+                    RoomManager.DisplayGroopRooms(manager);
+                    Console.ReadLine();
+                    break;
+                case 4:
+                    Console.Clear();
+                    RoomManager.DisplayRooms(manager);
+                    Console.ReadLine();
+                    break;
+                case 5:
                     Console.Clear();
                     Console.WriteLine("Ändra lokalinformation");
                     Console.ReadLine();
@@ -91,7 +104,7 @@ public static class Menu
                     Console.WriteLine("Ogiltigt val, försök igen.");
                     break;
             }
-        } while (input != 4);
+        } while (input != 6);
     }
     /// <summary>
     /// Meny för att hantera bokningar i systemet.

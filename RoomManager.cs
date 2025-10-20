@@ -142,17 +142,27 @@ public static class RoomManager
 
     public static void DisplayRooms(BookingManager manager)
     {
-        Console.WriteLine("-- Sparade klassrum --");
+        DisplayClassRooms(manager);
+        Console.WriteLine();
+        DisplayGroopRooms(manager);
+    }
+    public static void DisplayClassRooms(BookingManager manager)
+    {
+        Console.WriteLine("-- Befintliga klassrum --");
         Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t Projector \t Speaker");
+        
         foreach (ClassRoom room in manager.AllClassRooms)
         {
 
             Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t\t\t {(room.Projector ? "ja" : "nej")} \t\t {(room.SpeakerSystem ? "ja" : "nej")}");
-            
+
             Console.WriteLine();
         }
-        Console.WriteLine();
-        Console.WriteLine("-- Sparade grupprum --");
+    }
+    public static void DisplayGroopRooms(BookingManager manager)
+    {
+        
+        Console.WriteLine("-- Befintliga grupprum --");
         Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t ");
         foreach (GroupRoom room in manager.AllGroupRooms)
         {
@@ -161,7 +171,6 @@ public static class RoomManager
             Console.WriteLine();
         }
     }
-
     public static void EditRooms(BookingManager manager)
     {
         DisplayRooms(manager);

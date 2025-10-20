@@ -21,7 +21,14 @@ public class BookingManager
 
 
     }
-
+    /// <summary>
+    /// Sorterar listorna med rum efter rumsID. 
+    /// </summary>
+    public void SortRoomLists() 
+    {
+        AllGroupRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
+        AllClassRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
+    }
 
     //Sortering för bokad tid, bara place holder har inte tänkt längre än två sekunder på denna
     public void SortList()
