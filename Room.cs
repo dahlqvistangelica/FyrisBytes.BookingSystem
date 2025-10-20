@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 /// <summary>
 /// Lokalklass, parent till GroupRoom och ClassRoom. Skapar objekt för varje lokal.
 /// </summary>
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+[JsonDerivedType(typeof(GroupRoom), typeDiscriminator: "group")]
+[JsonDerivedType(typeof(ClassRoom), typeDiscriminator: "class")]
 public class Room
     {
         private int _roomID;
@@ -17,8 +21,7 @@ public class Room
             get => _seatAmount;
             init
             {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(value), "Du måste ha minst en plats i ett rum.");
+                
                 _seatAmount = value;
             }
         }
@@ -50,11 +53,11 @@ public class Room
             get => base.SeatAmount;
             init
             {
-                if (value > 9)
-                    throw new ArgumentOutOfRangeException(nameof(value), "Grupprum kan inte ha fler än 8 sittplatser.");
+                
                 base.SeatAmount = value;
             }
         }
+    public GroupRoom() : base() { }
     public GroupRoom(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard) : base(idNumb, seats, disabilityAccess, emergencyExits, whiteboard) { }
     }
     /// <summary>
@@ -69,8 +72,6 @@ public class Room
             get => base.SeatAmount;
             init
             {
-                if (value < 9)
-                    throw new ArgumentOutOfRangeException(nameof(value), "Salar kan inte ha under 8 platser.");
             base.SeatAmount = value;
             }
         }
@@ -79,11 +80,15 @@ public class Room
             get => base.DisablityAdapted;
             init
             {
-                if (!value)
-                    throw new ArgumentException("Salar måste vara handikappanpassade. ");
+                
                 base.DisablityAdapted = value;
             }
         }
-    public ClassRoom(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard, bool projector, bool speaker) : base(idNumb, seats, disabilityAccess, emergencyExits, whiteboard) { }
+    public ClassRoom() : base (){ }
+    public ClassRoom(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard, bool projector, bool speaker) : base(idNumb, seats, disabilityAccess, emergencyExits, whiteboard)
+    {
+        Projector = projector;
+        SpeakerSystem = speaker;
+    }
 }
 
