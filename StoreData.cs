@@ -8,18 +8,18 @@ using System.Text.Json.Serialization.Metadata;
 public class StoreData
 {
     //Sparar till JSON
-    public static void SaveToFile(BookingManager saveInstance)
+    public static void SaveToFile(DataManager saveInstance)
     {
         var path = FilePath.GetPath();
         //Omvandlar våran instans av bookingmanager till JSON-sträng som vi kan spara
-        var jString = JsonSerializer.Serialize<BookingManager>(saveInstance, JsonSerializerOptions.Default);
+        var jString = JsonSerializer.Serialize<DataManager>(saveInstance, JsonSerializerOptions.Default);
 
         //skriver innehållet i jstring till en JSON fil
         File.WriteAllText(path, jString);
     }
 
     //Läser ifrån JSON
-    public static BookingManager? ReadFromFile()
+    public static DataManager? ReadFromFile()
     {
         var path = FilePath.GetPath();
         try
@@ -28,7 +28,7 @@ public class StoreData
             if (!File.Exists(path)) { return null; }
 
             //returnar en ny instans av objektet BookingManager, fyllt med värdena ifrån JSON filen
-            return JsonSerializer.Deserialize<BookingManager>(File.ReadAllText(path));
+            return JsonSerializer.Deserialize<DataManager>(File.ReadAllText(path));
 
         }
         catch

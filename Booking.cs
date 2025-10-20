@@ -23,28 +23,28 @@ public class Booking
         BookingSpan = ends - start;
         BookedRoom = room;
     }
-    static public void CreateBooking(BookingManager manager, int i)
+    static public void CreateBooking(DataManager dataManager, int i)
     {
         if (UserInputManager.UserInputYesNo("Vill du boka ett grupprum?"))
         {
-            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), manager.AllGroupRooms[i]);
-            manager.AllBookings.Add(booking);
+            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), dataManager.AllGroupRooms[i]);
+            dataManager.AllBookings.Add(booking);
         }
         else
         {
-            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), manager.AllClassRooms[i]);
-            manager.AllBookings.Add(booking);
+            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), dataManager.AllClassRooms[i]);
+            dataManager.AllBookings.Add(booking);
         }
     }
-    static public void BookingSearch(BookingManager manager, int targetYear)
+    static public void BookingSearch(DataManager dataManager, int targetYear)
     {
-        foreach (Booking item in manager.AllBookings)
+        foreach (Booking item in dataManager.AllBookings)
         {
             if (item.BookingStart.Year == targetYear)
                 Console.WriteLine($"{item.BookingStart} {item.BookingEnds}");
         }
     }
-    static public void ListBookings(BookingManager manager)
+    static public void ListBookings(DataManager manager)
     {
         foreach (Booking item in manager.AllBookings)
         {

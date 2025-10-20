@@ -7,19 +7,20 @@ public static class Menu
     /// </summary>
     public static void StartUpScreen()
     {
-        var manager = new BookingManager();
+        var dataManager = new DataManager();
         int input;
         var checkData = StoreData.ReadFromFile();
         if (checkData != null)
         {
-            manager = checkData;
+            dataManager = checkData;
+            dataManager.RebuildAllRooms();
         }
         else
         {
-            manager.Developers.Add("Olof Brahm");
-            manager.Developers.Add("Angelica Dahlqvist");
-            manager.Developers.Add("Filip Gidlöf");
-            manager.Developers.Add("Tai Lenke Enarsson");
+            dataManager.Developers.Add("Olof Brahm");
+            dataManager.Developers.Add("Angelica Dahlqvist");
+            dataManager.Developers.Add("Filip Gidlöf");
+            dataManager.Developers.Add("Tai Lenke Enarsson");
         }
             do
             {
@@ -29,17 +30,17 @@ public static class Menu
                 switch (input)
                 {
                     case 1:
-                        ControllRoomScreen(manager);
+                        ControllRoomScreen(dataManager);
                         break;
                     case 2:
-                        ControllBookingScreen(manager);
+                        ControllBookingScreen(dataManager);
                         break;
                     case 3:
                         Console.Clear();
-                        manager.PrintDevelopers();
-                        break;
+                    BookingManager.PrintDevelopers(dataManager);                  
+                    break;
                     case 4:
-                        StoreData.SaveToFile(manager);
+                        StoreData.SaveToFile(dataManager);
                         Console.WriteLine("Programmet kommer nu avslutas.");
                         Console.ReadLine();
                         break;
@@ -54,9 +55,9 @@ public static class Menu
     /// <summary>
     /// Meny för att hantera lokaler.
     /// </summary>
-    public static void ControllRoomScreen(BookingManager manager)
+    public static void ControllRoomScreen(DataManager dataManager)
     {
-        manager.SortRoomLists();
+        BookingManager.SortRoomLists(dataManager);
         int input;
         do
         {
@@ -76,29 +77,31 @@ public static class Menu
                     Console.Clear();
                     int seats = RoomManager.GetSeats();
                     if(RoomManager.DetermineRoomType(seats))
-                    { manager.AllGroupRooms.Add(RoomManager.CreateGroupRoom(seats, manager)); }
+                    { dataManager.AllGroupRooms.Add(RoomManager.CreateGroupRoom(seats, dataManager)); }
                     else
-                    { manager.AllClassRooms.Add(RoomManager.CreateClassRoom(seats, manager)); }
+                    { dataManager.AllClassRooms.Add(RoomManager.CreateClassRoom(seats, dataManager)); }
+                    dataManager.RebuildAllRooms();
                     break;
                 case 2:
                     Console.Clear();
-                    RoomManager.DisplayClassRooms(manager);
+                    RoomManager.DisplayClassRooms(dataManager);
                     Console.ReadLine();
                     break;
                 case 3:
                     Console.Clear();
-                    RoomManager.DisplayGroopRooms(manager);
+                    RoomManager.DisplayGroopRooms(dataManager);
                     Console.ReadLine();
                     break;
                 case 4:
                     Console.Clear();
-                    RoomManager.DisplayRooms(manager);
+                    RoomManager.DisplayRooms(dataManager);
                     Console.ReadLine();
                     break;
                 case 5:
                     Console.Clear();
                     Console.WriteLine("Ändra lokalinformation");
                     Console.ReadLine();
+                    dataManager.RebuildAllRooms();
                     break;
                 default:
                     Console.WriteLine("Ogiltigt val, försök igen.");
@@ -109,7 +112,7 @@ public static class Menu
     /// <summary>
     /// Meny för att hantera bokningar i systemet.
     /// </summary>
-    public static void ControllBookingScreen(BookingManager bookingManager)
+    public static void ControllBookingScreen(DataManager dataManager)
     {
         int input;
         do
@@ -128,29 +131,33 @@ public static class Menu
                 case 1:
                     Console.Clear();
                     Console.WriteLine("skapa ny bokning");
-                    Booking.CreateBooking(bookingManager, 0);
+                    //Booking.CreateBooking(dataManager, 0);
+                    BookingManager.NewBooking(dataManager);                   
                     Console.ReadLine();
+                    dataManager.RebuildAllRooms();
                     break;
                 case 2:
                     Console.Clear();
                     Console.WriteLine("uppdatera bokning");
                     Console.ReadLine();
+                    dataManager.RebuildAllRooms();
                     break;
                 case 3:
                     Console.Clear();
                     Console.WriteLine("ta bort bokning");
                     Console.ReadLine();
+                    dataManager.RebuildAllRooms();
                     break;
                 case 4:
                     Console.Clear();
                     Console.WriteLine("visa alla bokningar");
-                    Booking.ListBookings(bookingManager);
+                    Booking.ListBookings(dataManager);
                     Console.ReadLine();
                     break;
                 case 5:
                     Console.Clear();
                     Console.WriteLine("sök efter bokning");
-                    Booking.BookingSearch(bookingManager, UserInputManager.UserInputToInt("Vilket år söker du efter?"));
+                    Booking.BookingSearch(dataManager, UserInputManager.UserInputToInt("Vilket år söker du efter?"));
                     Console.ReadLine();
                     break;
                 default:

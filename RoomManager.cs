@@ -19,7 +19,7 @@ public static class RoomManager
     /// </summary>
     /// <param name="manager"></param>
     /// <returns></returns>
-    public static int ValidRoomID(BookingManager manager)
+    public static int ValidRoomID(DataManager manager)
     {
         int roomID = GetID();
         bool checkID = CheckRoomID(roomID, manager);
@@ -35,16 +35,16 @@ public static class RoomManager
     /// Jämför det inmatade roomID med de som finns i listorna. Returns true om id finns.
     /// </summary>
     /// <param name="roomID"></param>
-    /// <param name="bookingManager"></param>
+    /// <param name="dataManager"></param>
     /// <returns></returns>
-    public static bool CheckRoomID(int roomID, BookingManager bookingManager)
+    public static bool CheckRoomID(int roomID, DataManager dataManager)
     {
         bool classrooms = false;
         bool grouprooms = false;
-        foreach (ClassRoom room in bookingManager.AllClassRooms)
+        foreach (ClassRoom room in dataManager.AllClassRooms)
             if (roomID == room.RoomID)
                 classrooms = true;
-        foreach (GroupRoom room in bookingManager.AllGroupRooms)
+        foreach (GroupRoom room in dataManager.AllGroupRooms)
             if (roomID == room.RoomID)
                 grouprooms = true;
         if (grouprooms == true || classrooms == true)
@@ -70,7 +70,7 @@ public static class RoomManager
     /// <param name="seats"></param>
     /// <param name="manager"></param>
     /// <returns></returns>
-    public static GroupRoom CreateGroupRoom(int seats, BookingManager manager)
+    public static GroupRoom CreateGroupRoom(int seats, DataManager manager)
     {
         int roomID = ValidRoomID(manager);
         int emergencyExits = GetEmergencyExits();
@@ -84,7 +84,7 @@ public static class RoomManager
     /// <param name="seats"></param>
     /// <param name="manager"></param>
     /// <returns></returns>
-    public static ClassRoom CreateClassRoom(int seats, BookingManager manager)
+    public static ClassRoom CreateClassRoom(int seats, DataManager manager)
     {
         int roomID = ValidRoomID(manager);
         int emergencyExits = CheckEmergencyExits();
@@ -140,18 +140,18 @@ public static class RoomManager
         return speaker;
     }
 
-    public static void DisplayRooms(BookingManager manager)
+    public static void DisplayRooms(DataManager dataManager)
     {
-        DisplayClassRooms(manager);
+        DisplayClassRooms(dataManager);
         Console.WriteLine();
-        DisplayGroopRooms(manager);
+        DisplayGroopRooms(dataManager);
     }
-    public static void DisplayClassRooms(BookingManager manager)
+    public static void DisplayClassRooms(DataManager dataManager)
     {
         Console.WriteLine("-- Befintliga klassrum --");
         Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t Projector \t Speaker");
         
-        foreach (ClassRoom room in manager.AllClassRooms)
+        foreach (ClassRoom room in dataManager.AllClassRooms)
         {
 
             Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t\t\t {(room.Projector ? "ja" : "nej")} \t\t {(room.SpeakerSystem ? "ja" : "nej")}");
@@ -159,24 +159,24 @@ public static class RoomManager
             Console.WriteLine();
         }
     }
-    public static void DisplayGroopRooms(BookingManager manager)
+    public static void DisplayGroopRooms(DataManager dataManager)
     {
         
         Console.WriteLine("-- Befintliga grupprum --");
         Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t ");
-        foreach (GroupRoom room in manager.AllGroupRooms)
+        foreach (GroupRoom room in dataManager.AllGroupRooms)
         {
 
             Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t \t");
             Console.WriteLine();
         }
     }
-    public static void EditRooms(BookingManager manager)
+    public static void EditRooms(DataManager dataManager)
     {
-        DisplayRooms(manager);
+        DisplayRooms(dataManager);
         int roomID = UserInputManager.UserInputToInt("Ange ID på rum du önskar ändra: ");
-        if(CheckRoomID(roomID, manager))
-        { foreach (GroupRoom room in manager.AllGroupRooms)
+        if(CheckRoomID(roomID, dataManager))
+        { foreach (GroupRoom room in dataManager.AllGroupRooms)
                 if (roomID == room.RoomID)
                 { Console.WriteLine("Vad vill du ändra?"); }
         }
