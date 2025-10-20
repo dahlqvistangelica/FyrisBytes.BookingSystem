@@ -3,7 +3,7 @@ using System.IO;
 
 public static class FilePath
 {
-    private const string _appFolder = "BokingingsSystem";
+    private const string _appFolder = "BokngingsSystem";
     private const string _fileName = "bookingManager.json";
 
     public static string GetPath()

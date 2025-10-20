@@ -10,34 +10,45 @@ public static class Menu
         var manager = new BookingManager();
         int input;
         var checkData = StoreData.ReadFromFile();
-        if (checkData != null )
+        if (checkData != null)
         {
             manager = checkData;
         }
-        do
+        else
         {
-            Console.Clear();
-            Console.WriteLine("-- Välkommen till bokningsystemet --");
-            input = UserInputManager.UserInputToIntWithLimitations("[1] Hantera salar.\n[2] Hantera bokningar \n[3] Avsluta programmet \nVälj: ", 3, 0);
-            switch (input)
-            {
-                case 1:
-                    ControllRoomScreen(manager);
-                    break;
-                case 2:
-                    ControllBookingScreen(manager);
-                    break;
-                case 3:
-                    StoreData.SaveToFile(manager);
-                    Console.WriteLine("Programmet kommer nu avslutas.");
-                    Console.ReadLine();
-                    break;
-                default:
-                    Console.WriteLine("Ogiltig inmatning");
-                    break;
-            }
+            manager.Developers.Add("Olof Brahm");
+            manager.Developers.Add("Angelica Dahlqvist");
+            manager.Developers.Add("Filip Gidlöf");
+            manager.Developers.Add("Tai Lenke Enarsson");
         }
-        while (input != 3);
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("-- Välkommen till bokningsystemet --");
+                input = UserInputManager.UserInputToIntWithLimitations("[1] Hantera salar.\n[2] Hantera bokningar\n[3] Visa utvecklare \n[4] Avsluta programmet \nVälj: ", 4, 0);
+                switch (input)
+                {
+                    case 1:
+                        ControllRoomScreen(manager);
+                        break;
+                    case 2:
+                        ControllBookingScreen(manager);
+                        break;
+                    case 3:
+                        Console.Clear();
+                        manager.PrintDevelopers();
+                        break;
+                    case 4:
+                        StoreData.SaveToFile(manager);
+                        Console.WriteLine("Programmet kommer nu avslutas.");
+                        Console.ReadLine();
+                        break;
+                    default:
+                        Console.WriteLine("Ogiltig inmatning");
+                        break;
+                }
+            }
+            while (input != 4);
     }
 
     /// <summary>

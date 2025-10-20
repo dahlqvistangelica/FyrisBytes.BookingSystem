@@ -11,7 +11,7 @@ public class StoreData
     public static void SaveToFile(BookingManager saveInstance)
     {
         var path = FilePath.GetPath();
-        //omvandlar våran instans av bookingmanager till JSON-sträng som vi kan spara
+        //Omvandlar våran instans av bookingmanager till JSON-sträng som vi kan spara
         var jString = JsonSerializer.Serialize<BookingManager>(saveInstance, JsonSerializerOptions.Default);
 
         //skriver innehållet i jstring till en JSON fil

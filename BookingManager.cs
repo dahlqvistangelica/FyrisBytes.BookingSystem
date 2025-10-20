@@ -19,6 +19,7 @@ public class BookingManager
         AllClassRooms = new List<ClassRoom>();
         Developers = new List<string>();
 
+
     }
 
 
@@ -42,5 +43,14 @@ public class BookingManager
     public void SearchLists()
     {
         //PLACE HOLDER
+    }
+    
+    public void PrintDevelopers()
+    {
+        for (int i = 0; i < Developers.Count; i++)
+        {
+            Console.WriteLine(Developers[i]);
+        }
+        Console.ReadLine();
     }
 }
