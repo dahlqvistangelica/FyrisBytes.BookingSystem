@@ -21,8 +21,7 @@ public class Room
             get => _seatAmount;
             init
             {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(value), "Du måste ha minst en plats i ett rum.");
+                
                 _seatAmount = value;
             }
         }
@@ -54,8 +53,7 @@ public class Room
             get => base.SeatAmount;
             init
             {
-                if (value > 9)
-                    throw new ArgumentOutOfRangeException(nameof(value), "Grupprum kan inte ha fler än 8 sittplatser.");
+                
                 base.SeatAmount = value;
             }
         }
@@ -74,8 +72,6 @@ public class Room
             get => base.SeatAmount;
             init
             {
-                if (value < 9)
-                    throw new ArgumentOutOfRangeException(nameof(value), "Salar kan inte ha under 8 platser.");
             base.SeatAmount = value;
             }
         }
@@ -84,8 +80,7 @@ public class Room
             get => base.DisablityAdapted;
             init
             {
-                if (!value)
-                    throw new ArgumentException("Salar måste vara handikappanpassade. ");
+                
                 base.DisablityAdapted = value;
             }
         }
