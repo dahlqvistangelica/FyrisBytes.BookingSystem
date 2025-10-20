@@ -8,7 +8,7 @@ public class DataManager
     public List<GroupRoom> AllGroupRooms { get; set; }
     public List<ClassRoom> AllClassRooms { get; set; }
     public List<string> Developers { get; set; }
-    
+    [JsonIgnore]
     public List<Room> AllRooms { get; set; }
 
 
