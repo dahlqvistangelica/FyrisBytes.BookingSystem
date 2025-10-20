@@ -10,12 +10,12 @@ public static class RoomManager
     /// 
     public static bool DetermineRoomType(int seats)
     {
-        if (seats < 9) //Om användaren anger 8 eller mindre platser så returnar den true annars false.
+        if (seats < 9) //Om användaren anger 8 eller mindre platser så returnar den true annars false för att avgöra vilket typ av rum som ska skapas.
         { return true; }
         else return false;
     }
     /// <summary>
-    /// Kontrollera att roomID inte finns redan och tvinga användaren att ange ett ID som inte finns. 
+    /// Tar in id från användaren, kontrollerar det och tvingar användaren att ange ett ID som inte finns om det redan finns. 
     /// </summary>
     /// <param name="manager"></param>
     /// <returns></returns>
@@ -30,6 +30,39 @@ public static class RoomManager
             checkID = CheckRoomID(roomID, manager);
         }
         return roomID;
+    }
+    /// <summary>
+    /// Jämför det inmatade roomID med de som finns i listorna. Returns true om id finns.
+    /// </summary>
+    /// <param name="roomID"></param>
+    /// <param name="bookingManager"></param>
+    /// <returns></returns>
+    public static bool CheckRoomID(int roomID, BookingManager bookingManager)
+    {
+        bool classrooms = false;
+        bool grouprooms = false;
+        foreach (ClassRoom room in bookingManager.AllClassRooms)
+            if (roomID == room.RoomID)
+                classrooms = true;
+        foreach (GroupRoom room in bookingManager.AllGroupRooms)
+            if (roomID == room.RoomID)
+                grouprooms = true;
+        if (grouprooms == true || classrooms == true)
+            return true;
+        else return false;
+    }
+    public static int CheckEmergencyExits()
+    {
+        int emergencyExits;
+        do
+        {
+            emergencyExits = GetEmergencyExits();
+            {
+                if (emergencyExits <= 0)
+                    Console.WriteLine("Klassrum måste innehålla minst en utrymningsväg.");
+            }
+        } while (emergencyExits <= 0);
+        return emergencyExits;
     }
     /// <summary>
     /// Skapa grupprum, tar emot parametrar för platser och från BookingManager för att kunna validera id. 
@@ -54,7 +87,8 @@ public static class RoomManager
     public static ClassRoom CreateClassRoom(int seats, BookingManager manager)
     {
         int roomID = ValidRoomID(manager);
-        int emergencyExits = GetEmergencyExits();
+        int emergencyExits = CheckEmergencyExits();
+
         bool disablityAccess = GetDisabilityAccess();
         while (!disablityAccess)
         {
@@ -94,20 +128,7 @@ public static class RoomManager
         bool whiteboard = UserInputManager.UserInputYesNo("Finns det en whiteboard?");
         return whiteboard;
     }
-    public static bool CheckRoomID(int roomID, BookingManager bookingManager)
-    {
-        bool classrooms = false;
-        bool grouprooms = false;
-        foreach (ClassRoom room in bookingManager.AllClassRooms)
-            if (roomID == room.RoomID)
-                classrooms = true;
-        foreach (GroupRoom room in bookingManager.AllGroupRooms)
-            if (roomID == room.RoomID)
-                grouprooms = true;
-        if (grouprooms == true || classrooms == true)
-            return true;
-        else return false;
-    }
+   
     public static bool GetProjector()
     {
         bool projector = UserInputManager.UserInputYesNo("Finns det projector?");
