@@ -174,7 +174,7 @@ static class UserInputManager
                 DateOnly today = DateOnly.FromDateTime(DateTime.Now);
                 return today;
             }
-            else if (awnser == false)
+            else
             {
                 int year = UserInputToIntWithLimitations("Ange ett årtal [yyyy]", 9999, 0);
                 int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
@@ -201,7 +201,7 @@ static class UserInputManager
                 DateTime todayDatetime = today.ToDateTime(userTime);
                 return todayDatetime;
             }
-            else if (awnser == false)
+            else
             {
                 int year = UserInputToIntWithLimitations("Ange ett årtal [åååå]", 9999, 0);
                 int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
