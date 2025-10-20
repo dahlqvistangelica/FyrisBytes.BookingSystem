@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -7,8 +8,9 @@ using System.Text.Json.Serialization.Metadata;
 public class StoreData
 {
     //Sparar till JSON
-    public static void SaveToFile(BookingManager saveInstance, string path = "bookingManager.json")
+    public static void SaveToFile(BookingManager saveInstance)
     {
+        var path = FilePath.GetPath();
         //omvandlar våran instans av bookingmanager till JSON-sträng som vi kan spara
         var jString = JsonSerializer.Serialize<BookingManager>(saveInstance, JsonSerializerOptions.Default);
 
@@ -17,9 +19,9 @@ public class StoreData
     }
 
     //Läser ifrån JSON
-    public static BookingManager? ReadFromFile(string path = "bookingManager.json")
+    public static BookingManager? ReadFromFile()
     {
-
+        var path = FilePath.GetPath();
         try
         {
             //Kollar om filen existerar, om inte return null
