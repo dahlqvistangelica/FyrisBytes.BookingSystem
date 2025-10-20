@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 /// <summary>
 /// Lokalklass, parent till GroupRoom och ClassRoom. Skapar objekt för varje lokal.
 /// </summary>
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+[JsonDerivedType(typeof(GroupRoom), typeDiscriminator: "group")]
+[JsonDerivedType(typeof(ClassRoom), typeDiscriminator: "class")]
 public class Room
     {
         private int _roomID;
@@ -55,6 +59,7 @@ public class Room
                 base.SeatAmount = value;
             }
         }
+    public GroupRoom() : base() { }
     public GroupRoom(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard) : base(idNumb, seats, disabilityAccess, emergencyExits, whiteboard) { }
     }
     /// <summary>
@@ -84,6 +89,7 @@ public class Room
                 base.DisablityAdapted = value;
             }
         }
+    public ClassRoom() : base (){ }
     public ClassRoom(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard, bool projector, bool speaker) : base(idNumb, seats, disabilityAccess, emergencyExits, whiteboard)
     {
         Projector = projector;
