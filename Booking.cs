@@ -25,10 +25,31 @@ public class Booking
     }
     static public void CreateBooking(BookingManager manager, int i)
     {
-       
-        Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), manager.AllGroupRooms[i]);
-        Console.WriteLine(booking.BookingSpan);
-        Console.WriteLine(booking.BookedRoom.RoomID);
+        if (UserInputManager.UserInputYesNo("Vill du boka ett grupprum?"))
+        {
+            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), manager.AllGroupRooms[i]);
+            manager.AllBookings.Add(booking);
+        }
+        else
+        {
+            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), manager.AllClassRooms[i]);
+            manager.AllBookings.Add(booking);
+        }
+    }
+    static public void BookingSearch(BookingManager manager, int targetYear)
+    {
+        foreach (Booking item in manager.AllBookings)
+        {
+            if (item.BookingStart.Year == targetYear)
+                Console.WriteLine($"{item.BookingStart} {item.BookingEnds}");
+        }
+    }
+    static public void ListBookings(BookingManager manager)
+    {
+        foreach (Booking item in manager.AllBookings)
+        {
+            Console.WriteLine($" Start tid: {item.BookingStart} Slut tid: {item.BookingEnds}  Bokningslängd i timmar:{item.BookingSpan.Hours} Rummstyp: {item.BookedRoom}");
+        }
     }
 
 }

@@ -21,7 +21,6 @@ public class Room
             get => _seatAmount;
             init
             {
-                
                 _seatAmount = value;
             }
         }
@@ -79,7 +78,6 @@ public class Room
             get => base.DisablityAdapted;
             init
             {
-                
                 base.DisablityAdapted = value;
             }
         }
