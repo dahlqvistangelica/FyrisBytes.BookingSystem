@@ -168,12 +168,21 @@ static class UserInputManager
     {
         while (true)
         {
-            int year = UserInputToIntWithLimitations("Ange ett årtal [yyyy]", 9999, 0);
-            int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
-            int maxvalueDate = DateTime.DaysInMonth(year, month);
-            int day = UserInputToIntWithLimitations("Ange ett datum[dd]", maxvalueDate, 0);
-            DateOnly date = new DateOnly(year, month, day);
-            return date;
+            bool awnser = UserInputYesNo("Vill du använda dagens datum");
+            if (awnser == true)
+            {
+                DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+                return today;
+            }
+            else if (awnser == false)
+            {
+                int year = UserInputToIntWithLimitations("Ange ett årtal [yyyy]", 9999, 0);
+                int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
+                int maxvalueDate = DateTime.DaysInMonth(year, month);
+                int day = UserInputToIntWithLimitations("Ange ett datum[dd]", maxvalueDate, 0);
+                DateOnly date = new DateOnly(year, month, day);
+                return date;
+            }
         }
     }
     /// <summary>
@@ -184,14 +193,25 @@ static class UserInputManager
     {
         while (true)
         {
-            int year = UserInputToIntWithLimitations("Ange ett årtal [åååå]", 9999, 0);
-            int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
-            int maxvalueDate = DateTime.DaysInMonth(year, month);
-            int day = UserInputToIntWithLimitations("Ange ett datum[dd]", maxvalueDate, 0);
-            int hours = UserInputToIntWithLimitations("Ange timme", 23, 0);
-            int minutes = UserInputToIntWithLimitations("Ange minut", 59, 0);
-            DateTime dateTime = new DateTime(year, month, day, hours, minutes, 0);
-            return dateTime;
+            bool awnser = UserInputYesNo("Vill du använda dagens datum");
+            if (awnser == true)
+            {
+                TimeOnly userTime = UserCreateTime();
+                DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+                DateTime todayDatetime = today.ToDateTime(userTime);
+                return todayDatetime;
+            }
+            else if (awnser == false)
+            {
+                int year = UserInputToIntWithLimitations("Ange ett årtal [åååå]", 9999, 0);
+                int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
+                int maxvalueDate = DateTime.DaysInMonth(year, month);
+                int day = UserInputToIntWithLimitations("Ange ett datum[dd]", maxvalueDate, 0);
+                int hours = UserInputToIntWithLimitations("Ange timme", 23, 0);
+                int minutes = UserInputToIntWithLimitations("Ange minut", 59, 0);
+                DateTime dateTime = new DateTime(year, month, day, hours, minutes, 0);
+                return dateTime;
+            }
         }
     }
     /// <summary>
