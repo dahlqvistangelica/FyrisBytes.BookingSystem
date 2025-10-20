@@ -7,18 +7,6 @@ using System.Text.Json.Serialization.Metadata;
 
 public class StoreData
 {
-   /* private static readonly JsonSerializerOptions CustomOptions = new()
-    {
-        TypeInfoResolver = new DefaultJsonTypeInfoResolver
-        {
-            Modifiers = { AddPolymorphism }
-        }
-    };
-
-    private static void AddPolymorphism(JsonTypeInfo typeinfo)
-    {
-        if (ty)
-    }*/
     //Sparar till JSON
     public static void SaveToFile(DataManager saveInstance)
     {
