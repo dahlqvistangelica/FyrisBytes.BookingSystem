@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
@@ -6,53 +7,32 @@ using System.Text.Json.Serialization.Metadata;
 public class StoreData
 {
     //Sparar till JSON
-    
-
-
-    public static bool SaveToFile<T>(List<T> DataToSave, string filePath)
+    public static void SaveToFile(BookingManager saveInstance, string path = "bookingManager.json")
     {
-        try
-        {
-            //Serialize list till JSON string
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string jsonString = JsonSerializer.Serialize(DataToSave, options);
+        //omvandlar våran instans av bookingmanager till JSON-sträng som vi kan spara
+        var jString = JsonSerializer.Serialize<BookingManager>(saveInstance, JsonSerializerOptions.Default);
 
-            //Skriv JSON string till fil
-            File.WriteAllText(filePath, jsonString);
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Kunde inte spara data");
-            return false;
-        }
+        //skriver innehållet i jstring till en JSON fil
+        File.WriteAllText(path, jString);
     }
 
-    //Laddar Från JSON, returnar en lista
-    public static List<T> LoadFromFile<T>(string filePath)
+    //Läser ifrån JSON
+    public static BookingManager? ReadFromFile(string path = "bookingManager.json")
     {
-        //Kollar om filen finns
-        if (!File.Exists(filePath))
-        {
-            return new List<T>();
-        }
+
         try
         {
-            //Läser JSON filen
-            string jsonString = File.ReadAllText(filePath);
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            //Returnar en deserialiserad lista om den lyckas, NULL om den misslyckas
-            List<T>? loadedData = JsonSerializer.Deserialize<List<T>>(jsonString, options);
-            //Null hantering
-            return loadedData ?? new List<T>();
+            //Kollar om filen existerar, om inte return null
+            if (!File.Exists(path)) { return null; }
+
+            //returnar en ny instans av objektet BookingManager, fyllt med värdena ifrån JSON filen
+            return JsonSerializer.Deserialize<BookingManager>(File.ReadAllText(path));
+
         }
-
-
-        catch (Exception e)
+        catch
         {
-            Console.WriteLine("Kunde inte ladda filen");
-            return new List<T>();
+            Console.WriteLine("Filen kunde inte läsas");
+            return null;
         }
 
     }

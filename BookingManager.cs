@@ -1,74 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 public class BookingManager
 {
     public List<Booking> AllBookings { get; set; }
-    public List<Room> AllRooms { get; set; }
+    public List<GroupRoom> AllGroupRooms { get; set; }
+    public List<ClassRoom> AllClassRooms { get; set; }
     public List<string> Developers { get; set; }
-
-    public void SaveToFile(string path = "bookingManager.json")
-    {
-       
-       var jstring =  JsonSerializer.Serialize<BookingManager>(this,JsonSerializerOptions.Default);
-
-        File.WriteAllText(path,jstring);
-        
-    }
-
-    public static BookingManager? ReadFromFile(string path = "bookingManager.json")
-    {
-        try
-        {
-            if (!File.Exists(path)) { return null; }
-
-            return JsonSerializer.Deserialize<BookingManager>(File.ReadAllText(path));
-
-        }
-        catch
-        {
-            return null;
-        }
-    }
 
 
     public BookingManager()
     {
-        //Laddar data ifrån JSON filer, om filen inte finns blir det en tom lista
-        AllBookings = StoreData.LoadFromFile<Booking>("allbooking.json");
-        AllRooms = StoreData.LoadFromFile<Room>("allrooms.json");
-        Developers = StoreData.LoadFromFile<string>("developers.json");
+
+        AllBookings = new List<Booking>();
+        AllGroupRooms = new List<GroupRoom>();
+        AllClassRooms = new List<ClassRoom>();
+        Developers = new List<string>();
 
     }
 
-    
 
-    public bool SaveAllData()
+    //Sortering för bokad tid, bara place holder har inte tänkt längre än två sekunder på denna
+    public void SortList()
     {
-        //definerar base directory, så att filerna alltid sparas på samma ställe
-        string basePath = AppDomain.CurrentDomain.BaseDirectory;
-        string bookingPath = Path.Combine(basePath, "allbooking.json");
-        string roomsPath = Path.Combine(basePath, "allRooms.json");
-        string devsPath = Path.Combine(basePath, "developers.json");
+        for (int i = 0; i < AllBookings.Count; i++)
+        {
+            for (int j = 0; j < AllBookings.Count - 1 - i; j++)
+            {
+                if (AllBookings[j].BookingStart > AllBookings[j + 1].BookingStart)
+                {
+                    Booking tempState = AllBookings[j];
+                    AllBookings[j] = AllBookings[j + 1];
+                    AllBookings[j + 1] = tempState;
+                }
 
-        //Sparar all data till respektive fil, bool för användar val om fel händer
-        bool savedBooking = StoreData.SaveToFile(AllBookings, bookingPath);
-        bool savedRooms = StoreData.SaveToFile(AllRooms, roomsPath);
-        bool savedDevs = StoreData.SaveToFile(Developers, devsPath);
-        return savedBooking && savedBooking && savedDevs;
-    }
-
-    public void SortLists()
-    {
-        //PLACE HOLDER
+            }
+        }
     }
     public void SearchLists()
     {
         //PLACE HOLDER
     }
 }
-
-    

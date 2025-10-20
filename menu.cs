@@ -9,6 +9,11 @@ public static class Menu
     {
         var manager = new BookingManager();
         int input;
+        var checkData = StoreData.ReadFromFile();
+        if (checkData != null )
+        {
+            manager = checkData;
+        }
         do
         {
             Console.Clear();
@@ -23,9 +28,8 @@ public static class Menu
                     ControllBookingScreen(manager);
                     break;
                 case 3:
-                    manager.SaveAllData();
+                    StoreData.SaveToFile(manager);
                     Console.WriteLine("Programmet kommer nu avslutas.");
-                    manager.SaveAllData();
                     Console.ReadLine();
                     break;
                 default:
