@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO; 
 
-//Statisk filepath så att filerna alltid sparas på samma ställe
+//filepath så att filerna alltid sparas på samma ställe
 public static class FilePath
 {
     private const string _appFolder = "BokngingsSystem";

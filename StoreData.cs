@@ -5,6 +5,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
+//Objekten man vill spara måste ha en tom constructor för att deserializern ska fungera
+//JSONderivedtype headers för att ge objektetn du sparar en type så att man kan öppna json filen igen och få korrekt objektyp.
 public class StoreData
 {
     //Sparar till JSON
