@@ -43,19 +43,9 @@ public class StoreData
             return JsonSerializer.Deserialize<DataManager>(File.ReadAllText(path));
 
         }
-        catch (Exception ex)
+        catch
         {
-            //Console.WriteLine("Filen kunde inte läsas");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\n--- DESERIALIZATION ERROR ---");
-            Console.WriteLine($"Filen kunde INTE läsas. Anledning: {ex.Message}");
-            // If the error is complex, look at the inner exception:
-            if (ex.InnerException != null)
-            {
-                Console.WriteLine($"Inre fel: {ex.InnerException.Message}");
-            }
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.ReadLine();
+            Console.WriteLine("Filen kunde inte läsas");
             return null;
         }
 
