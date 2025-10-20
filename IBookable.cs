@@ -18,7 +18,7 @@ public interface IBookable //Tai
                 continue;
             else
             {
-                Console.WriteLine($"[{i + 1}] ID:{bookingManager.AllRooms[i].RoomID} Platser:{bookingManager.AllRooms[i].SeatAmount} Handikappsanpassad:{bookingManager.AllRooms[i].HandicappedAccessible} Nödutgångar:{bookingManager.AllRooms[i].EmergencyExits} Whiteboard:{bookingManager.AllRooms[i].WhiteBoard}");
+                Console.WriteLine($"[{i + 1}] ID:{bookingManager.AllRooms[i].RoomID} Platser:{bookingManager.AllRooms[i].SeatAmount} Handikappsanpassad:{bookingManager.AllRooms[i].DisablityAdapted} Nödutgångar:{bookingManager.AllRooms[i].EmergencyExits} Whiteboard:{bookingManager.AllRooms[i].WhiteBoard}");
             }
         }
         int roomToBook = UserInputManager.UserInputToIntMinus1("\nVälj sal att boka: ");

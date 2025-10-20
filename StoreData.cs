@@ -6,6 +6,9 @@ using System.Text.Json.Serialization.Metadata;
 public class StoreData
 {
     //Sparar till JSON
+    
+
+
     public static bool SaveToFile<T>(List<T> DataToSave, string filePath)
     {
         try
@@ -16,6 +19,7 @@ public class StoreData
 
             //Skriv JSON string till fil
             File.WriteAllText(filePath, jsonString);
+
             return true;
         }
         catch (Exception e)

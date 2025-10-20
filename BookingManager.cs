@@ -1,11 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 public class BookingManager
 {
     public List<Booking> AllBookings { get; set; }
     public List<Room> AllRooms { get; set; }
     public List<string> Developers { get; set; }
+
+    public void SaveToFile(string path = "bookingManager.json")
+    {
+       
+       var jstring =  JsonSerializer.Serialize<BookingManager>(this,JsonSerializerOptions.Default);
+
+        File.WriteAllText(path,jstring);
+        
+    }
+
+    public static BookingManager? ReadFromFile(string path = "bookingManager.json")
+    {
+        try
+        {
+            if (!File.Exists(path)) { return null; }
+
+            return JsonSerializer.Deserialize<BookingManager>(File.ReadAllText(path));
+
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
 
     public BookingManager()
     {
@@ -15,6 +43,9 @@ public class BookingManager
         Developers = StoreData.LoadFromFile<string>("developers.json");
 
     }
+
+    
+
     public bool SaveAllData()
     {
         //definerar base directory, så att filerna alltid sparas på samma ställe
