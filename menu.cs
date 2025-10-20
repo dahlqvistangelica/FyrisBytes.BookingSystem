@@ -56,8 +56,11 @@ public static class Menu
             {
                 case 1:
                     Console.Clear();
-                    bookingManager.AllRooms.Add(RoomManager.UserCreateRoom(bookingManager));
-                    Console.ReadLine();
+                    int seats = RoomManager.GetSeats();
+                    if(RoomManager.DetermineRoomType(seats))
+                    { RoomManager.CreateGroupRoom(seats, bookingManager); }
+                    else
+                    { RoomManager.CreateClassRoom(seats, bookingManager); }
                     break;
                 case 2:
                     Console.Clear();

@@ -2,19 +2,28 @@
 
 public static class RoomManager
 {
-
-    public static Room UserCreateRoom(BookingManager manager)
+    /// <summary>
+    /// Skapa room utifrån vilken underklass som är bäst. Kontroll mot manager.
+    /// </summary>
+    /// <param name="manager"></param>
+    /// <returns></returns>
+    /// 
+    public static bool DetermineRoomType(int seats)
     {
-        int seats = GetSeats();
-        if (seats < 8)
-        { return CreateGroupRoom(seats, manager); }
-        return CreateClassRoom(seats, manager);
+        if (seats < 9) //Om användaren anger 8 eller mindre platser så returnar den true annars false.
+        { return true; }
+        else return false;
     }
+    /// <summary>
+    /// Kontrollera att roomID inte finns redan och tvinga användaren att ange ett ID som inte finns. 
+    /// </summary>
+    /// <param name="manager"></param>
+    /// <returns></returns>
     public static int ValidRoomID(BookingManager manager)
     {
         int roomID = GetID();
         bool checkID = CheckRoomID(roomID, manager);
-        while (!checkID)
+        while (checkID)
         {
             Console.WriteLine($"ID {roomID} finns redan. Ange ett annat ID.");
             roomID = GetID();
@@ -22,22 +31,26 @@ public static class RoomManager
         }
         return roomID;
     }
+    /// <summary>
+    /// Skapa grupprum, tar emot parametrar för platser och från BookingManager för att kunna validera id. 
+    /// </summary>
+    /// <param name="seats"></param>
+    /// <param name="manager"></param>
+    /// <returns></returns>
     public static GroupRoom CreateGroupRoom(int seats, BookingManager manager)
     {
         int roomID = ValidRoomID(manager);
         int emergencyExits = GetEmergencyExits();
         bool disabilityAccess = GetDisabilityAccess();
         bool whiteboard = GetWhiteBoard();
-        return new GroupRoom
-        {
-            RoomID = roomID,
-            SeatAmount = seats,
-            DisablityAdapted = disabilityAccess,
-            EmergencyExits = emergencyExits,
-            WhiteBoard = whiteboard,
-
-        };
+        return new GroupRoom(roomID, seats, disabilityAccess, emergencyExits, whiteboard);
     }
+    /// <summary>
+    /// Skapar klassrum, tar emot parametrar för antal platser och manager för att validera id.
+    /// </summary>
+    /// <param name="seats"></param>
+    /// <param name="manager"></param>
+    /// <returns></returns>
     public static ClassRoom CreateClassRoom(int seats, BookingManager manager)
     {
         int roomID = ValidRoomID(manager);
@@ -51,17 +64,11 @@ public static class RoomManager
         bool whiteboard = GetWhiteBoard();
         bool projector = GetProjector();
         bool speaker = GetSpeaker();
-        return new ClassRoom
-        {
-            RoomID = roomID,
-            SeatAmount = seats,
-            DisablityAdapted = disablityAccess,
-            EmergencyExits = emergencyExits,
-            WhiteBoard = whiteboard,
-            Projector = projector,
-            SpeakerSystem = speaker
-        };
+        return new ClassRoom(roomID, seats, disablityAccess, emergencyExits, whiteboard, projector, speaker);
+
     }
+
+    //Metoder för att ta emot input för att skapa room.
     public static int GetSeats()
     {
         int seats = UserInputManager.UserInputToInt("Hur många platser har rummet?");
@@ -89,10 +96,17 @@ public static class RoomManager
     }
     public static bool CheckRoomID(int roomID, BookingManager bookingManager)
     {
-        foreach (Room room in bookingManager.AllRooms)
+        bool classrooms = false;
+        bool grouprooms = false;
+        foreach (ClassRoom room in bookingManager.ClassRooms)
             if (roomID == room.RoomID)
-                return false;
-        return true;
+                classrooms = true;
+        foreach (GroupRoom room in bookingManager.GroupRooms)
+            if (roomID == room.RoomID)
+                grouprooms = true;
+        if (grouprooms == true || classrooms == true)
+            return true;
+        else return false;
     }
     public static bool GetProjector()
     {
@@ -107,17 +121,29 @@ public static class RoomManager
 
     public static void DisplayRooms(BookingManager manager)
     {
-        Console.WriteLine("-- Tillgängliga rum --");
+        Console.WriteLine("-- Tillgängliga klassrum --");
         Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t Projector \t Speaker");
-        foreach (var room in manager.AllRooms)
+        foreach (var room in manager.ClassRooms)
         {
-            
+
             Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t \t");
             if (room is ClassRoom classRoom)
             {
                 Console.Write($"{(classRoom.Projector ? "ja" : "nej")} \t \t {(classRoom.SpeakerSystem ? "ja" : "nej")}");
             }
-                Console.WriteLine();
+            Console.WriteLine();
+        }
+        Console.WriteLine("-- Tillgängliga grupprum --");
+        Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t Projector \t Speaker");
+        foreach (var room in manager.ClassRooms)
+        {
+
+            Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t \t");
+            if (room is ClassRoom classRoom)
+            {
+                Console.Write($"{(classRoom.Projector ? "ja" : "nej")} \t \t {(classRoom.SpeakerSystem ? "ja" : "nej")}");
+            }
+            Console.WriteLine();
         }
     }
     public static void EditRooms(BookingManager manager)

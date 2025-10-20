@@ -50,11 +50,12 @@ public class Room
             get => base.SeatAmount;
             init
             {
-                if (value > 8)
+                if (value > 9)
                     throw new ArgumentOutOfRangeException(nameof(value), "Grupprum kan inte ha fler än 8 sittplatser.");
                 base.SeatAmount = value;
             }
         }
+    public GroupRoom(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard) : base(idNumb, seats, disabilityAccess, emergencyExits, whiteboard) { }
     }
     /// <summary>
     /// Childclass för klassrum(sal), måste ha minst 8 platser, måste vara handikappanpassad. Ska ha ett id, minst 8 sittplatser, handikappanpassning, utrymningsvägar. Kan också ha projector och speakersystem.
@@ -68,7 +69,7 @@ public class Room
             get => base.SeatAmount;
             init
             {
-                if (value < 8)
+                if (value < 9)
                     throw new ArgumentOutOfRangeException(nameof(value), "Salar kan inte ha under 8 platser.");
             base.SeatAmount = value;
             }
@@ -83,5 +84,6 @@ public class Room
                 base.DisablityAdapted = value;
             }
         }
+    public ClassRoom(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard, bool projector, bool speaker) : base(idNumb, seats, disabilityAccess, emergencyExits, whiteboard) { }
 }
 
