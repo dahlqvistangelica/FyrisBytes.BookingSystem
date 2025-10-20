@@ -98,10 +98,10 @@ public static class RoomManager
     {
         bool classrooms = false;
         bool grouprooms = false;
-        foreach (ClassRoom room in bookingManager.ClassRooms)
+        foreach (ClassRoom room in bookingManager.AllClassRooms)
             if (roomID == room.RoomID)
                 classrooms = true;
-        foreach (GroupRoom room in bookingManager.GroupRooms)
+        foreach (GroupRoom room in bookingManager.AllGroupRooms)
             if (roomID == room.RoomID)
                 grouprooms = true;
         if (grouprooms == true || classrooms == true)
@@ -123,26 +123,19 @@ public static class RoomManager
     {
         Console.WriteLine("-- Tillgängliga klassrum --");
         Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t Projector \t Speaker");
-        foreach (var room in manager.ClassRooms)
+        foreach (ClassRoom room in manager.AllClassRooms)
         {
 
-            Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t \t");
-            if (room is ClassRoom classRoom)
-            {
-                Console.Write($"{(classRoom.Projector ? "ja" : "nej")} \t \t {(classRoom.SpeakerSystem ? "ja" : "nej")}");
-            }
+            Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t\t {(room.Projector ? "ja" : "nej")} \t\t {(room.SpeakerSystem ? "ja" : "nej")}");
+            
             Console.WriteLine();
         }
         Console.WriteLine("-- Tillgängliga grupprum --");
-        Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t Projector \t Speaker");
-        foreach (var room in manager.ClassRooms)
+        Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t ");
+        foreach (GroupRoom room in manager.AllGroupRooms)
         {
 
             Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t \t");
-            if (room is ClassRoom classRoom)
-            {
-                Console.Write($"{(classRoom.Projector ? "ja" : "nej")} \t \t {(classRoom.SpeakerSystem ? "ja" : "nej")}");
-            }
             Console.WriteLine();
         }
     }

@@ -84,6 +84,10 @@ public class Room
                 base.DisablityAdapted = value;
             }
         }
-    public ClassRoom(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard, bool projector, bool speaker) : base(idNumb, seats, disabilityAccess, emergencyExits, whiteboard) { }
+    public ClassRoom(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard, bool projector, bool speaker) : base(idNumb, seats, disabilityAccess, emergencyExits, whiteboard)
+    {
+        Projector = projector;
+        SpeakerSystem = speaker;
+    }
 }
 
