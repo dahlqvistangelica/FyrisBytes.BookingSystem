@@ -104,6 +104,7 @@ public static class Menu
                 case 1:
                     Console.Clear();
                     Console.WriteLine("skapa ny bokning");
+                    Booking.CreateBooking(bookingManager, 0);
                     Console.ReadLine();
                     break;
                 case 2:
@@ -119,11 +120,13 @@ public static class Menu
                 case 4:
                     Console.Clear();
                     Console.WriteLine("visa alla bokningar");
+                    Booking.ListBookings(bookingManager);
                     Console.ReadLine();
                     break;
                 case 5:
                     Console.Clear();
                     Console.WriteLine("sök efter bokning");
+                    Booking.BookingSearch(bookingManager, UserInputManager.UserInputToInt("Vilket år söker du efter?"));
                     Console.ReadLine();
                     break;
                 default:
