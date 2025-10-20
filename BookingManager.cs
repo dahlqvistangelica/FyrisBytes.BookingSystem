@@ -46,8 +46,11 @@ public class BookingManager
         Console.WriteLine("Följande salar är lediga att boka för din angivna tid: ");
         for (int i = 0; i < dataManager.AllRooms.Count; i++)
         {
-            if (dataManager.AllBookings[i].BookingSpan == bookedTime)
+            if (dataManager.AllBookings.Count > 0)
+            {
+                if (dataManager.AllBookings[i].BookingSpan == bookedTime)
                 continue;
+            }
             else
             {
                 Console.WriteLine($"[{i + 1}] ID:{dataManager.AllRooms[i].RoomID} Platser:{dataManager.AllRooms[i].SeatAmount} Handikappsanpassad:" +
