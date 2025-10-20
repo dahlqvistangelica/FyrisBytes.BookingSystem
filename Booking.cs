@@ -5,17 +5,12 @@ using System.Diagnostics;
 public class Booking
 {
     public DateTime BookingStart { get; set; }
-    private DateTime _BookingStart;
     public DateTime BookingEnds { get; set; }
-    private DateTime _BookingEnds;
-    private TimeSpan _BookingSpan;
-    public TimeSpan BookingSpan
-    {
-        get { return _BookingSpan; }
-        set { _BookingSpan = BookingEnds - BookingStart; }
-    }
+    public TimeSpan BookingSpan { get; set; }
     //public string Info { get; set; }
-    Room BookedRoom { get; set; }
+    public Room BookedRoom { get; set; }
+    
+    public Booking() { }
     public Booking(DateTime start, DateTime ends, Room room)
     {
         BookingStart = start;
@@ -48,7 +43,8 @@ public class Booking
     {
         foreach (Booking item in manager.AllBookings)
         {
-            Console.WriteLine($" Start tid: {item.BookingStart} Slut tid: {item.BookingEnds}  Bokningslängd i timmar:{item.BookingSpan.Hours} Rummstyp: {item.BookedRoom}");
+            string roomType = item.BookedRoom.GetType().Name;
+            Console.WriteLine($" Start tid: {item.BookingStart} Slut tid: {item.BookingEnds}  Bokningslängd i timmar:{item.BookingSpan.Hours} Rummstyp: {roomType}");
         }
     }
 

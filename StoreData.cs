@@ -7,6 +7,18 @@ using System.Text.Json.Serialization.Metadata;
 
 public class StoreData
 {
+   /* private static readonly JsonSerializerOptions CustomOptions = new()
+    {
+        TypeInfoResolver = new DefaultJsonTypeInfoResolver
+        {
+            Modifiers = { AddPolymorphism }
+        }
+    };
+
+    private static void AddPolymorphism(JsonTypeInfo typeinfo)
+    {
+        if (ty)
+    }*/
     //Sparar till JSON
     public static void SaveToFile(DataManager saveInstance)
     {
@@ -31,9 +43,19 @@ public class StoreData
             return JsonSerializer.Deserialize<DataManager>(File.ReadAllText(path));
 
         }
-        catch
+        catch (Exception ex)
         {
-            Console.WriteLine("Filen kunde inte läsas");
+            //Console.WriteLine("Filen kunde inte läsas");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n--- DESERIALIZATION ERROR ---");
+            Console.WriteLine($"Filen kunde INTE läsas. Anledning: {ex.Message}");
+            // If the error is complex, look at the inner exception:
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine($"Inre fel: {ex.InnerException.Message}");
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ReadLine();
             return null;
         }
 

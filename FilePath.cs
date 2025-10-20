@@ -5,7 +5,7 @@ using System.IO;
 public static class FilePath
 {
     private const string _appFolder = "BokngingsSystem";
-    private const string _fileName = "bookingManager.json";
+    private const string _fileName = "dataManager.json";
 
     public static string GetPath()
     {
