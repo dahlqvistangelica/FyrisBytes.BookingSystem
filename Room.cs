@@ -27,7 +27,6 @@ public class Room
 
         public virtual bool DisablityAdapted { get; init; }
         public int EmergencyExits { get; init; }
-
         public bool WhiteBoard { get; init; }
         public Room(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard)
         {
