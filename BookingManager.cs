@@ -234,10 +234,6 @@ public class BookingManager {
     }
     public bool IsBookable(DataManager dataManager, int i, DateTime wantedStartTime, DateTime wantedEndTime) //Tai
     {
-        TimeSpan timeSpan = wantedEndTime - wantedStartTime;
-        if (wantedStartTime > BookingStart && wantedStartTime < DataManager.AllBookings[i].BookingEnds || wantedEndTime > BookingStart && wantedEndTime < BookingEnd)
-            return false;
-        else
             return true;
     }
     public void ListAllBookingsWithinTimeframe() //Tai
