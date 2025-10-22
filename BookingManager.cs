@@ -48,7 +48,7 @@ public class BookingManager {
     {
         foreach (Booking item in manager.AllBookings)
         {
-            Console.WriteLine($" Start tid: {item.BookingStart.ToString("g")} Slut tid: {item.BookingEnd.ToString("g")}  Bokningslängd i timmar:{item.BookingSpan.TotalHours} Rummstyp: {item.BookedRoom}");
+            Console.WriteLine(item.Info);
         }
     }
 
@@ -234,7 +234,11 @@ public class BookingManager {
     }
     public bool IsBookable(DataManager dataManager, int i, DateTime wantedStartTime, DateTime wantedEndTime) //Tai
     {
-        return false; //TODO:
+        TimeSpan timeSpan = wantedEndTime - wantedStartTime;
+        if (wantedStartTime > BookingStart && wantedStartTime < DataManager.AllBookings[i].BookingEnds || wantedEndTime > BookingStart && wantedEndTime < BookingEnd)
+            return false;
+        else
+            return true;
     }
     public void ListAllBookingsWithinTimeframe() //Tai
     {
