@@ -151,13 +151,13 @@ public static class Menu
                 case 4:
                     Console.Clear();
                     Console.WriteLine("visa alla bokningar");
-                    Booking.ListBookings(dataManager);
+                    BookingManager.ListBookings(dataManager);
                     Console.ReadLine();
                     break;
                 case 5:
                     Console.Clear();
                     Console.WriteLine("sök efter bokning");
-                    Booking.BookingSearch(dataManager, UserInputManager.UserInputToInt("Vilket år söker du efter?"));
+                    BookingManager.BookingSearchYear(dataManager, UserInputManager.UserInputToInt("Vilket år söker du efter?"));
                     Console.ReadLine();
                     break;
                 default:

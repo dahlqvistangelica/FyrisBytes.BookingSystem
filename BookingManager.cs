@@ -33,12 +33,23 @@ public class BookingManager
         }
         Console.ReadLine();
     }
-    static public void BookingSearch(DataManager dataManager, int targetYear)
+    static public void BookingSearchYear(DataManager dataManager, int targetYear)
     {
         int counter = 0;
         foreach (Booking item in dataManager.AllBookings)
         {
             if (item.BookingStart.Year == targetYear)
+                counter++;
+            Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnds.ToString("g")}");
+        }
+    }
+    static public void BookingSearchDate(DataManager dataManager, DateOnly targetDate)
+    {
+        int counter = 0;
+        foreach (Booking item in dataManager.AllBookings)
+        {
+            DateOnly dateonlyItem = DateOnly.FromDateTime(item.BookingStart);
+            if (dateonlyItem == targetDate)
                 counter++;
             Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnds.ToString("g")}");
         }
