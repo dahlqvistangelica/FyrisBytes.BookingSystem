@@ -4,6 +4,8 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// Lokalklass, parent till GroupRoom och ClassRoom. Skapar objekt för varje lokal.
 /// </summary>
+[JsonDerivedType(typeof(GroupRoom), typeDiscriminator: "GroupRoom")]
+[JsonDerivedType(typeof(ClassRoom), typeDiscriminator: "ClassRoom")]
 public class Room
     {
         private int _roomID;

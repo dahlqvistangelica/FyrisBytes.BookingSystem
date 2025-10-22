@@ -5,17 +5,12 @@ using System.Diagnostics;
 public class Booking
 {
     public DateTime BookingStart { get; set; }
-    private DateTime _BookingStart;
     public DateTime BookingEnds { get; set; }
-    private DateTime _BookingEnds;
-    private TimeSpan _BookingSpan;
-    public TimeSpan BookingSpan
-    {
-        get { return _BookingSpan; }
-        set { _BookingSpan = BookingEnds - BookingStart; }
-    }
+    public TimeSpan BookingSpan { get; set; }
     //public string Info { get; set; }
-    Room BookedRoom { get; set; }
+    public Room BookedRoom { get; set; }
+    
+    public Booking() { }
     public Booking(DateTime start, DateTime ends, Room room)
     {
         BookingStart = start;
@@ -23,30 +18,29 @@ public class Booking
         BookingSpan = ends - start;
         BookedRoom = room;
     }
-    static public void CreateBooking(BookingManager manager, int i)
+    static public void CreateBooking(DataManager dataManager, int i)
     {
         if (UserInputManager.UserInputYesNo("Vill du boka ett grupprum?"))
         {
-            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), manager.AllGroupRooms[i]);
-            manager.AllBookings.Add(booking);
+            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), dataManager.AllGroupRooms[i]);
+            dataManager.AllBookings.Add(booking);
         }
         else
         {
-            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), manager.AllClassRooms[i]);
-            manager.AllBookings.Add(booking);
+            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), dataManager.AllClassRooms[i]);
+            dataManager.AllBookings.Add(booking);
         }
     }
-    static public void BookingSearch(BookingManager manager, int targetYear)
+    static public void BookingSearch(DataManager dataManager, int targetYear)
     {
-        int counter = 0;
-        foreach (Booking item in manager.AllBookings)
+        foreach (Booking item in dataManager.AllBookings)
         {
             if (item.BookingStart.Year == targetYear)
                 counter++;
                 Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnds.ToString("g")}");
         }
     }
-    static public void ListBookings(BookingManager manager)
+    static public void ListBookings(DataManager manager)
     {
         foreach (Booking item in manager.AllBookings)
         {

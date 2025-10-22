@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO; 
 
+//filepath så att filerna alltid sparas på samma ställe
 public static class FilePath
 {
     private const string _appFolder = "BokngingsSystem";
-    private const string _fileName = "bookingManager.json";
+    private const string _fileName = "dataManager.json";
 
     public static string GetPath()
     {
