@@ -24,17 +24,17 @@ public class Booking
         BookingSpan = ends - start;
         BookedRoom = room;
     }
-    static public void CreateBooking(DataManager dataManager, int i)
-    {
-        if (UserInputManager.UserInputYesNo("Vill du boka ett grupprum?"))
-        {
-            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), dataManager.AllGroupRooms[i]);
-            dataManager.AllBookings.Add(booking);
-        }
-        else
-        {
-            Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), dataManager.AllClassRooms[i]);
-            dataManager.AllBookings.Add(booking);
-        }
-    }
+    //static public void CreateBooking(DataManager dataManager, int i)
+    //{
+    //    if (UserInputManager.UserInputYesNo("Vill du boka ett grupprum?"))
+    //    {
+    //        Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), dataManager.AllGroupRooms[i]);
+    //        dataManager.AllBookings.Add(booking);
+    //    }
+    //    else
+    //    {
+    //        Booking booking = new Booking(UserInputManager.UserCreateDateTime(), UserInputManager.UserCreateDateTime(), dataManager.AllClassRooms[i]);
+    //        dataManager.AllBookings.Add(booking);
+    //    }
+    //}
 }

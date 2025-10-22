@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
-public class BookingManager { 
+public class BookingManager
+{
     
     /// <summary>
     /// Sorterar listorna med rum efter rumsID. 
@@ -49,6 +50,7 @@ public class BookingManager {
         foreach (Booking item in manager.AllBookings)
         {
             Console.WriteLine($" Start tid: {item.BookingStart.ToString("g")} Slut tid: {item.BookingEnd.ToString("g")}  Bokningslängd i timmar:{item.BookingSpan.TotalHours} Rummstyp: {item.BookedRoom}");
+            Console.WriteLine(item.Info);
         }
     }
 
@@ -113,9 +115,8 @@ public class BookingManager {
         {
             Console.WriteLine($"[{i + 1}] {datamanager.AllBookings[i].Info.ToString()}");
 
-            /*Console.WriteLine($"[{i + 1}] ID:{bookingManager.AllRooms[i].RoomID} Platser:{bookingManager.AllRooms.SeatAmount} " +
+            //Console.WriteLine($"[{i + 1}] ID:{datamanager.AllRooms[i].RoomID} Platser:{datamanager.AllRooms.SeatAmount} " + Format: "datum starttid-sluttid ({tid}h {tid}min) Salnamn: "Notering""
             //TODO: Nå korrekt bokning med egenskaper
-            //Format: "datum starttid-sluttid ({tid}h {tid}min) Salnamn: "Notering""
         }
         int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera: ");
         UpdateBookingWhichChange(whichBookingToChange, datamanager); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
@@ -219,10 +220,9 @@ public class BookingManager {
             Console.ReadLine();
         }
     }
-    public bool IsBookable(DateTime wantedStartTime, DateTime wantedEndTime) //Tai
+    public bool IsBookable(DateTime wantedStartTime, DateTime wantedEndTime, Room room) //Tai
     {
-        TimeSpan timeSpan = wantedEndTime - wantedStartTime;
-        if (wantedStartTime > BookingStart && wantedStartTime < DataManager.AllBookings[i].BookingEnds || wantedEndTime > BookingStart && wantedEndTime < BookingEnds)
+        if (!room.IsAvalible(wantedStartTime, wantedEndTime))
             return false;
         else
             return true;
