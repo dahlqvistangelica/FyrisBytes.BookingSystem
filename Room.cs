@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
+
+[JsonDerivedType(typeof(GroupRoom), typeDiscriminator: "GroupRoom")]
+[JsonDerivedType(typeof(ClassRoom), typeDiscriminator: "ClassRoom")]
 /// <summary>
 /// Lokalklass, parent till GroupRoom och ClassRoom. Skapar objekt för varje lokal.
 /// </summary>
-[JsonDerivedType(typeof(GroupRoom), typeDiscriminator: "GroupRoom")]
-[JsonDerivedType(typeof(ClassRoom), typeDiscriminator: "ClassRoom")]
-public class Room
+public class Room : IBookable
     {
-        private int _roomID;
+        public List<Booking> roomBookings = new(); //Lista för att hålla rummets bokningar.
+        private int _roomID; //Inkapsling av RoomID för att skydda mot yttre åtkomst.
         public int RoomID
         {
             get => _roomID;
             init { _roomID = value; }
         }
-        private int _seatAmount;
+        private int _seatAmount; //Inkapsling av SeatAmout för att skydda mot yttre åtkomst.
         public virtual int SeatAmount
         {
             get => _seatAmount;
@@ -23,10 +25,46 @@ public class Room
                 _seatAmount = value;
             }
         }
+        public virtual bool DisablityAdapted { get; init; } //Handikappanpassat rum true = ja, false = nej.
+        public int EmergencyExits { get; init; } //Hur många nödutgångar har rummet.
+        public bool WhiteBoard { get; init; } //Finns whiteboard.
 
-        public virtual bool DisablityAdapted { get; init; }
-        public int EmergencyExits { get; init; }
-        public bool WhiteBoard { get; init; }
+        //IBookable metoder
+        /// <summary>
+        /// Returnerar en bool utifrån om rummet går att booka eller inte.
+        /// </summary>
+        /// <param name="bookingStart"></param>
+        /// <param name="bookingEnd"></param>
+        /// <param name="manager"></param>
+        /// <returns></returns>
+        public bool Book(DateTime bookingStart, DateTime bookingEnd, DataManager manager)
+        { if (bookingStart >= bookingEnd) //Om starttiden är efter sluttiden.
+        { return false; }
+        if(!IsAvalible(bookingStart, bookingEnd)) //Kontrollerar tillgängligheten.
+        { return false; }
+        return true;
+        }
+    /// <summary>
+    /// Tar bort bokning från room's lista.
+    /// </summary>
+    /// <param name="booking"></param>
+    /// <param name="manager"></param>
+        public void CancelBooking(Booking booking, DataManager manager)
+        { roomBookings.Remove(booking);
+          manager.AllBookings.Remove(booking);
+        }
+    /// <summary>
+    /// Kontrollerar om det finns en bokning på rummets lista den tiden.
+    /// </summary>
+    /// <param name="bookingStart"></param>
+    /// <param name="bookingEnd"></param>
+    /// <returns></returns>
+        public bool IsAvalible(DateTime bookingStart, DateTime bookingEnd)
+        { foreach (var booking in roomBookings)
+            if (bookingStart < booking.BookingEnd && bookingEnd > booking.BookingStart) //Kontrollerar krock med annan bokning. Om bokningsstarten är mindre (13.00) än bef. bokningsslut (14.00) och bokningsslut (14.00) är större än bef. bookingsstart (13.00) går det inte att boka. 
+            { return false; }
+            return true;
+        }
         public Room(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard)
         {
             RoomID = idNumb;
@@ -35,13 +73,13 @@ public class Room
             EmergencyExits = emergencyExits;
             WhiteBoard = whiteboard;
         }
-        public Room() : this(0, 1, false, 0, false) { }
+        public Room() : this(0, 1, false, 0, false) { } //Standardvärden för rum.
 
 
    
 }
     /// <summary>
-    /// Childclass för grupprum, kan ha max 8 platser annars kastar den error. Ska ha ett id, max 8 sittplatser, kan vara handikappanpassat och ha fler utrymningsvägar.
+    /// Subclass av room för grupprum. Ska ha ett id, max 8 sittplatser, kan vara handikappanpassat och ha fler utrymningsvägar.
     /// </summary>
     public class GroupRoom : Room //Grupprum max 8 platser.
     {
@@ -50,7 +88,6 @@ public class Room
             get => base.SeatAmount;
             init
             {
-                
                 base.SeatAmount = value;
             }
         }
@@ -60,7 +97,7 @@ public class Room
     /// <summary>
     /// Childclass för klassrum(sal), måste ha minst 8 platser, måste vara handikappanpassad. Ska ha ett id, minst 8 sittplatser, handikappanpassning, utrymningsvägar. Kan också ha projector och speakersystem.
     /// </summary>
-    public class ClassRoom : Room  //Sal med minst 8 platser, måste vara handikappanpassad.
+    public class ClassRoom : Room  //Sal med minst 9 platser, måste vara handikappanpassad.
     {
         public bool Projector { get; init; }
         public bool SpeakerSystem { get; init; }

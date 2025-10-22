@@ -5,14 +5,22 @@ using System.Diagnostics;
 public class Booking
 {
     public DateTime BookingStart { get; set; }
-    public DateTime BookingEnds { get; set; }
+    public DateTime BookingEnd { get; set; }
     public TimeSpan BookingSpan { get; set; }
+    public string Info
+    {
+        get => Info;
+        set
+        {
+            Info = "Bokat rumm: " + BookedRoom.RoomID.ToString() + " " + BookingStart.ToString("g") +  " " + BookingEnd.ToString("g") + " " + "(" + BookingSpan.TotalHours.ToString() + ")";
+        }
+    } 
     public Room BookedRoom { get; set; }
     
     public Booking(DateTime start, DateTime ends, Room room)
     {
         BookingStart = start;
-        BookingEnds = ends;
+        BookingEnd = ends;
         BookingSpan = ends - start;
         BookedRoom = room;
     }
