@@ -38,17 +38,19 @@ public class Booking
     }
     static public void BookingSearch(BookingManager manager, int targetYear)
     {
+        int counter = 0;
         foreach (Booking item in manager.AllBookings)
         {
             if (item.BookingStart.Year == targetYear)
-                Console.WriteLine($"{item.BookingStart} {item.BookingEnds}");
+                counter++;
+                Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnds.ToString("g")}");
         }
     }
     static public void ListBookings(BookingManager manager)
     {
         foreach (Booking item in manager.AllBookings)
         {
-            Console.WriteLine($" Start tid: {item.BookingStart} Slut tid: {item.BookingEnds}  Bokningslängd i timmar:{item.BookingSpan.Hours} Rummstyp: {item.BookedRoom}");
+            Console.WriteLine($" Start tid: {item.BookingStart.ToString("g")} Slut tid: {item.BookingEnds.ToString("g")}  Bokningslängd i timmar:{item.BookingSpan.TotalHours} Rummstyp: {item.BookedRoom}");
         }
     }
 
