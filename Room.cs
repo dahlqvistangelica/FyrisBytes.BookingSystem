@@ -40,7 +40,7 @@ public class Room : IBookable
         public bool Book(DateTime bookingStart, DateTime bookingEnd, DataManager manager)
         { if (bookingStart >= bookingEnd)
         { return false; }
-        if(!IsAvalible(bookingStart, bookingEnd))
+        if(!IsAvailable(bookingStart, bookingEnd))
         { return false; }
 
         roomBookings.Add(new Booking(bookingStart, bookingEnd, this));
@@ -59,7 +59,7 @@ public class Room : IBookable
     /// <param name="bookingStart"></param>
     /// <param name="bookingEnd"></param>
     /// <returns></returns>
-        public bool IsAvalible(DateTime bookingStart, DateTime bookingEnd)
+        public bool IsAvailable(DateTime bookingStart, DateTime bookingEnd)
         { foreach (var booking in roomBookings)
             if (bookingStart < booking.BookingEnd && bookingEnd > booking.BookingStart) //Kontrollerar krock med annan bokning. Om bokningsstarten är mindre (13.00) än bef. bokningsslut (14.00) och bokningsslut (14.00) är större än bef. bookingsstart (13.00) går det inte att boka. 
             { return false; }

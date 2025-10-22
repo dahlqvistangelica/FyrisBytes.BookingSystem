@@ -30,7 +30,7 @@ public class BookingManager {
         {
             if (item.BookingStart.Year == targetYear)
                 counter++;
-            Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnds.ToString("g")}");
+            Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
         }
     }
     static public void BookingSearchDate(DataManager dataManager, DateOnly targetDate)
@@ -41,14 +41,14 @@ public class BookingManager {
             DateOnly dateonlyItem = DateOnly.FromDateTime(item.BookingStart);
             if (dateonlyItem == targetDate)
                 counter++;
-            Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnds.ToString("g")}");
+            Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
         }
     }
     static public void ListBookings(DataManager manager)
     {
         foreach (Booking item in manager.AllBookings)
         {
-            Console.WriteLine($" Start tid: {item.BookingStart.ToString("g")} Slut tid: {item.BookingEnds.ToString("g")}  Bokningslängd i timmar:{item.BookingSpan.TotalHours} Rummstyp: {item.BookedRoom}");
+            Console.WriteLine($" Start tid: {item.BookingStart.ToString("g")} Slut tid: {item.BookingEnd.ToString("g")}  Bokningslängd i timmar:{item.BookingSpan.TotalHours} Rummstyp: {item.BookedRoom}");
         }
     }
 
@@ -75,17 +75,30 @@ public class BookingManager {
 
         Console.WriteLine("Följande salar är lediga att boka för din angivna tid: ");
         int availableRooms = 0;
+
+        foreach (var room in dataManager.AllRooms)
+        {
+            foreach (var booking in room.roomBookings)
+            {
+                if (room.IsAvailable(bookingStart, bookingEnd))
+                    Console.WriteLine(room.ToString());
+                else
+                    break;
+            }
+        }
+
+        /*
         for (int i = 0; i < dataManager.AllRooms.Count; i++)
         {
-            if (/*//TODO: bookingManager.AllBookings[i].IsBookable(bookingStart, bookingEnd) == true
-                 kolla om rummet är bokningsbart den tiden, om true, skriv ut på konsollen*/ IsBookable(bookingStart, bookingEnd) == true)
+            if (//TODO: bookingManager.AllBookings[i].IsBookable(bookingStart, bookingEnd) == true
+                 kolla om rummet är bokningsbart den tiden, om true, skriv ut på konsollen IsBookable(dataManager, i, bookingStart, bookingEnd) == true)
             {
                 Console.WriteLine($"[{i + 1}] ID:{dataManager.AllRooms[i].RoomID} Platser:{dataManager.AllRooms[i].SeatAmount} Handikappsanpassad:{dataManager.AllRooms[i].DisablityAdapted} Nödutgångar:{dataManager.AllRooms[i].EmergencyExits} Whiteboard:{dataManager.AllRooms[i].WhiteBoard}");
                 availableRooms++;
             }
             else
                 continue;
-        }
+        } */
         if (availableRooms == 0)
             Console.WriteLine("Det finns inga lediga salar för tiden du angivit.");
         else
@@ -146,7 +159,7 @@ public class BookingManager {
         DateTime newBookingEnd = UserInputManager.UserCreateDateTime(); //TODO: Ändra till DateOnly
 
         bookingManager.AllBookings[whichBookingToChange].BookingStart = newBookingStart;
-        bookingManager.AllBookings[whichBookingToChange].BookingEnds = newBookingEnd;
+        bookingManager.AllBookings[whichBookingToChange].BookingEnd = newBookingEnd;
         bookingManager.AllBookings[whichBookingToChange].BookingSpan = newBookingStart - newBookingEnd;
         //TODO: Korrigera bookingstart/end/span till DateOnly - finns ej i klassen just nu
 
@@ -174,7 +187,7 @@ public class BookingManager {
         if (userconfirm == 1)
         {
             bookingManager.AllBookings[whichBookingToChange].BookingStart = bookingStart;
-            bookingManager.AllBookings[whichBookingToChange].BookingEnds = bookingEnd;
+            bookingManager.AllBookings[whichBookingToChange].BookingEnd = bookingEnd;
             bookingManager.AllBookings[whichBookingToChange].BookingSpan = bookingStart - bookingEnd;
             isSuccess = true; //TODO: confirm if success
         }
@@ -219,13 +232,9 @@ public class BookingManager {
             Console.ReadLine();
         }
     }
-    public bool IsBookable(DateTime wantedStartTime, DateTime wantedEndTime) //Tai
+    public bool IsBookable(DataManager dataManager, int i, DateTime wantedStartTime, DateTime wantedEndTime) //Tai
     {
-        TimeSpan timeSpan = wantedEndTime - wantedStartTime;
-        if (wantedStartTime > BookingStart && wantedStartTime < DataManager.AllBookings[i].BookingEnds || wantedEndTime > BookingStart && wantedEndTime < BookingEnds)
-            return false;
-        else
-            return true;
+        return false; //TODO:
     }
     public void ListAllBookingsWithinTimeframe() //Tai
     {
