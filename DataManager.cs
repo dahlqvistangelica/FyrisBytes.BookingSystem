@@ -20,9 +20,6 @@ public class DataManager
         AllClassRooms = new List<ClassRoom>();
         Developers = new List<string>();
         AllRooms = new List<Room>();
-        
-        
-
 
     }
 

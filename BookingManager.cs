@@ -75,17 +75,27 @@ public class BookingManager {
 
         Console.WriteLine("Följande salar är lediga att boka för din angivna tid: ");
         int availableRooms = 0;
-        for (int i = 0; i < dataManager.AllRooms.Count; i++)
+        foreach(var room in dataManager.AllRooms)
         {
-            if (/*//TODO: bookingManager.AllBookings[i].IsBookable(bookingStart, bookingEnd) == true
-                 kolla om rummet är bokningsbart den tiden, om true, skriv ut på konsollen*/ IsBookable(bookingStart, bookingEnd) == true)
+            foreach(var booking in room.roomBookings)
             {
-                Console.WriteLine($"[{i + 1}] ID:{dataManager.AllRooms[i].RoomID} Platser:{dataManager.AllRooms[i].SeatAmount} Handikappsanpassad:{dataManager.AllRooms[i].DisablityAdapted} Nödutgångar:{dataManager.AllRooms[i].EmergencyExits} Whiteboard:{dataManager.AllRooms[i].WhiteBoard}");
-                availableRooms++;
+                if (!room.IsAvailable(bookingStart, bookingEnd))
+                    break;
+                else
+                    Console.WriteLine(room.RoomID); 
             }
-            else
-                continue;
         }
+        //for (int i = 0; i < dataManager.AllRooms.Count; i++)
+        //{
+        //    if (/*//TODO: bookingManager.AllBookings[i].IsBookable(bookingStart, bookingEnd) == true
+        //         kolla om rummet är bokningsbart den tiden, om true, skriv ut på konsollen*/ IsBookable(bookingStart, bookingEnd) == true)
+        //    {
+        //        Console.WriteLine($"[{i + 1}] ID:{dataManager.AllRooms[i].RoomID} Platser:{dataManager.AllRooms[i].SeatAmount} Handikappsanpassad:{dataManager.AllRooms[i].DisablityAdapted} Nödutgångar:{dataManager.AllRooms[i].EmergencyExits} Whiteboard:{dataManager.AllRooms[i].WhiteBoard}");
+        //        availableRooms++;
+        //    }
+        //    else
+        //        continue;
+        //}
         if (availableRooms == 0)
             Console.WriteLine("Det finns inga lediga salar för tiden du angivit.");
         else

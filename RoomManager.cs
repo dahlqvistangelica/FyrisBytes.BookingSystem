@@ -8,6 +8,7 @@ public static class RoomManager
     /// <param name="manager"></param>
     /// <returns></returns>
     /// 
+
     public static bool DetermineRoomType(int seats)
     {
         if (seats < 9) //Om användaren anger 8 eller mindre platser så returnar den true annars false för att avgöra vilket typ av rum som ska skapas.
