@@ -22,34 +22,34 @@ public static class Menu
             dataManager.Developers.Add("Filip Gidlöf");
             dataManager.Developers.Add("Tai Lenke Enarsson");
         }
-            do
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("-- Välkommen till bokningsystemet --");
+            input = UserInputManager.UserInputToIntWithLimitations("[1] Hantera salar.\n[2] Hantera bokningar\n[3] Visa utvecklare \n[4] Avsluta programmet \nVälj: ", 4, 0);
+            switch (input)
             {
-                Console.Clear();
-                Console.WriteLine("-- Välkommen till bokningsystemet --");
-                input = UserInputManager.UserInputToIntWithLimitations("[1] Hantera salar.\n[2] Hantera bokningar\n[3] Visa utvecklare \n[4] Avsluta programmet \nVälj: ", 4, 0);
-                switch (input)
-                {
-                    case 1:
-                        ControllRoomScreen(dataManager);
-                        break;
-                    case 2:
-                        ControllBookingScreen(dataManager);
-                        break;
-                    case 3:
-                        Console.Clear();
-                    BookingManager.PrintDevelopers(dataManager);                  
+                case 1:
+                    ControllRoomScreen(dataManager);
                     break;
-                    case 4:
-                        StoreData.SaveToFile(dataManager);
-                        Console.WriteLine("Programmet kommer nu avslutas.");
-                        Console.ReadLine();
-                        break;
-                    default:
-                        Console.WriteLine("Ogiltig inmatning");
-                        break;
-                }
+                case 2:
+                    ControllBookingScreen(dataManager);
+                    break;
+                case 3:
+                    Console.Clear();
+                    BookingManager.PrintDevelopers(dataManager);
+                    break;
+                case 4:
+                    StoreData.SaveToFile(dataManager);
+                    Console.WriteLine("Programmet kommer nu avslutas.");
+                    Console.ReadLine();
+                    break;
+                default:
+                    Console.WriteLine("Ogiltig inmatning");
+                    break;
             }
-            while (input != 4);
+        }
+        while (input != 4);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public static class Menu
                 case 1:
                     Console.Clear();
                     int seats = RoomManager.GetSeats();
-                    if(RoomManager.DetermineRoomType(seats))
+                    if (RoomManager.DetermineRoomType(seats))
                     { dataManager.AllGroupRooms.Add(RoomManager.CreateGroupRoom(seats, dataManager)); }
                     else
                     { dataManager.AllClassRooms.Add(RoomManager.CreateClassRoom(seats, dataManager)); }
@@ -132,7 +132,7 @@ public static class Menu
                     Console.Clear();
                     Console.WriteLine("skapa ny bokning");
                     //Booking.CreateBooking(dataManager, 0);
-                    BookingManager.NewBooking(dataManager);                   
+                    Booking.CreateBooking(dataManager);
                     Console.ReadLine();
                     dataManager.RebuildAllRooms();
                     break;

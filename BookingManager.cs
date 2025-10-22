@@ -34,7 +34,7 @@ public class BookingManager
         Console.ReadLine();
     }
 
-    public static void NewBooking(DataManager dataManager) //Tai
+   /* public static void NewBooking(DataManager dataManager) //Tai
     {
         Console.WriteLine("--- Ny Bokning ---");
         Console.WriteLine("Start av bokning:");
@@ -85,5 +85,5 @@ public class BookingManager
             Console.WriteLine("Ändringen misslyckades, försök igen.");
             Console.ForegroundColor = ConsoleColor.White;
         }
-    }
+    }*/
 }
