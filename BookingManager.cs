@@ -61,6 +61,7 @@ public class BookingManager {
         Console.WriteLine("Slut av bokning:");
         DateTime bookingEnd = UserInputManager.UserCreateDateTime();
 
+        int initialCount = dataManager.AllBookings.Count;
         bool correctEndTime = bookingEnd > bookingStart ? true : false; //Check om sluttid är efter starttid
         while (correctEndTime == false)
         {
@@ -110,7 +111,8 @@ public class BookingManager {
             dataManager.AllBookings.Add(newBooking);
         }
 
-        bool isSuccess = false; //TODO: om bokning lyckades = true, misslyckades = falskt
+        bool isSuccess = BookingSucceeded(initialCount, dataManager); //TODO: om bokning lyckades = true, misslyckades = falskt
+        
         ChangeBookingSuccessPrintToScreen(isSuccess);
 
     }
@@ -234,11 +236,26 @@ public class BookingManager {
     }
     public bool IsBookable(DataManager dataManager, int i, DateTime wantedStartTime, DateTime wantedEndTime) //Tai
     {
+        TimeSpan timeSpan = wantedEndTime - wantedStartTime;
+        if (wantedStartTime > BookingStart && wantedStartTime < DataManager.AllBookings[i].BookingEnds || wantedEndTime > BookingStart && wantedEndTime < BookingEnds)
+            return false;
+        else 
             return true;
     }
     public void ListAllBookingsWithinTimeframe() //Tai
     {
         //TODO
+    }
+
+    public bool BookingSucceeded(int initialCount, DataManager dataManager)
+    {
+        if (initialCount < dataManager.AllBookings.Count) {
+            Console.WriteLine("Bokingen lyckades");
+            return true; 
+        }
+        Console.WriteLine("Bokningen misslyckades");
+        return false;
+
     }
 
     public static void ChangeBookingSuccessPrintToScreen(bool success) //Tai

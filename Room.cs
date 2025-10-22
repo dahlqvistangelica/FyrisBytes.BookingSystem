@@ -31,30 +31,30 @@ public class Room : IBookable
 
         //IBookable metoder
         /// <summary>
-        /// Returnerar en bool utifrån om rummet 
+        /// Returnerar en bool utifrån om rummet går att booka eller inte.
         /// </summary>
         /// <param name="bookingStart"></param>
         /// <param name="bookingEnd"></param>
         /// <param name="manager"></param>
         /// <returns></returns>
         public bool Book(DateTime bookingStart, DateTime bookingEnd, DataManager manager)
-        { if (bookingStart >= bookingEnd)
+        { if (bookingStart >= bookingEnd) //Om starttiden är efter sluttiden.
         { return false; }
-        if(!IsAvailable(bookingStart, bookingEnd))
+        if(!IsAvalible(bookingStart, bookingEnd)) //Kontrollerar tillgängligheten.
         { return false; }
-
-        roomBookings.Add(new Booking(bookingStart, bookingEnd, this));
-        manager.AllBookings.Add(new Booking(bookingStart, bookingEnd, this));
         return true;
-
-
-        }
-        public void CancelBooking(Booking booking, DataManager manager)
-        { roomBookings.Remove(booking);
-        manager.AllBookings.Remove(booking);
         }
     /// <summary>
-    /// Kollar om det finns en bokning på rummets lista den tiden.
+    /// Tar bort bokning från room's lista.
+    /// </summary>
+    /// <param name="booking"></param>
+    /// <param name="manager"></param>
+        public void CancelBooking(Booking booking, DataManager manager)
+        { roomBookings.Remove(booking);
+          manager.AllBookings.Remove(booking);
+        }
+    /// <summary>
+    /// Kontrollerar om det finns en bokning på rummets lista den tiden.
     /// </summary>
     /// <param name="bookingStart"></param>
     /// <param name="bookingEnd"></param>
