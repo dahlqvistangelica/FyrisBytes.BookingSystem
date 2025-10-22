@@ -10,9 +10,6 @@ using System.Xml.Serialization;
         {
             Menu.StartUpScreen();
         }
-        
-       
-
 
     }
 
