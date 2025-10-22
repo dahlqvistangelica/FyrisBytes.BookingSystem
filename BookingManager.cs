@@ -8,7 +8,7 @@ public class BookingManager {
     /// <summary>
     /// Sorterar listorna med rum efter rumsID. 
     /// </summary>
-    public static void SortRoomLists(DataManager manager) 
+    public static void SortRoomLists(DataManager manager)
     {
         manager.AllGroupRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
         manager.AllClassRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
