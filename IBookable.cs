@@ -1,39 +1,41 @@
 ﻿using System;
 
 public interface IBookable //Tai
-{   
-    static void NewBooking(BookingManager bookingManager) //Tai
-    {
-        Console.WriteLine("--- Ny Bokning ---");
-        Console.WriteLine("Start av bokning:");
-        DateTime bookingStart = UserInputManager.UserCreateDateTime();
-        Console.WriteLine("Slut av bokning:");
-        DateTime bookingEnd = UserInputManager.UserCreateDateTime();
-        TimeSpan bookedTime = bookingStart - bookingEnd;
+{
+    //static void NewBooking(DataManager bookingManager) //Tai
+    //{
+    //    Console.WriteLine("--- Ny Bokning ---");
+    //    Console.WriteLine("Start av bokning:");
+    //    DateTime bookingStart = UserInputManager.UserCreateDateTime();
+    //    Console.WriteLine("Slut av bokning:");
+    //    DateTime bookingEnd = UserInputManager.UserCreateDateTime();
+    //    TimeSpan bookedTime = bookingStart - bookingEnd;
 
-        Console.WriteLine("Följande salar är lediga att boka för din angivna tid: ");
-        for (int i = 0; i < bookingManager.AllRooms.Count; i++)
-        {
-            if (bookingManager.AllBookings[i].BookingSpan == bookedTime)
-                continue;
-            else
-            {
-                Console.WriteLine($"[{i + 1}] ID:{bookingManager.AllRooms[i].RoomID} Platser:{bookingManager.AllRooms[i].SeatAmount} Handikappsanpassad:{bookingManager.AllRooms[i].DisablityAdapted} Nödutgångar:{bookingManager.AllRooms[i].EmergencyExits} Whiteboard:{bookingManager.AllRooms[i].WhiteBoard}");
-            }
-        }
-        int roomToBook = UserInputManager.UserInputToIntMinus1("\nVälj sal att boka: ");
-        Room chosenRoom = bookingManager.AllRooms[roomToBook];
+    //    Console.WriteLine("Följande salar är lediga att boka för din angivna tid: ");
+    //    for (int i = 0; i < bookingManager.AllRooms.Count; i++)
+    //    {
+    //        if (bookingManager.AllBookings[i].BookingSpan == bookedTime)
+    //            continue;
+    //        else
+    //        {
+    //            Console.WriteLine($"[{i + 1}] ID:{bookingManager.AllRooms[i].RoomID} Platser:{bookingManager.AllRooms[i].SeatAmount}" +
+    //                $" Handikappsanpassad:{bookingManager.AllRooms[i].DisablityAdapted} " +
+    //                $"Nödutgångar:{bookingManager.AllRooms[i].EmergencyExits} Whiteboard:{bookingManager.AllRooms[i].WhiteBoard}");
+    //        }
+    //    }
+    //    int roomToBook = UserInputManager.UserInputToIntMinus1("\nVälj sal att boka: ");
+    //    Room chosenRoom = bookingManager.AllRooms[roomToBook];
 
-        Booking newBooking = new Booking(bookingStart, bookingEnd, chosenRoom);
+    //    Booking newBooking = new Booking(bookingStart, bookingEnd, chosenRoom);
 
-        bookingManager.AllBookings.Add(newBooking);
-        //TODO: Lägg in bokningen i listan av bokningar
+    //    bookingManager.AllBookings.Add(newBooking);
+    //    //TODO: Lägg in bokningen i listan av bokningar
 
 
-        bool isSuccess = false; //om bokning lyckadexs = true, misslyckades = falskt
-        ChangeBookingSuccessPrintToScreen(isSuccess);
+    //    bool isSuccess = false; //om bokning lyckadexs = true, misslyckades = falskt
+    //    ChangeBookingSuccessPrintToScreen(isSuccess);
 
-    }
+    //}
 
     static void ChangeBooking(BookingManager bookingManager) //Tai
     {
@@ -145,6 +147,7 @@ public interface IBookable //Tai
             //TODO: Fixa formatet som skrivs ut?
         }
     }
+
     static void ListAllBookingsWithinTimeframe() //Tai
     {
         //TODO

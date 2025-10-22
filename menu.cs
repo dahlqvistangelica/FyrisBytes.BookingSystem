@@ -132,7 +132,8 @@ public static class Menu
                     Console.Clear();
                     Console.WriteLine("skapa ny bokning");
                     //Booking.CreateBooking(dataManager, 0);
-                    Booking.CreateBooking(dataManager);
+                    //Booking.CreateBooking(dataManager,0);
+                    BookingManager.NewBooking(dataManager);
                     Console.ReadLine();
                     dataManager.RebuildAllRooms();
                     break;
@@ -151,13 +152,13 @@ public static class Menu
                 case 4:
                     Console.Clear();
                     Console.WriteLine("visa alla bokningar");
-                    Booking.ListBookings(dataManager);
+                    BookingManager.ListBookings(dataManager);
                     Console.ReadLine();
                     break;
                 case 5:
                     Console.Clear();
                     Console.WriteLine("sök efter bokning");
-                    Booking.BookingSearch(dataManager, UserInputManager.UserInputToInt("Vilket år söker du efter?"));
+                    BookingManager.BookingSearch(dataManager, UserInputManager.UserInputToInt("Vilket år söker du efter?"));
                     Console.ReadLine();
                     break;
                 default:

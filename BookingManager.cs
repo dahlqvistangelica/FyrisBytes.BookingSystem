@@ -5,11 +5,11 @@ using System.Security.Cryptography.X509Certificates;
 
 public class BookingManager
 {
-    
+
     /// <summary>
     /// Sorterar listorna med rum efter rumsID. 
     /// </summary>
-    public static void SortRoomLists(DataManager manager) 
+    public static void SortRoomLists(DataManager manager)
     {
         manager.AllGroupRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
         manager.AllClassRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
@@ -24,7 +24,7 @@ public class BookingManager
     {
         //PLACE HOLDER
     }
-    
+
     public static void PrintDevelopers(DataManager manager)
     {
         for (int i = 0; i < manager.Developers.Count; i++)
@@ -33,8 +33,24 @@ public class BookingManager
         }
         Console.ReadLine();
     }
-
-   /* public static void NewBooking(DataManager dataManager) //Tai
+    static public void BookingSearch(DataManager dataManager, int targetYear)
+    {
+        int counter = 0;
+        foreach (Booking item in dataManager.AllBookings)
+        {
+            if (item.BookingStart.Year == targetYear)
+                counter++;
+            Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnds.ToString("g")}");
+        }
+    }
+    static public void ListBookings(DataManager manager)
+    {
+        foreach (Booking item in manager.AllBookings)
+        {
+            Console.WriteLine($" Start tid: {item.BookingStart.ToString("g")} Slut tid: {item.BookingEnds.ToString("g")}  Bokningslängd i timmar:{item.BookingSpan.TotalHours} Rummstyp: {item.BookedRoom}");
+        }
+    }
+    public static void NewBooking(DataManager dataManager) //Tai
     {
         Console.WriteLine("--- Ny Bokning ---");
         Console.WriteLine("Start av bokning:");
@@ -49,7 +65,7 @@ public class BookingManager
             if (dataManager.AllBookings.Count > 0)
             {
                 if (dataManager.AllBookings[i].BookingSpan == bookedTime)
-                continue;
+                    continue;
             }
             else
             {
@@ -59,8 +75,8 @@ public class BookingManager
         }
         int roomToBook = UserInputManager.UserInputToIntMinus1("\nVälj sal att boka: ");
         Room chosenRoom = dataManager.AllRooms[roomToBook];
-
         Booking newBooking = new Booking(bookingStart, bookingEnd, chosenRoom);
+
 
         dataManager.AllBookings.Add(newBooking);
         //TODO: Lägg in bokningen i listan av bokningar
@@ -85,5 +101,5 @@ public class BookingManager
             Console.WriteLine("Ändringen misslyckades, försök igen.");
             Console.ForegroundColor = ConsoleColor.White;
         }
-    }*/
+    }
 }

@@ -31,21 +31,4 @@ public class Booking
             dataManager.AllBookings.Add(booking);
         }
     }
-    static public void BookingSearch(DataManager dataManager, int targetYear)
-    {
-        foreach (Booking item in dataManager.AllBookings)
-        {
-            if (item.BookingStart.Year == targetYear)
-                counter++;
-                Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnds.ToString("g")}");
-        }
-    }
-    static public void ListBookings(DataManager manager)
-    {
-        foreach (Booking item in manager.AllBookings)
-        {
-            Console.WriteLine($" Start tid: {item.BookingStart.ToString("g")} Slut tid: {item.BookingEnds.ToString("g")}  Bokningslängd i timmar:{item.BookingSpan.TotalHours} Rummstyp: {item.BookedRoom}");
-        }
-    }
-
 }
