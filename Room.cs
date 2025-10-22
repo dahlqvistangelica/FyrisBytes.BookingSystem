@@ -61,7 +61,7 @@ public class Room : IBookable
     /// <returns></returns>
         public bool IsAvalible(DateTime bookingStart, DateTime bookingEnd)
         { foreach (var booking in roomBookings)
-            if (bookingStart < booking.BookingEnds && bookingEnd > booking.BookingStart) //Kontrollerar krock med annan bokning. Om bokningsstarten är mindre (13.00) än bef. bokningsslut (14.00) och bokningsslut (14.00) är större än bef. bookingsstart (13.00) går det inte att boka. 
+            if (bookingStart < booking.BookingEnd && bookingEnd > booking.BookingStart) //Kontrollerar krock med annan bokning. Om bokningsstarten är mindre (13.00) än bef. bokningsslut (14.00) och bokningsslut (14.00) är större än bef. bookingsstart (13.00) går det inte att boka. 
             { return false; }
             return true;
         }
