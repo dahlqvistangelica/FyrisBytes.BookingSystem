@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
-public class BookingManager
-{
-
+public class BookingManager { 
+    
     /// <summary>
     /// Sorterar listorna med rum efter rumsID. 
     /// </summary>
@@ -15,16 +14,7 @@ public class BookingManager
         manager.AllClassRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
         manager.AllRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
     }
-
-    public void SortList()
-    {
-        //Place holder
-    }
-    public void SearchLists()
-    {
-        //PLACE HOLDER
-    }
-
+    
     public static void PrintDevelopers(DataManager manager)
     {
         for (int i = 0; i < manager.Developers.Count; i++)
