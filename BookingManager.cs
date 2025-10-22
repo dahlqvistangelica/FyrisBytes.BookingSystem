@@ -49,7 +49,6 @@ public class BookingManager
     {
         foreach (Booking item in manager.AllBookings)
         {
-            Console.WriteLine($" Start tid: {item.BookingStart.ToString("g")} Slut tid: {item.BookingEnd.ToString("g")}  Bokningslängd i timmar:{item.BookingSpan.TotalHours} Rummstyp: {item.BookedRoom}");
             Console.WriteLine(item.Info);
         }
     }
@@ -63,6 +62,7 @@ public class BookingManager
         Console.WriteLine("Slut av bokning:");
         DateTime bookingEnd = UserInputManager.UserCreateDateTime();
 
+        int initialCount = dataManager.AllBookings.Count;
         bool correctEndTime = bookingEnd > bookingStart ? true : false; //Check om sluttid är efter starttid
         while (correctEndTime == false)
         {
@@ -77,17 +77,30 @@ public class BookingManager
 
         Console.WriteLine("Följande salar är lediga att boka för din angivna tid: ");
         int availableRooms = 0;
+
+        foreach (var room in dataManager.AllRooms)
+        {
+            foreach (var booking in room.roomBookings)
+            {
+                if (room.IsAvailable(bookingStart, bookingEnd))
+                    Console.WriteLine(room.ToString());
+                else
+                    break;
+            }
+        }
+
+        /*
         for (int i = 0; i < dataManager.AllRooms.Count; i++)
         {
-            if (/*//TODO: bookingManager.AllBookings[i].IsBookable(bookingStart, bookingEnd) == true
-                 kolla om rummet är bokningsbart den tiden, om true, skriv ut på konsollen*/ //IsBookable(bookingStart, bookingEnd) == true)
+            if (//TODO: bookingManager.AllBookings[i].IsBookable(bookingStart, bookingEnd) == true
+                 kolla om rummet är bokningsbart den tiden, om true, skriv ut på konsollen IsBookable(dataManager, i, bookingStart, bookingEnd) == true)
             {
                 Console.WriteLine($"[{i + 1}] ID:{dataManager.AllRooms[i].RoomID} Platser:{dataManager.AllRooms[i].SeatAmount} Handikappsanpassad:{dataManager.AllRooms[i].DisablityAdapted} Nödutgångar:{dataManager.AllRooms[i].EmergencyExits} Whiteboard:{dataManager.AllRooms[i].WhiteBoard}");
                 availableRooms++;
             }
             else
                 continue;
-        }
+        } */
         if (availableRooms == 0)
             Console.WriteLine("Det finns inga lediga salar för tiden du angivit.");
         else
@@ -99,7 +112,8 @@ public class BookingManager
             dataManager.AllBookings.Add(newBooking);
         }
 
-        bool isSuccess = false; //TODO: om bokning lyckades = true, misslyckades = falskt
+        bool isSuccess = BookingSucceeded(initialCount, dataManager); //TODO: om bokning lyckades = true, misslyckades = falskt
+        
         ChangeBookingSuccessPrintToScreen(isSuccess);
 
     }
@@ -224,12 +238,23 @@ public class BookingManager
     {
         if (!room.IsAvalible(wantedStartTime, wantedEndTime))
             return false;
-        else
+        else 
             return true;
     }
     public void ListAllBookingsWithinTimeframe() //Tai
     {
         //TODO
+    }
+
+    public bool BookingSucceeded(int initialCount, DataManager dataManager)
+    {
+        if (initialCount < dataManager.AllBookings.Count) {
+            Console.WriteLine("Bokingen lyckades");
+            return true; 
+        }
+        Console.WriteLine("Bokningen misslyckades");
+        return false;
+
     }
 
     public static void ChangeBookingSuccessPrintToScreen(bool success) //Tai

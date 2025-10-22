@@ -131,8 +131,8 @@ public static class Menu
                 case 1:
                     Console.Clear();
                     Console.WriteLine("skapa ny bokning");
-                    //Booking.CreateBooking(dataManager, 0);
-                    Booking.CreateBooking(dataManager);
+                    Booking.CreateBooking(dataManager, 0);
+                    //Booking.CreateBooking(dataManager);
                     Console.ReadLine();
                     dataManager.RebuildAllRooms();
                     break;

@@ -12,7 +12,7 @@ public class Booking
         get => Info;
         set
         {
-            Info = "Bokat rumm: " + BookedRoom.RoomID.ToString() + " " + BookingStart.ToString("g") +  " " + BookingEnd.ToString("g") + " " + "(" + BookingSpan.TotalHours.ToString() + ")";
+            Info = "Bokat rum: " + BookedRoom.RoomID.ToString() + " " + BookingStart.ToString("g") +  " " + BookingEnd.ToString("g") + " " + "(" + BookingSpan.TotalHours.ToString() + ")";
         }
     } 
     public Room BookedRoom { get; set; }
