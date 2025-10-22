@@ -29,7 +29,14 @@ public class Room : IBookable
         public int EmergencyExits { get; init; } //Hur många nödutgångar har rummet.
         public bool WhiteBoard { get; init; } //Finns whiteboard.
 
-    //IBookable metoder
+        //IBookable metoder
+        /// <summary>
+        /// Returnerar en bool utifrån om rummet 
+        /// </summary>
+        /// <param name="bookingStart"></param>
+        /// <param name="bookingEnd"></param>
+        /// <param name="manager"></param>
+        /// <returns></returns>
         public bool Book(DateTime bookingStart, DateTime bookingEnd, DataManager manager)
         { if (bookingStart >= bookingEnd)
         { return false; }
@@ -46,6 +53,12 @@ public class Room : IBookable
         { roomBookings.Remove(booking);
         manager.AllBookings.Remove(booking);
         }
+    /// <summary>
+    /// Kollar om det finns en bokning på rummets lista den tiden.
+    /// </summary>
+    /// <param name="bookingStart"></param>
+    /// <param name="bookingEnd"></param>
+    /// <returns></returns>
         public bool IsAvalible(DateTime bookingStart, DateTime bookingEnd)
         { foreach (var booking in roomBookings)
             if (bookingStart < booking.BookingEnds && bookingEnd > booking.BookingStart) //Kontrollerar krock med annan bokning. Om bokningsstarten är mindre (13.00) än bef. bokningsslut (14.00) och bokningsslut (14.00) är större än bef. bookingsstart (13.00) går det inte att boka. 
