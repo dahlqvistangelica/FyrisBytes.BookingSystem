@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
-public class BookingManager { 
-    
+public class BookingManager
+{
+
     /// <summary>
     /// Sorterar listorna med rum efter rumsID. 
     /// </summary>
@@ -14,7 +15,7 @@ public class BookingManager {
         manager.AllClassRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
         manager.AllRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
     }
-    
+
     public static void PrintDevelopers(DataManager manager)
     {
         for (int i = 0; i < manager.Developers.Count; i++)
@@ -52,7 +53,7 @@ public class BookingManager {
         }
     }
 
-    public void NewBooking(DataManager dataManager) //Tai
+    public static void NewBooking(DataManager dataManager) //Tai
     {
         Console.Clear();
         Console.WriteLine("--- Ny Bokning ---");
@@ -111,9 +112,10 @@ public class BookingManager {
             dataManager.AllBookings.Add(newBooking);
         }
 
-        bool isSuccess = BookingSucceeded(initialCount, dataManager); //TODO: om bokning lyckades = true, misslyckades = falskt
-        
-        ChangeBookingSuccessPrintToScreen(isSuccess);
+        //skriver ut om händelse lyckades
+        BookingSucceeded(initialCount, dataManager);
+
+        //ChangeBookingSuccessPrintToScreen(isSuccess);
 
     }
 
@@ -150,7 +152,7 @@ public class BookingManager {
             _ => false
         };
 
-        ChangeBookingSuccessPrintToScreen(success);
+        //ChangeBookingSuccessPrintToScreen(success);
     }
     static bool UpdateBookingDate(int whichBookingToChange, DataManager bookingManager) //Tai
     {
@@ -237,9 +239,9 @@ public class BookingManager {
     public bool IsBookable(DataManager dataManager, int i, DateTime wantedStartTime, DateTime wantedEndTime) //Tai
     {
         TimeSpan timeSpan = wantedEndTime - wantedStartTime;
-        if (wantedStartTime > BookingStart && wantedStartTime < DataManager.AllBookings[i].BookingEnds || wantedEndTime > BookingStart && wantedEndTime < BookingEnds)
+        if (wantedStartTime > dataManager.AllBookings[i].BookingStart && wantedStartTime < dataManager.AllBookings[i].BookingEnd || wantedEndTime > dataManager.AllBookings[i].BookingStart && wantedEndTime < dataManager.AllBookings[i].BookingEnd)
             return false;
-        else 
+        else
             return true;
     }
     public void ListAllBookingsWithinTimeframe() //Tai
@@ -247,20 +249,9 @@ public class BookingManager {
         //TODO
     }
 
-    public bool BookingSucceeded(int initialCount, DataManager dataManager)
+    public static void BookingSucceeded(int initialCount, DataManager dataManager)
     {
-        if (initialCount < dataManager.AllBookings.Count) {
-            Console.WriteLine("Bokingen lyckades");
-            return true; 
-        }
-        Console.WriteLine("Bokningen misslyckades");
-        return false;
-
-    }
-
-    public static void ChangeBookingSuccessPrintToScreen(bool success) //Tai
-    {
-        if (success == true)
+        if (initialCount < dataManager.AllBookings.Count || initialCount > dataManager.AllBookings.Count)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Ändringen i systemet utfördes korrekt.");
@@ -273,5 +264,8 @@ public class BookingManager {
             Console.WriteLine("Ändringen misslyckades, försök igen.");
             Console.ForegroundColor = ConsoleColor.White;
         }
+            
+
     }
 }
+
