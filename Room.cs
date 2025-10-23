@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 
@@ -24,6 +25,19 @@ public class Room : IBookable
         {
             _seatAmount = value;
         }
+    }
+    public string Info
+    {
+        get
+        {
+            string AllPropteties = $"Rum id: {this.RoomID}" +
+                $"Antal platser: {this.SeatAmount} " +
+                $"Handikapp: {this.DisablityAdapted} " +
+                $"Nödutgångar: {this.EmergencyExits} " +
+                $"Whiteboard: {this.WhiteBoard}";
+            return AllPropteties;
+        }
+        set { }
     }
     public virtual bool DisablityAdapted { get; init; } //Handikappanpassat rum true = ja, false = nej.
     public int EmergencyExits { get; init; } //Hur många nödutgångar har rummet.
@@ -77,15 +91,28 @@ public class Room : IBookable
         WhiteBoard = whiteboard;
     }
     public Room() : this(0, 1, false, 0, false) { } //Standardvärden för rum.
+    
 
-
-
+    
 }
 /// <summary>
 /// Subclass av room för grupprum. Ska ha ett id, max 8 sittplatser, kan vara handikappanpassat och ha fler utrymningsvägar.
 /// </summary>
 public class GroupRoom : Room //Grupprum max 8 platser.
 {
+    public string Info
+    {
+        get
+        {
+            string AllPropteties = $"Rum id: {this.RoomID}" +
+                $"Antal platser: {this.SeatAmount} " +
+                $"Handikapp: {this.DisablityAdapted} " +
+                $"Nödutgångar: {this.EmergencyExits} " +
+                $"Whiteboard: {this.WhiteBoard}";
+            return AllPropteties;
+        }
+        set { }
+    }
     public override int SeatAmount
     {
         get => base.SeatAmount;
@@ -106,6 +133,23 @@ public class ClassRoom : Room  //Sal med minst 9 platser, måste vara handikappa
 {
     public bool Projector { get; init; }
     public bool SpeakerSystem { get; init; }
+
+    public string Info
+    {
+        get
+        {
+            string AllPropteties = $"Rum id: {this.RoomID}" +
+                $"Antal platser: {this.SeatAmount} " +
+                $"Handikapp: {this.DisablityAdapted} " +
+                $"Nödutgångar: {this.EmergencyExits} " +
+                $"Whiteboard: {this.WhiteBoard}" +
+                $"Projektor: {this.Projector}" +
+                $"Högtaler: {this.SpeakerSystem}";
+            return AllPropteties;
+        }
+        set { }
+    }
+
     public override int SeatAmount
     {
         get => base.SeatAmount;
@@ -132,5 +176,6 @@ public class ClassRoom : Room  //Sal med minst 9 platser, måste vara handikappa
         Projector = projector;
         SpeakerSystem = speaker;
     }
+
 }
 
