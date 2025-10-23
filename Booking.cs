@@ -9,16 +9,17 @@ public class Booking
     public TimeSpan BookingSpan { get; set; }
     public string Info
     {
-        get { return Info; }
+        get {
+            string Info = $"Bokat rum: {BookedRoom?.RoomID.ToString()}, {BookingStart.ToString("g")} - {BookingEnd.ToString("g")} ({BookingSpan.ToString("hh':'mm")})";
+            return Info; }
         set
         {
-            string Info = $"Bokat rum: {BookedRoom.RoomID.ToString()}, {BookingStart.ToString("g")} - {BookingEnd.ToString("g")} ({BookingSpan.TotalHours.ToString()})";
         }
     } 
-    public Room BookedRoom { get; set; }
+    public Room? BookedRoom { get; set; }
     
-    //TODO: Tom constructor för deserializer
-    //public Booking () { }
+    //Tom constructor för deserializer
+    public Booking () { }
     public Booking(DateTime start, DateTime ends, Room room)
     {
         BookingStart = start;

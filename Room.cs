@@ -30,11 +30,11 @@ public class Room : IBookable
     {
         get
         {
-            string AllPropteties = $"Rum id: {this.RoomID}" +
+            string AllPropteties = $"Rum id: {this.RoomID} " +
                 $"Antal platser: {this.SeatAmount} " +
                 $"Handikapp: {this.DisablityAdapted} " +
                 $"Nödutgångar: {this.EmergencyExits} " +
-                $"Whiteboard: {this.WhiteBoard}";
+                $"Whiteboard: {this.WhiteBoard} ";
             return AllPropteties;
         }
         set { }
@@ -100,16 +100,11 @@ public class Room : IBookable
 /// </summary>
 public class GroupRoom : Room //Grupprum max 8 platser.
 {
-    //PLACE HOLDER SKRIVS RENT SEN, MAN KAN LÄGGA IN ALLT I ROOM KLASSEN SEN OVERRIDE I ÄRVANDE
     public string Info
     {
         get
         {
-            string AllPropteties = $"Rum id: {this.RoomID}" +
-                $"Antal platser: {this.SeatAmount} " +
-                $"Handikapp: {this.DisablityAdapted} " +
-                $"Nödutgångar: {this.EmergencyExits} " +
-                $"Whiteboard: {this.WhiteBoard}";
+            string AllPropteties = base.Info;
             return AllPropteties;
         }
         set { }
@@ -135,18 +130,14 @@ public class ClassRoom : Room  //Sal med minst 9 platser, måste vara handikappa
     public bool Projector { get; init; }
     public bool SpeakerSystem { get; init; }
 
-    //PLACE HOLDER SKRIVS RENT SEN, MAN KAN LÄGGA IN ALLT I ROOM KLASSEN SEN OVERRIDE I ÄRVANDE
     public string Info
     {
         get
         {
-            string AllPropteties = $"Rum id: {this.RoomID}" +
-                $"Antal platser: {this.SeatAmount} " +
-                $"Handikapp: {this.DisablityAdapted} " +
-                $"Nödutgångar: {this.EmergencyExits} " +
-                $"Whiteboard: {this.WhiteBoard}" +
-                $"Projektor: {this.Projector}" +
-                $"Högtaler: {this.SpeakerSystem}";
+            string AllPropteties = base.Info;
+            AllPropteties +=
+                $"Projektor: {this.Projector} " +
+                $"Högtaler: {this.SpeakerSystem} ";
             return AllPropteties;
         }
         set { }
