@@ -121,7 +121,7 @@ public class BookingManager
 
     public void ChangeBooking(DataManager datamanager) //Tai
     {
-
+        
         Console.WriteLine("--- Uppdatera Bokning ---");
         DateTime date = UserInputManager.UserCreateDateTime();
         Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
@@ -137,8 +137,9 @@ public class BookingManager
         int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera: ");
         UpdateBookingWhichChange(whichBookingToChange, datamanager); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
     }
-    static void UpdateBookingWhichChange(int whichBookingToChange, DataManager bookingManager) //Tai
+    static void UpdateBookingWhichChange(int whichBookingToChange, DataManager dataManager) //Tai
     {
+        int initialCount = dataManager.AllBookings.Count;
         int inputWhatToChange = UserInputManager.UserInputToIntWithLimitations("Vad vill du uppdatera i denna bokning?" +
                 "\n[1] Datum" +
                 "\n[2] Tid" +
@@ -146,12 +147,13 @@ public class BookingManager
 
         bool success = (inputWhatToChange) switch
         {
-            1 => success = UpdateBookingDate(whichBookingToChange, bookingManager),
-            2 => success = UpdateBookingTime(whichBookingToChange, bookingManager),
-            3 => success = UpdateBookingRoom(whichBookingToChange, bookingManager),
+            1 => success = UpdateBookingDate(whichBookingToChange, dataManager),
+            2 => success = UpdateBookingTime(whichBookingToChange, dataManager),
+            3 => success = UpdateBookingRoom(whichBookingToChange, dataManager),
             _ => false
         };
 
+        BookingSucceeded(initialCount, dataManager);
         //ChangeBookingSuccessPrintToScreen(success);
     }
     static bool UpdateBookingDate(int whichBookingToChange, DataManager bookingManager) //Tai
