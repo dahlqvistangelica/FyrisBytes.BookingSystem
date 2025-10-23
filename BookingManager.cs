@@ -173,7 +173,7 @@ public class BookingManager
     }
     static void UpdateBookingRoom(int whichBookingToChange, DataManager dataManager) //Tai
     {
-        DateTime startTime = dataManager.AllBooking[whichBookingToChange].BookingStart;
+        DateTime startTime = dataManager.AllBookings[whichBookingToChange].BookingStart;
         DateTime endTime = dataManager.AllBookings[whichBookingToChange].BookingEnd;
         Console.WriteLine("Dessa salar finns tillgängliga under tiden för bokningen:");
         for (int i = 0; i < dataManager.AllBookings.Count; i++)
