@@ -26,7 +26,7 @@ public class Room : IBookable
             _seatAmount = value;
         }
     }
-    public string Info
+    public virtual string Info
     {
         get
         {
@@ -100,14 +100,13 @@ public class Room : IBookable
 /// </summary>
 public class GroupRoom : Room //Grupprum max 8 platser.
 {
-    public string Info
+    public override string Info
     {
         get
         {
             string AllPropteties = base.Info;
             return AllPropteties;
         }
-        set { }
     }
     public override int SeatAmount
     {
@@ -130,7 +129,7 @@ public class ClassRoom : Room  //Sal med minst 9 platser, måste vara handikappa
     public bool Projector { get; init; }
     public bool SpeakerSystem { get; init; }
 
-    public string Info
+    public override string Info
     {
         get
         {
