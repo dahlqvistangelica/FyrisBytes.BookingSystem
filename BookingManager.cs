@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
+/// <summary>
+/// Hanterar samtliga bokningar i systemet
+/// </summary>
 public class BookingManager
 {
 
@@ -40,12 +43,15 @@ public class BookingManager
     }
     public static void ListAllBookings(DataManager dataManager)
     {
-        foreach (var item in dataManager.AllBookings)
+        foreach (Booking item in dataManager.AllBookings)
         {
-            Console.WriteLine(item.ToString());
+            Console.WriteLine(item.Info);
         }
     }
-
+    /// <summary>
+    /// Skapar ny bokning av valfritt rum
+    /// </summary>
+    /// <param name="dataManager"></param>
     public static void NewBooking(DataManager dataManager) //Tai
     {
         Console.Clear();
@@ -95,7 +101,10 @@ public class BookingManager
             dataManager.AllBookings.Add(newBooking);
         }
     }
-
+    /// <summary>
+    /// Metod för ändring av tidigare inlagd bokning. Ber användaren om ett tidsspann och listar bokningar inom spannet. Val finns om att uppdatera datum, tid eller rum.
+    /// </summary>
+    /// <param name="datamanager"></param>
     public void ChangeBooking(DataManager datamanager) //Tai
     {
         
@@ -113,6 +122,11 @@ public class BookingManager
         int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera: ");
         UpdateBookingWhichChange(whichBookingToChange, datamanager); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
     }
+    /// <summary>
+    /// Ber användaren om vilken ändring av bokningen som ska ske
+    /// </summary>
+    /// <param name="whichBookingToChange"></param>
+    /// <param name="dataManager"></param>
     static void UpdateBookingWhichChange(int whichBookingToChange, DataManager dataManager) //Tai
     {
         int initialCount = dataManager.AllBookings.Count;
@@ -134,43 +148,68 @@ public class BookingManager
                 break;
         }
     }
+    /// <summary>
+    /// Metod för att uppdatera datum på redan inlagd bokning.
+    /// </summary>
+    /// <param name="whichBookingToChange"></param>
+    /// <param name="bookingManager"></param>
     static void UpdateBookingDate(int whichBookingToChange, DataManager bookingManager) //Tai
     {
-        //TODO: ta ut tid ur bokningsstart och bokningsslut och lägg in i DateTime (datum + tid)
+        string bookedStart = bookingManager.AllBookings[whichBookingToChange].BookingStart.ToString();
+        string bookedStartDate = $"{bookedStart:yyyy-MM-dd}";
+        string bookedStartTime = $"{bookedStart:HH:mm:ss}";
+        Console.WriteLine($"Nuvarande startdag: {bookedStartDate}");
         Console.WriteLine($"Uppdatera startdag för bokning:");
-        DateTime newBookingStartDay = UserInputManager.UserCreateDateTime(); //TODO: Ändra till DateOnly
-        Console.WriteLine($"Uppdatera slutdag för bokning:");
-        DateTime newBookingEndDay = UserInputManager.UserCreateDateTime(); //TODO: Ändra till DateOnly
+        DateOnly newStartDay = UserInputManager.UserCreateDate();
+        DateTime newStart = DateTime.Parse($"{newStartDay:yyyy-MM-dd} {bookedStartTime:HH:mm:ss}");
 
-        bookingManager.AllBookings[whichBookingToChange].BookingStart = newBookingStartDay;
-        bookingManager.AllBookings[whichBookingToChange].BookingEnd = newBookingEndDay;
-        bookingManager.AllBookings[whichBookingToChange].BookingSpan = newBookingStartDay - newBookingEndDay;
-        //TODO: Korrigera bookingstart/end/span till DateOnly - finns ej i klassen just nu
+        Console.WriteLine($"Uppdatera slutdag för bokning:");
+
+        string bookedEnd = bookingManager.AllBookings[whichBookingToChange].BookingEnd.ToString();
+        string bookedEndDate = $"{bookedEnd:yyyy-MM-dd}";
+        string bookedEndTime = $"{bookedEnd:HH:mm:ss}";
+        Console.WriteLine($"Nuvarande slutdag: {bookedEndDate}");
+        Console.WriteLine($"Uppdatera slutdag för bokning:");
+        DateOnly newEndDate = UserInputManager.UserCreateDate();
+        DateTime newEnd = DateTime.Parse($"{newEndDate:yyyy-MM-dd} {bookedEndTime:HH:mm:ss}");
+
+        bookingManager.AllBookings[whichBookingToChange].BookingStart = newStart;
+        bookingManager.AllBookings[whichBookingToChange].BookingEnd = newEnd;
+        bookingManager.AllBookings[whichBookingToChange].BookingSpan = newStart - newEnd;
     }
+    /// <summary>
+    /// Metod för att uppdatera tid på redan inlagd bokning.
+    /// </summary>
+    /// <param name="whichBookingToChange"></param>
+    /// <param name="bookingManager"></param>
     static void UpdateBookingTime(int whichBookingToChange, DataManager bookingManager) //Tai
     {
-        //TODO: ta ut tid ur bokningsstart och bokningsslut och lägg in i DateTime (datum + tid)
-        Console.Write("Ange ny starttid för bokningen: ");
-        DateTime bookingStart = UserInputManager.UserCreateDateTime();
-        Console.Write("Ange hur länge bokningen ska vara: ");
-        DateTime bookingEnd = UserInputManager.UserCreateDateTime();
-        int userconfirm = UserInputManager.UserInputToInt
-            (
-                "Bokningen är satt till:" +
-                "\nBokningens start: " + bookingStart.ToString() +
-                "\nBokningens slut: " + bookingEnd.ToString() +
-                "\nBekräfta tid:" +
-                "\n[1] Bekräfta" +
-                "\n[2] Ignorera"
-            );
+        string bookedStart = bookingManager.AllBookings[whichBookingToChange].BookingStart.ToString();
+        string bookedStartDate = $"{bookedStart:yyyy-MM-dd}";
+        string bookedStartTime = $"{bookedStart:HH:mm:ss}";
+        Console.WriteLine($"Nuvarande starttid: {bookedStartTime}");
+        Console.WriteLine("Uppdatera starttid för bokningen: ");
+        TimeOnly newStartTime = UserInputManager.UserCreateTime(); 
+        DateTime newStart = DateTime.Parse($"{bookedStartDate:yyyy-MM-dd} {newStartTime:HH:mm:ss}");
 
-        if (userconfirm == 1)
-        {
-            bookingManager.AllBookings[whichBookingToChange].BookingStart = bookingStart;
-            bookingManager.AllBookings[whichBookingToChange].BookingEnd = bookingEnd;
-            bookingManager.AllBookings[whichBookingToChange].BookingSpan = bookingStart - bookingEnd;
-        }
+        Console.WriteLine($"Uppdatera sluttid för bokning:");
+        string bookedEnd = bookingManager.AllBookings[whichBookingToChange].BookingEnd.ToString();
+        string bookedEndDate = $"{bookedEnd:yyyy-MM-dd}";
+        string bookedEndTime = $"{bookedEnd:HH:mm:ss}";
+        Console.WriteLine($"Nuvarande sluttid: {bookedEndTime}");
+        Console.WriteLine($"Uppdatera sluttid för bokning:");
+        TimeOnly newEndTime = UserInputManager.UserCreateTime();
+        DateTime newEnd = DateTime.Parse($"{bookedEndDate:yyyy-MM-dd} {newEndTime:HH:mm:ss}");
+
+        bookingManager.AllBookings[whichBookingToChange].BookingStart = newStart;
+        bookingManager.AllBookings[whichBookingToChange].BookingEnd = newEnd;
+        bookingManager.AllBookings[whichBookingToChange].BookingSpan = newStart - newEnd;
     }
+    /// <summary>
+    /// Metod för att uppdatera sal på redan inlagd bokning.
+    /// </summary>
+    /// <param name="whichBookingToChange"></param>
+    /// <param name="dataManager"></param>
     static void UpdateBookingRoom(int whichBookingToChange, DataManager dataManager) //Tai
     {
         DateTime startTime = dataManager.AllBookings[whichBookingToChange].BookingStart;
@@ -187,16 +226,31 @@ public class BookingManager
 
         dataManager.AllBookings[whichBookingToChange].BookedRoom = dataManager.AllRooms[newRoom];
     }
-
+    /// <summary>
+    /// Listar samtliga bokningar och tar bort ett index i listan
+    /// </summary>
+    /// <param name="dataManager"></param>
     public void DeleteBooking(DataManager dataManager)//Tai
     {
         DateTime date = UserInputManager.UserCreateDateTime();
+        int index = 0;
+        Console.WriteLine("[0] AVBRYT");
         foreach (var item in dataManager.AllBookings)
         {
-            Console.WriteLine(item.Info.ToString());
+            Console.WriteLine($"[{index + 1}]" + item.Info.ToString());
+            index++;
         }
-
+        int indexToRemove = UserInputManager.UserInputToIntWithLimitations("Vilken bokning skulle du vilja ta bort?", dataManager.AllBookings.Count - 1, 0) - 1;
+        if (indexToRemove >= 0)
+            dataManager.AllBookings.RemoveAt(indexToRemove);
     }
+    /// <summary>
+    /// Dublett-metod? Kollar om ett rum är ledigt en viss tid.
+    /// </summary>
+    /// <param name="wantedStartTime"></param>
+    /// <param name="wantedEndTime"></param>
+    /// <param name="room"></param>
+    /// <returns></returns>
     public bool IsBookable(DateTime wantedStartTime, DateTime wantedEndTime, Room room)
     {
         if (!room.IsAvailable(wantedStartTime, wantedEndTime))

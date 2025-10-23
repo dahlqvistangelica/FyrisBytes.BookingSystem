@@ -9,10 +9,10 @@ public class Booking
     public TimeSpan BookingSpan { get; set; }
     public string Info
     {
-        get => Info;
+        get { return Info; }
         set
         {
-            Info = "Bokat rum: " + BookedRoom.RoomID.ToString() + " " + BookingStart.ToString("g") +  " " + BookingEnd.ToString("g") + " " + "(" + BookingSpan.TotalHours.ToString() + ")";
+            string Info = $"Bokat rum: {BookedRoom.RoomID.ToString()}, {BookingStart.ToString("g")} - {BookingEnd.ToString("g")} ({BookingSpan.TotalHours.ToString()})";
         }
     } 
     public Room BookedRoom { get; set; }
