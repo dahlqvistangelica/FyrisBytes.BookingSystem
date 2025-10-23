@@ -139,19 +139,19 @@ public static class Menu
                     break;
                 case 2:
                     Console.Clear();
-                    Console.WriteLine("uppdatera bokning");
+                    BookingManager.ChangeBooking(dataManager);
                     Console.ReadLine();
                     dataManager.RebuildAllRooms();
                     break;
                 case 3:
                     Console.Clear();
-                    Console.WriteLine("ta bort bokning");
+                    BookingManager.DeleteBooking(dataManager);
                     Console.ReadLine();
                     dataManager.RebuildAllRooms();
                     break;
                 case 4:
                     Console.Clear();
-                    Console.WriteLine("visa alla bokningar");
+                    
                     BookingManager.ListAllBookings(dataManager);
                     Console.ReadLine();
                     break;

@@ -105,7 +105,7 @@ public class BookingManager
     /// Metod för ändring av tidigare inlagd bokning. Ber användaren om ett tidsspann och listar bokningar inom spannet. Val finns om att uppdatera datum, tid eller rum.
     /// </summary>
     /// <param name="datamanager"></param>
-    public void ChangeBooking(DataManager datamanager) //Tai
+    public static void ChangeBooking(DataManager datamanager) //Tai
     {
         
         Console.WriteLine("--- Uppdatera Bokning ---");
@@ -230,7 +230,7 @@ public class BookingManager
     /// Listar samtliga bokningar och tar bort ett index i listan
     /// </summary>
     /// <param name="dataManager"></param>
-    public void DeleteBooking(DataManager dataManager)//Tai
+    public static void DeleteBooking(DataManager dataManager)//Tai
     {
         DateTime date = UserInputManager.UserCreateDateTime();
         int index = 0;
