@@ -17,6 +17,8 @@ public class Booking
     } 
     public Room BookedRoom { get; set; }
     
+    //Tom constructor för deserializer
+    public Booking () { }
     public Booking(DateTime start, DateTime ends, Room room)
     {
         BookingStart = start;

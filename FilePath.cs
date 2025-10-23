@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IO; 
 
-//filepath så att filerna alltid sparas på samma ställe
+
 public static class FilePath
 {
     private const string _appFolder = "BokngingsSystem";
     private const string _fileName = "dataManager.json";
 
+    /// <summary>
+    /// Hämtar en filepath på systemet och gör en folder för datan om det inte finns någon
+    /// </summary>
+    /// <returns></returns>
     public static string GetPath()
     {
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

@@ -15,6 +15,6 @@ Undermeny - Hantera bokningar
 
 Ansvarsfördelning:
 Angelica Dahlqvist - Room och RoomManager
-Olof Brahm - StoreData & BookingManager
+Olof Brahm - StoreData & BookingManager & DataManager & Filepath
 Tai Lenke Enarsson - BookingManager och IBooking
 Filip Gidlöf - Booking och UserInputManager

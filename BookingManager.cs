@@ -16,14 +16,7 @@ public class BookingManager
         manager.AllRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
     }
 
-    public static void PrintDevelopers(DataManager manager)
-    {
-        for (int i = 0; i < manager.Developers.Count; i++)
-        {
-            Console.WriteLine(manager.Developers[i]);
-        }
-        Console.ReadLine();
-    }
+
     static public void BookingSearchYear(DataManager dataManager, int targetYear)
     {
         int counter = 0;
