@@ -37,7 +37,7 @@ public static class Menu
                     break;
                 case 3:
                     Console.Clear();
-                    BookingManager.PrintDevelopers(dataManager);
+                    dataManager.PrintDevelopers();
                     break;
                 case 4:
                     StoreData.SaveToFile(dataManager);
