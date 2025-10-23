@@ -101,6 +101,7 @@ public class Room : IBookable
 /// </summary>
 public class GroupRoom : Room //Grupprum max 8 platser.
 {
+    //PLACE HOLDER SKRIVS RENT SEN, MAN KAN LÄGGA IN ALLT I ROOM KLASSEN SEN OVERRIDE I ÄRVANDE
     public string Info
     {
         get
@@ -135,6 +136,7 @@ public class ClassRoom : Room  //Sal med minst 9 platser, måste vara handikappa
     public bool Projector { get; init; }
     public bool SpeakerSystem { get; init; }
 
+    //PLACE HOLDER SKRIVS RENT SEN, MAN KAN LÄGGA IN ALLT I ROOM KLASSEN SEN OVERRIDE I ÄRVANDE
     public string Info
     {
         get
