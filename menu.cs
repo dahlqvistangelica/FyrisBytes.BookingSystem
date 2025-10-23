@@ -151,7 +151,7 @@ public static class Menu
                 case 4:
                     Console.Clear();
                     Console.WriteLine("visa alla bokningar");
-                    BookingManager.ListBookings(dataManager);
+                    BookingManager.ListAllBookings(dataManager);
                     Console.ReadLine();
                     break;
                 case 5:

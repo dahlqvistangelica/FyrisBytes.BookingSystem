@@ -44,11 +44,11 @@ public class BookingManager {
             Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
         }
     }
-    static public void ListBookings(DataManager manager)
+    public void ListAllBookings(DataManager dataManager)
     {
-        foreach (Booking item in manager.AllBookings)
+        foreach (var item in dataManager.AllBookings)
         {
-            Console.WriteLine(item.Info);
+            Console.WriteLine(item.ToString());
         }
     }
 
@@ -222,29 +222,17 @@ public class BookingManager {
         DateTime date = UserInputManager.UserCreateDateTime();
         foreach (var item in dataManager.AllBookings)
         {
-            Console.WriteLine(dataManager.AllBookings.ToString());
-            //TODO: Fixa formatet som skrivs ut?
+            Console.WriteLine(item.Info.ToString());
         }
+
     }
-    public void ListAllBookings(DataManager dataManager)
+
+    public bool IsBookable(DateTime wantedStartTime, DateTime wantedEndTime, Room room)
     {
-        foreach (var item in dataManager.AllBookings)
-        {
-            Console.WriteLine(item.ToString());
-            Console.ReadLine();
-        }
-    }
-    public bool IsBookable(DataManager dataManager, int i, DateTime wantedStartTime, DateTime wantedEndTime) //Tai
-    {
-        TimeSpan timeSpan = wantedEndTime - wantedStartTime;
-        if (wantedStartTime > BookingStart && wantedStartTime < DataManager.AllBookings[i].BookingEnds || wantedEndTime > BookingStart && wantedEndTime < BookingEnds)
+        if (!room.IsAvailable(wantedStartTime, wantedEndTime))
             return false;
-        else 
+        else
             return true;
-    }
-    public void ListAllBookingsWithinTimeframe() //Tai
-    {
-        //TODO
     }
 
     public bool BookingSucceeded(int initialCount, DataManager dataManager)
