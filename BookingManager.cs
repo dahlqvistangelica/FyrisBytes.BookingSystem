@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
-public class BookingManager { 
-    
+public class BookingManager
+{
+
     /// <summary>
     /// Sorterar listorna med rum efter rumsID. 
     /// </summary>
@@ -14,7 +15,7 @@ public class BookingManager {
         manager.AllClassRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
         manager.AllRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
     }
-    
+
     public static void PrintDevelopers(DataManager manager)
     {
         for (int i = 0; i < manager.Developers.Count; i++)
@@ -52,7 +53,7 @@ public class BookingManager {
         }
     }
 
-    public void NewBooking(DataManager dataManager) //Tai
+    public static void NewBooking(DataManager dataManager) //Tai
     {
         Console.Clear();
         Console.WriteLine("--- Ny Bokning ---");
@@ -115,7 +116,7 @@ public class BookingManager {
 
     public void ChangeBooking(DataManager datamanager) //Tai
     {
-
+        
         Console.WriteLine("--- Uppdatera Bokning ---");
         DateTime date = UserInputManager.UserCreateDateTime();
         Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
@@ -130,8 +131,9 @@ public class BookingManager {
         int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera: ");
         UpdateBookingWhichChange(whichBookingToChange, datamanager); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
     }
-    static void UpdateBookingWhichChange(int whichBookingToChange, DataManager bookingManager) //Tai
+    static void UpdateBookingWhichChange(int whichBookingToChange, DataManager dataManager) //Tai
     {
+        int initialCount = dataManager.AllBookings.Count;
         int inputWhatToChange = UserInputManager.UserInputToIntWithLimitations("Vad vill du uppdatera i denna bokning?" +
                 "\n[1] Datum" +
                 "\n[2] Tid" +
@@ -139,13 +141,14 @@ public class BookingManager {
 
         bool success = (inputWhatToChange) switch
         {
-            1 => success = UpdateBookingDate(whichBookingToChange, bookingManager),
-            2 => success = UpdateBookingTime(whichBookingToChange, bookingManager),
-            3 => success = UpdateBookingRoom(whichBookingToChange, bookingManager),
+            1 => success = UpdateBookingDate(whichBookingToChange, dataManager),
+            2 => success = UpdateBookingTime(whichBookingToChange, dataManager),
+            3 => success = UpdateBookingRoom(whichBookingToChange, dataManager),
             _ => false
         };
 
-        ChangeBookingSuccessPrintToScreen(success);
+        BookingSucceeded(initialCount, dataManager);
+        //ChangeBookingSuccessPrintToScreen(success);
     }
     static bool UpdateBookingDate(int whichBookingToChange, DataManager bookingManager) //Tai
     {
@@ -230,20 +233,9 @@ public class BookingManager {
             return true;
     }
 
-    public bool BookingSucceeded(int initialCount, DataManager dataManager)
+    public static void BookingSucceeded(int initialCount, DataManager dataManager)
     {
-        if (initialCount < dataManager.AllBookings.Count) {
-            Console.WriteLine("Bokingen lyckades");
-            return true; 
-        }
-        Console.WriteLine("Bokningen misslyckades");
-        return false;
-
-    }
-
-    public static void ChangeBookingSuccessPrintToScreen(bool success) //Tai
-    {
-        if (success == true)
+        if (initialCount < dataManager.AllBookings.Count || initialCount > dataManager.AllBookings.Count)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Ändringen i systemet utfördes korrekt.");
@@ -256,5 +248,8 @@ public class BookingManager {
             Console.WriteLine("Ändringen misslyckades, försök igen.");
             Console.ForegroundColor = ConsoleColor.White;
         }
+            
+
     }
 }
+
