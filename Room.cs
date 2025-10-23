@@ -28,7 +28,6 @@ public class Room : IBookable
     public virtual bool DisablityAdapted { get; init; } //Handikappanpassat rum true = ja, false = nej.
     public int EmergencyExits { get; init; } //Hur många nödutgångar har rummet.
     public bool WhiteBoard { get; init; } //Finns whiteboard.
-
     //IBookable metoder
     /// <summary>
     /// Returnerar en bool utifrån om rummet går att booka eller inte.
