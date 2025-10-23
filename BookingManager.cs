@@ -110,11 +110,7 @@ public class BookingManager {
             Booking newBooking = new Booking(bookingStart, bookingEnd, chosenRoom);
             dataManager.AllBookings.Add(newBooking);
         }
-
-        bool isSuccess = BookingSucceeded(initialCount, dataManager); //TODO: om bokning lyckades = true, misslyckades = falskt
-        
-        ChangeBookingSuccessPrintToScreen(isSuccess);
-
+        BookingSucceeded(initialCount, dataManager); 
     }
 
     public void ChangeBooking(DataManager datamanager) //Tai
@@ -126,11 +122,10 @@ public class BookingManager {
 
         for (int i = 0; i < datamanager.AllBookings.Count; i++)
         {
-            Console.WriteLine($"[{i + 1}] {datamanager.AllBookings[i].Info.ToString()}");
-
-            /*Console.WriteLine($"[{i + 1}] ID:{bookingManager.AllRooms.RoomID} Platser:{bookingManager.AllRooms.SeatAmount} Handikappsanpassad:{bookingManager.AllRooms.HandicappedAccessible} Nödutgångar:{bookingManager.AllRooms.EmergencyExits} Whiteboard:{bookingManager.AllRooms.WhiteBoard}");*/
-            //TODO: Nå korrekt bokning med egenskaper
-            //Format: "datum starttid-sluttid ({tid}h {tid}min) Salnamn: "Notering""
+            if (date > datamanager.AllBookings[i].BookingStart && date < datamanager.AllBookings[i].BookingEnd)
+                Console.WriteLine($"[{i + 1}] {datamanager.AllBookings[i].Info.ToString()}");
+            else
+                continue;
         }
         int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera: ");
         UpdateBookingWhichChange(whichBookingToChange, datamanager); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
@@ -156,13 +151,13 @@ public class BookingManager {
     {
         //TODO: Kolla av bokningstider om de är samma variabel på dag och tid, eller en och samma variabel?????
         Console.WriteLine($"Uppdatera startdag för bokning:");
-        DateTime newBookingStart = UserInputManager.UserCreateDateTime(); //TODO: Ändra till DateOnly
+        DateTime newBookingStartDay = UserInputManager.UserCreateDateTime(); //TODO: Ändra till DateOnly
         Console.WriteLine($"Uppdatera slutdag för bokning:");
-        DateTime newBookingEnd = UserInputManager.UserCreateDateTime(); //TODO: Ändra till DateOnly
+        DateTime newBookingEndDay = UserInputManager.UserCreateDateTime(); //TODO: Ändra till DateOnly
 
-        bookingManager.AllBookings[whichBookingToChange].BookingStart = newBookingStart;
-        bookingManager.AllBookings[whichBookingToChange].BookingEnd = newBookingEnd;
-        bookingManager.AllBookings[whichBookingToChange].BookingSpan = newBookingStart - newBookingEnd;
+        bookingManager.AllBookings[whichBookingToChange].BookingStart = newBookingStartDay;
+        bookingManager.AllBookings[whichBookingToChange].BookingEnd = newBookingEndDay;
+        bookingManager.AllBookings[whichBookingToChange].BookingSpan = newBookingStartDay - newBookingEndDay;
         //TODO: Korrigera bookingstart/end/span till DateOnly - finns ej i klassen just nu
 
         Console.WriteLine("success bool just nu satt till false");
