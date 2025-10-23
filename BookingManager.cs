@@ -251,6 +251,11 @@ public class BookingManager
         //TODO
     }
 
+    /// <summary>
+    /// Ger feedback om listan blev uppdaterad eller inte
+    /// </summary>
+    /// <param name="initialCount"></param>
+    /// <param name="dataManager"></param>
     public static void BookingSucceeded(int initialCount, DataManager dataManager)
     {
         if (initialCount < dataManager.AllBookings.Count || initialCount > dataManager.AllBookings.Count)
