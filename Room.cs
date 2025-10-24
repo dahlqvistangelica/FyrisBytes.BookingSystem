@@ -30,12 +30,12 @@ public class Room : IBookable
     {
         get
         {
-            string AllPropteties = $"Rum id: {this.RoomID} " +
+            string AllProperties = $"Rum id: {this.RoomID} " +
                 $"Antal platser: {this.SeatAmount} " +
                 $"Handikapp: {this.DisablityAdapted} " +
                 $"Nödutgångar: {this.EmergencyExits} " +
                 $"Whiteboard: {this.WhiteBoard} ";
-            return AllPropteties;
+            return AllProperties;
         }
         set { }
     }
@@ -44,7 +44,7 @@ public class Room : IBookable
     public bool WhiteBoard { get; init; } //Finns whiteboard.
     //IBookable metoder
     /// <summary>
-    /// Returnerar en bool utifrån om rummet går att booka eller inte.
+    /// Returnerar en bool utifrån om rummet går att boka eller inte.
     /// </summary>
     /// <param name="bookingStart"></param>
     /// <param name="bookingEnd"></param>

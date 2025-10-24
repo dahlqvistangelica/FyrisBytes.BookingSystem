@@ -111,16 +111,24 @@ public class BookingManager
         Console.WriteLine("--- Uppdatera Bokning ---");
         DateTime date = UserInputManager.UserCreateDateTime();
         Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
-
+        int bookingscount = 0;
         for (int i = 0; i < datamanager.AllBookings.Count; i++)
         {
-            if (date > datamanager.AllBookings[i].BookingStart && date < datamanager.AllBookings[i].BookingEnd)
-                Console.WriteLine($"[{i + 1}] {datamanager.AllBookings[i].Info.ToString()}");
+            if (date >= datamanager.AllBookings[i].BookingStart && date <= datamanager.AllBookings[i].BookingEnd)
+            { Console.WriteLine($"[{i + 1}] {datamanager.AllBookings[i].Info.ToString()}");
+                bookingscount++;
+            }
             else
                 continue;
         }
-        int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera: ");
-        UpdateBookingWhichChange(whichBookingToChange, datamanager); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
+        if (bookingscount > 0)
+        {
+            int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera: ");
+            UpdateBookingWhichChange(whichBookingToChange, datamanager); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
+        }
+        else
+            Console.WriteLine("Inga bokningar hittades.");
+
     }
     /// <summary>
     /// Ber användaren om vilken ändring av bokningen som ska ske
