@@ -38,7 +38,7 @@ public class BookingManager
             DateOnly dateonlyItem = DateOnly.FromDateTime(item.BookingStart);
             if (dateonlyItem == targetDate)
                 counter++;
-            Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
+            Console.WriteLine($"[{counter}] {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
         }
     }
     public static int ListAllBookings(DataManager dataManager)
@@ -46,8 +46,8 @@ public class BookingManager
         int counter = 0;
         foreach (Booking item in dataManager.AllBookings)
         {
-            Console.WriteLine($"[{counter +1}] {item.Info.ToString()}");
             counter++;
+            Console.WriteLine($"[{counter}] {item.Info.ToString()}");
         }
         if (counter <= 0)
             Console.WriteLine("Inga bokningar hittades.");
