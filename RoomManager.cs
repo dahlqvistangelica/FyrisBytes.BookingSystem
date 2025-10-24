@@ -168,7 +168,7 @@ public static class RoomManager
         }
         else
         { Console.WriteLine($"Fel: Rum med id {idToRemove} hittades inte."); }
-        StoreData.SaveToFile(dataManager);
+        //storeData.SaveToFile(dataManager); KOMMENTERAR UT TEMPORÄRT
 
     }
     #region InputMetoder

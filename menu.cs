@@ -9,16 +9,17 @@ public static class Menu
     /// </summary>
     public static void StartUpScreen()
     {
-        var dataManager = new DataManager();
+        var filePath = FilePath.GetPath();
+        IFileStorageProvider storeData = new StoreData(filePath);
         int input;
-        var checkData = StoreData.ReadFromFile();
-        if (checkData != null)
+        var dataManager = storeData.ReadFromFile<DataManager>();
+        if (dataManager != null)
         {
-            dataManager = checkData;
             dataManager.RebuildAllRooms();
         }
         else
         {
+            dataManager = new DataManager();
             dataManager.Developers.Add("Olof Brahm");
             dataManager.Developers.Add("Angelica Dahlqvist");
             dataManager.Developers.Add("Filip Gidlöf");
@@ -49,7 +50,7 @@ public static class Menu
                     dataManager.PrintDevelopers();
                     break;
                 case 4:
-                    StoreData.SaveToFile(dataManager);
+                    storeData.SaveToFile(dataManager);
                     Console.WriteLine("Programmet kommer nu avslutas.");
                     Console.ReadLine();
                     break;
@@ -150,7 +151,7 @@ public static class Menu
                     bookingManager.ChangeBooking();
                     Console.ReadLine();
                     break;
-                case 3:
+                case 3: 
                     Console.Clear();
                     bookingManager.DeleteBooking();
                     Console.ReadLine();

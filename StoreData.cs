@@ -11,41 +11,46 @@ using System.Text.Json.Serialization.Metadata;
 /// <summary>
 /// Spara och laddda data metoder
 /// </summary>
-public class StoreData
+public class StoreData : IFileStorageProvider
 {
-    /// <summary>
-    /// Sparar till JSON
-    /// </summary>
-    /// <param name="saveInstance"></param>
-    public static void SaveToFile(DataManager saveInstance)
-    {
-        var path = FilePath.GetPath();
-        //Omvandlar våran instans av bookingmanager till JSON-sträng som vi kan spara
-        var jString = JsonSerializer.Serialize<DataManager>(saveInstance, JsonSerializerOptions.Default);
 
-        //skriver innehållet i jstring till en JSON fil
-        File.WriteAllText(path, jString);
+    private readonly string _path;
+    
+    public StoreData(string path)
+    {
+        _path = path;
     }
 
     /// <summary>
-    /// Läser ifrån JSON
+    /// Sparar till JSON, Objekt måste ha en tom constructor om du vill öppna filen igen
+    /// </summary>
+    /// <param name="saveInstance"></param>
+    public void SaveToFile<T>(T saveInstance)
+    {
+        //Omvandlar våran instans av bookingmanager till JSON-sträng som vi kan spara
+        var jString = JsonSerializer.Serialize<T>(saveInstance, JsonSerializerOptions.Default);
+
+        //skriver innehållet i jstring till en JSON fil
+        File.WriteAllText(_path, jString);
+    }
+
+    /// <summary>
+    /// Läser ifrån JSON, om du vill öppna ett objekt ifrån en JSON-fil måste objektet ha sparats med en tom constructor
     /// </summary>
     /// <returns></returns>
-    public static DataManager? ReadFromFile()
+    public T? ReadFromFile<T>() where T : class
     {
-        var path = FilePath.GetPath();
+        //Kollar om filen existerar, om inte return null
+        if (!File.Exists(_path)) { return null; }
         try
         {
-            //Kollar om filen existerar, om inte return null
-            if (!File.Exists(path)) { return null; }
-
-            //returnar en ny instans av objektet BookingManager, fyllt med värdena ifrån JSON filen
-            return JsonSerializer.Deserialize<DataManager>(File.ReadAllText(path));
+            //returnar en ny instans av objektet, fyllt med värdena ifrån JSON filen
+            return JsonSerializer.Deserialize<T>(File.ReadAllText(_path));
 
         }
-        catch
+        catch ( Exception ex)
         {
-            Console.WriteLine("Filen kunde inte läsas");
+            Console.WriteLine($"Filen kunde inte läsas: {ex.Message}");
             return null;
         }
 
