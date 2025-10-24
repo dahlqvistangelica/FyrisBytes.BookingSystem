@@ -158,7 +158,6 @@ public static class Menu
                     break;
                 case 4:
                     Console.Clear();
-                    
                     BookingManager.ListAllBookings(dataManager);
                     Console.ReadLine();
                     break;

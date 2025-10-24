@@ -45,7 +45,7 @@ public class BookingManager
     {
         foreach (Booking item in dataManager.AllBookings)
         {
-            Console.WriteLine(item.Info);
+            Console.WriteLine(item.Info.ToString());
         }
     }
     /// <summary>
