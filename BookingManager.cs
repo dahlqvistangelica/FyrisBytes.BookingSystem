@@ -34,15 +34,20 @@ public class BookingManager
             DateOnly dateonlyItem = DateOnly.FromDateTime(item.BookingStart);
             if (dateonlyItem == targetDate)
                 counter++;
-            Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
+            Console.WriteLine($"[{counter}] {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
         }
     }
     public void ListAllBookings()
     {
         foreach (Booking item in _repository.AllBookings)
         {
-            Console.WriteLine(item.Info);
+            counter++;
+            Console.WriteLine($"[{counter}] {item.Info.ToString()}");
         }
+        if (counter <= 0)
+            Console.WriteLine("Inga bokningar hittades.");
+
+        return counter;
     }
     /// <summary>
     /// Skapar ny bokning av valfritt rum
@@ -134,6 +139,7 @@ public class BookingManager
                 "\n[1] Datum" +
                 "\n[2] Tid" +
                 "\n[3] Sal", 3, 1);
+        Console.WriteLine();
 
         switch (inputWhatToChange)
         {

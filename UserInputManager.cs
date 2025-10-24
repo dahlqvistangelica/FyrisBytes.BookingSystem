@@ -168,7 +168,7 @@ static class UserInputManager
     {
         while (true)
         {
-            bool awnser = UserInputYesNo("Vill du använda dagens datum");
+            bool awnser = UserInputYesNo("Vill du använda dagens datum? (ja/nej)");
             if (awnser == true)
             {
                 DateOnly today = DateOnly.FromDateTime(DateTime.Now);
@@ -193,7 +193,7 @@ static class UserInputManager
     {
         while (true)
         {
-            bool awnser = UserInputYesNo("Vill du använda dagens datum");
+            bool awnser = UserInputYesNo("Vill du använda dagens datum? (ja/nej)");
             if (awnser == true)
             {
                 TimeOnly userTime = UserCreateTime();
@@ -207,7 +207,7 @@ static class UserInputManager
                 int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
                 int maxvalueDate = DateTime.DaysInMonth(year, month);
                 int day = UserInputToIntWithLimitations("Ange ett datum[dd]", maxvalueDate, 0);
-                int hours = UserInputToIntWithLimitations("Ange timme", 23, 0);
+                int hours = UserInputToIntWithLimitations("Ange timme (24h)", 23, 0);
                 int minutes = UserInputToIntWithLimitations("Ange minut", 59, 0);
                 DateTime dateTime = new DateTime(year, month, day, hours, minutes, 0);
                 return dateTime;
@@ -220,7 +220,7 @@ static class UserInputManager
     /// <returns></returns>
     internal static TimeOnly UserCreateTime()
     {
-        int hours = UserInputToIntWithLimitations("Ange timme", 23, 0);
+        int hours = UserInputToIntWithLimitations("Ange timme (24h)", 23, 0);
         int minutes = UserInputToIntWithLimitations("Ange minut", 59, 0);
         TimeOnly Time = new TimeOnly(hours, minutes, 0);
         return Time;
