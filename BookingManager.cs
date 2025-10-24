@@ -41,12 +41,18 @@ public class BookingManager
             Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
         }
     }
-    public static void ListAllBookings(DataManager dataManager)
+    public static int ListAllBookings(DataManager dataManager)
     {
+        int counter = 0;
         foreach (Booking item in dataManager.AllBookings)
         {
-            Console.WriteLine(item.Info.ToString());
+            Console.WriteLine($"[{counter +1}] {item.Info.ToString()}");
+            counter++;
         }
+        if (counter <= 0)
+            Console.WriteLine("Inga bokningar hittades.");
+
+        return counter;
     }
     /// <summary>
     /// Skapar ny bokning av valfritt rum
@@ -109,26 +115,13 @@ public class BookingManager
     {
         
         Console.WriteLine("--- Uppdatera Bokning ---");
-        DateTime date = UserInputManager.UserCreateDateTime();
-        Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
-        int bookingscount = 0;
-        for (int i = 0; i < datamanager.AllBookings.Count; i++)
-        {
-            if (date >= datamanager.AllBookings[i].BookingStart && date <= datamanager.AllBookings[i].BookingEnd)
-            { Console.WriteLine($"[{i + 1}] {datamanager.AllBookings[i].Info.ToString()}");
-                bookingscount++;
-            }
-            else
-                continue;
-        }
+        Console.WriteLine($"Följande bokningar finns i systemet:\n");
+        int bookingscount = ListAllBookings(datamanager);
         if (bookingscount > 0)
         {
-            int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera: ");
+            int whichBookingToChange = UserInputManager.UserInputToIntMinus1("\nAnge nummer för bokningen du vill uppdatera: ");
             UpdateBookingWhichChange(whichBookingToChange, datamanager); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
         }
-        else
-            Console.WriteLine("Inga bokningar hittades.");
-
     }
     /// <summary>
     /// Ber användaren om vilken ändring av bokningen som ska ske
@@ -137,10 +130,11 @@ public class BookingManager
     /// <param name="dataManager"></param>
     static void UpdateBookingWhichChange(int whichBookingToChange, DataManager dataManager) //Tai
     {
-        int inputWhatToChange = UserInputManager.UserInputToIntWithLimitations("Vad vill du uppdatera i denna bokning?" +
+        int inputWhatToChange = UserInputManager.UserInputToIntWithLimitations("\nVad vill du uppdatera i denna bokning?" +
                 "\n[1] Datum" +
                 "\n[2] Tid" +
                 "\n[3] Sal", 3, 1);
+        Console.WriteLine();
 
         switch (inputWhatToChange)
         {
@@ -170,8 +164,6 @@ public class BookingManager
         DateOnly newStartDay = UserInputManager.UserCreateDate();
         DateTime newStart = DateTime.Parse($"{newStartDay:yyyy-MM-dd} {bookedStartTime:HH:mm:ss}");
 
-        Console.WriteLine($"Uppdatera slutdag för bokning:");
-
         DateTime bookedEnd = bookingManager.AllBookings[whichBookingToChange].BookingEnd;
         string bookedEndDate = $"{bookedEnd:yyyy-MM-dd}";
         string bookedEndTime = $"{bookedEnd:HH:mm:ss}";
@@ -199,7 +191,6 @@ public class BookingManager
         TimeOnly newStartTime = UserInputManager.UserCreateTime(); 
         DateTime newStart = DateTime.Parse($"{bookedStartDate:yyyy-MM-dd} {newStartTime:HH:mm:ss}");
 
-        Console.WriteLine($"Uppdatera sluttid för bokning:");
         DateTime bookedEnd = bookingManager.AllBookings[whichBookingToChange].BookingEnd;
         string bookedEndDate = $"{bookedEnd:yyyy-MM-dd}";
         string bookedEndTime = $"{bookedEnd:HH:mm:ss}";
@@ -224,8 +215,8 @@ public class BookingManager
         Console.WriteLine("Dessa salar finns tillgängliga under tiden för bokningen:");
         for (int i = 0; i < dataManager.AllBookings.Count; i++)
         {
-            if (dataManager.AllRooms[whichBookingToChange].IsAvailable(startTime, endTime))
-                Console.WriteLine($"[{i + 1}] {dataManager.AllRooms[i].RoomID}");
+            if (dataManager.AllRooms[whichBookingToChange].IsAvailable(startTime, endTime) == true)
+                Console.WriteLine($"[{i + 1}] {dataManager.AllRooms[i].Info.ToString()}");
             else
                 continue;
         }
