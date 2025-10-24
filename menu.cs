@@ -1,5 +1,7 @@
 ﻿using System;
-
+/// <summary>
+/// Statisk klass för att hantera menyer med viss kod inbakad.
+/// </summary>
 public static class Menu
 {
     /// <summary>
@@ -26,7 +28,12 @@ public static class Menu
         {
             Console.Clear();
             Console.WriteLine("-- Välkommen till bokningsystemet --");
-            input = UserInputManager.UserInputToIntWithLimitations("[1] Hantera salar.\n[2] Hantera bokningar\n[3] Visa utvecklare \n[4] Avsluta programmet \nVälj: ", 4, 0);
+            input = UserInputManager.UserInputToIntWithLimitations("" +
+                "[1] Hantera salar.\n" +
+                "[2] Hantera bokningar\n" +
+                "[3] Visa utvecklare \n" +
+                "[4] Avsluta programmet \n" +
+                "Välj: ", 4, 0);
             switch (input)
             {
                 case 1:
@@ -53,7 +60,7 @@ public static class Menu
     }
 
     /// <summary>
-    /// Meny för att hantera lokaler.
+    /// Meny för att hantera rum.
     /// </summary>
     public static void ControllRoomScreen(DataManager dataManager)
     {
@@ -68,7 +75,7 @@ public static class Menu
                 "[2] Visa klassrum. \n" +
                 "[3] Visa grupprum. \n" +
                 "[4] Visa alla rum. \n" +
-                "[5] Ändra lokalsinformation. \n" +
+                "[5] Ta bort befintligt rum. \n" +
                 "[6] Tillbaka till huvudmenyn\nVälj: ", 6, 0);
 
             switch (input)
@@ -99,7 +106,7 @@ public static class Menu
                     break;
                 case 5:
                     Console.Clear();
-                    Console.WriteLine("Ändra lokalinformation");
+                    RoomManager.DeleteRoom(dataManager);
                     Console.ReadLine();
                     dataManager.RebuildAllRooms();
                     break;

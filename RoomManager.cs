@@ -42,16 +42,24 @@ public static class RoomManager
     {
         bool classrooms = false;
         bool grouprooms = false;
+        bool allrooms = false;
+        foreach (Room room in dataManager.AllRooms)
+            if (roomID == room.RoomID)
+                allrooms = true;
         foreach (ClassRoom room in dataManager.AllClassRooms)
             if (roomID == room.RoomID)
                 classrooms = true;
         foreach (GroupRoom room in dataManager.AllGroupRooms)
             if (roomID == room.RoomID)
                 grouprooms = true;
-        if (grouprooms == true || classrooms == true)
+        if ((grouprooms == true && allrooms == true) || (classrooms == true && allrooms== true))
             return true;
         else return false;
     }
+    /// <summary>
+    /// Kontrollerar att klassrum innehåller minst en utrymningsväg.
+    /// </summary>
+    /// <returns></returns>
     public static int CheckEmergencyExits()
     {
         int emergencyExits;
@@ -66,7 +74,7 @@ public static class RoomManager
         return emergencyExits;
     }
     /// <summary>
-    /// Skapa grupprum, tar emot parametrar för platser och från BookingManager för att kunna validera id. 
+    /// Skapa grupprum, tar emot parametrar för platser och från DataManager för att kunna validera id. 
     /// </summary>
     /// <param name="seats"></param>
     /// <param name="manager"></param>
@@ -102,45 +110,6 @@ public static class RoomManager
         return new ClassRoom(roomID, seats, disablityAccess, emergencyExits, whiteboard, projector, speaker);
 
     }
-
-    //Metoder för att ta emot input för att skapa room.
-    public static int GetSeats()
-    {
-        int seats = UserInputManager.UserInputToInt("Hur många platser har rummet?");
-        return seats;
-    }
-    public static int GetID()
-    {
-        int roomId = UserInputManager.UserInputToInt("Vad har rummet för id?");
-        return roomId;
-    }
-    public static int GetEmergencyExits()
-    {
-        int emergencyExit = UserInputManager.UserInputToInt("Hur många nödutgångar har rummet?");
-        return emergencyExit;
-    }
-    public static bool GetDisabilityAccess()
-    {
-        bool disabilityAccess = UserInputManager.UserInputYesNo("Är rummet handikappanpassat?");
-        return disabilityAccess;
-    }
-    public static bool GetWhiteBoard()
-    {
-        bool whiteboard = UserInputManager.UserInputYesNo("Finns det en whiteboard?");
-        return whiteboard;
-    }
-   
-    public static bool GetProjector()
-    {
-        bool projector = UserInputManager.UserInputYesNo("Finns det projector?");
-        return projector;
-    }
-    public static bool GetSpeaker()
-    {
-        bool speaker = UserInputManager.UserInputYesNo("Finns det högtalarsystem?");
-        return speaker;
-    }
-
     public static void DisplayRooms(DataManager dataManager)
     {
         DisplayClassRooms(dataManager);
@@ -172,17 +141,65 @@ public static class RoomManager
             Console.WriteLine();
         }
     }
-    public static void EditRooms(DataManager dataManager)
+    /// <summary>
+    /// Metod för att kunna ändra tillagda rum.
+    /// </summary>
+    /// <param name="dataManager"></param>
+    public static void DeleteRoom(DataManager dataManager)
     {
         DisplayRooms(dataManager);
-        int roomID = UserInputManager.UserInputToInt("Ange ID på rum du önskar ändra: ");
-        if(CheckRoomID(roomID, dataManager))
-        { foreach (GroupRoom room in dataManager.AllGroupRooms)
-                if (roomID == room.RoomID)
-                { Console.WriteLine("Vad vill du ändra?"); }
+        int idToRemove = UserInputManager.UserInputToInt("Ange ID på rum du önskar ta bort: ");
+        int removedCount = dataManager.AllRooms.RemoveAll(r => r.RoomID == idToRemove);
+        if(removedCount > 0)
+        {   dataManager.AllGroupRooms.RemoveAll(r=>r.RoomID == idToRemove);
+            dataManager.AllClassRooms.RemoveAll(r => r.RoomID == idToRemove);
+            Console.WriteLine($"Rum med id {idToRemove} togs bort ur systemet.");
         }
+        else
+        { Console.WriteLine($"Fel: Rum med id {idToRemove} hittades inte."); }
+        StoreData.SaveToFile(dataManager);
 
     }
+    #region InputMetoder
+    //Metoder för att ta emot input för att skapa room.
+    public static int GetSeats()
+    {
+        int seats = UserInputManager.UserInputToInt("Hur många platser har rummet?");
+        return seats;
+    }
+    public static int GetID()
+    {
+        int roomId = UserInputManager.UserInputToInt("Vad har rummet för id?");
+        return roomId;
+    }
+    public static int GetEmergencyExits()
+    {
+        int emergencyExit = UserInputManager.UserInputToInt("Hur många nödutgångar har rummet?");
+        return emergencyExit;
+    }
+    public static bool GetDisabilityAccess()
+    {
+        bool disabilityAccess = UserInputManager.UserInputYesNo("Är rummet handikappanpassat?");
+        return disabilityAccess;
+    }
+    public static bool GetWhiteBoard()
+    {
+        bool whiteboard = UserInputManager.UserInputYesNo("Finns det en whiteboard?");
+        return whiteboard;
+    }
+
+    public static bool GetProjector()
+    {
+        bool projector = UserInputManager.UserInputYesNo("Finns det projector?");
+        return projector;
+    }
+    public static bool GetSpeaker()
+    {
+        bool speaker = UserInputManager.UserInputYesNo("Finns det högtalarsystem?");
+        return speaker;
+    }
+    #endregion
+
 }
-    
+
 
