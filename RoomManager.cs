@@ -118,26 +118,34 @@ public static class RoomManager
     }
     public static void DisplayClassRooms(DataManager dataManager)
     {
-        Console.WriteLine("-- Befintliga klassrum --");
-        Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t Projector \t Speaker");
+        const int ID_WIDTH = -10;
+        const int AMOUNT_WIDTH = 15;
+        const int LONG_BOOL_WIDTH = -20;
+        const int BOOL_WIDTH = -15;
+        Console.WriteLine($"{"===== KLASSRUM =====", 50}");
+        Console.WriteLine($"{"Rum ID",ID_WIDTH*-1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH*-1}{"Handikappanpassat",LONG_BOOL_WIDTH*-1}{"Projektor", BOOL_WIDTH*-1}{"Högtalare",BOOL_WIDTH*-1}");
         
         foreach (ClassRoom room in dataManager.AllClassRooms)
         {
 
-            Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t\t\t {(room.Projector ? "ja" : "nej")} \t\t {(room.SpeakerSystem ? "ja" : "nej")}");
+            Console.Write($"{room.RoomID, ID_WIDTH*-1}{room.SeatAmount, AMOUNT_WIDTH}{room.EmergencyExits, AMOUNT_WIDTH}{(room.WhiteBoard ? "ja" : "nej"), BOOL_WIDTH*-1}{(room.DisablityAdapted ? "ja" : "nej"), LONG_BOOL_WIDTH*-1}{(room.Projector ? "ja" : "nej"),BOOL_WIDTH*-1}{(room.SpeakerSystem ? "ja" : "nej"), BOOL_WIDTH*-1}");
 
             Console.WriteLine();
         }
     }
     public static void DisplayGroopRooms(DataManager dataManager)
     {
-        
-        Console.WriteLine("-- Befintliga grupprum --");
-        Console.WriteLine("ID \t Platser \t Nödutgångar \t Whiteboard \t Handikappanpassning \t ");
+        const int ID_WIDTH = -10;
+        const int AMOUNT_WIDTH = 15;
+        const int LONG_BOOL_WIDTH = -20;
+        const int BOOL_WIDTH = -15;
+
+        Console.WriteLine($"{"===== GRUPPRUM =====", 50}");
+        Console.WriteLine($"{"Rum ID",ID_WIDTH * -1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH * -1}{"Handikappanpassat",LONG_BOOL_WIDTH * -1}");
         foreach (GroupRoom room in dataManager.AllGroupRooms)
         {
 
-            Console.Write($"{room.RoomID} \t {room.SeatAmount} \t\t {room.EmergencyExits} \t\t {(room.WhiteBoard ? "ja" : "nej")} \t\t {(room.DisablityAdapted ? "ja" : "nej")} \t \t");
+            Console.Write($"{room.RoomID,ID_WIDTH * -1}{room.SeatAmount,AMOUNT_WIDTH}{room.EmergencyExits,AMOUNT_WIDTH}{(room.WhiteBoard ? "ja" : "nej"),BOOL_WIDTH * -1}{(room.DisablityAdapted ? "ja" : "nej"),LONG_BOOL_WIDTH * -1}");
             Console.WriteLine();
         }
     }
@@ -148,7 +156,10 @@ public static class RoomManager
     public static void DeleteRoom(DataManager dataManager)
     {
         DisplayRooms(dataManager);
-        int idToRemove = UserInputManager.UserInputToInt("Ange ID på rum du önskar ta bort: ");
+        Console.WriteLine();
+        int idToRemove = UserInputManager.UserInputToInt("Ange ID på rum du önskar ta bort (0 om du ångrar dig): ");
+        if (idToRemove == 0)
+        { Console.WriteLine("Återgår till menyn."); return; }
         int removedCount = dataManager.AllRooms.RemoveAll(r => r.RoomID == idToRemove);
         if(removedCount > 0)
         {   dataManager.AllGroupRooms.RemoveAll(r=>r.RoomID == idToRemove);
