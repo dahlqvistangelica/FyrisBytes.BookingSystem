@@ -137,7 +137,6 @@ public class BookingManager
     /// <param name="dataManager"></param>
     static void UpdateBookingWhichChange(int whichBookingToChange, DataManager dataManager) //Tai
     {
-        int initialCount = dataManager.AllBookings.Count;
         int inputWhatToChange = UserInputManager.UserInputToIntWithLimitations("Vad vill du uppdatera i denna bokning?" +
                 "\n[1] Datum" +
                 "\n[2] Tid" +
@@ -163,7 +162,7 @@ public class BookingManager
     /// <param name="bookingManager"></param>
     static void UpdateBookingDate(int whichBookingToChange, DataManager bookingManager) //Tai
     {
-        string bookedStart = bookingManager.AllBookings[whichBookingToChange].BookingStart.ToString();
+        DateTime bookedStart = bookingManager.AllBookings[whichBookingToChange].BookingStart;
         string bookedStartDate = $"{bookedStart:yyyy-MM-dd}";
         string bookedStartTime = $"{bookedStart:HH:mm:ss}";
         Console.WriteLine($"Nuvarande startdag: {bookedStartDate}");
@@ -173,7 +172,7 @@ public class BookingManager
 
         Console.WriteLine($"Uppdatera slutdag för bokning:");
 
-        string bookedEnd = bookingManager.AllBookings[whichBookingToChange].BookingEnd.ToString();
+        DateTime bookedEnd = bookingManager.AllBookings[whichBookingToChange].BookingEnd;
         string bookedEndDate = $"{bookedEnd:yyyy-MM-dd}";
         string bookedEndTime = $"{bookedEnd:HH:mm:ss}";
         Console.WriteLine($"Nuvarande slutdag: {bookedEndDate}");
@@ -192,7 +191,7 @@ public class BookingManager
     /// <param name="bookingManager"></param>
     static void UpdateBookingTime(int whichBookingToChange, DataManager bookingManager) //Tai
     {
-        string bookedStart = bookingManager.AllBookings[whichBookingToChange].BookingStart.ToString();
+        DateTime bookedStart = bookingManager.AllBookings[whichBookingToChange].BookingStart;
         string bookedStartDate = $"{bookedStart:yyyy-MM-dd}";
         string bookedStartTime = $"{bookedStart:HH:mm:ss}";
         Console.WriteLine($"Nuvarande starttid: {bookedStartTime}");
@@ -201,7 +200,7 @@ public class BookingManager
         DateTime newStart = DateTime.Parse($"{bookedStartDate:yyyy-MM-dd} {newStartTime:HH:mm:ss}");
 
         Console.WriteLine($"Uppdatera sluttid för bokning:");
-        string bookedEnd = bookingManager.AllBookings[whichBookingToChange].BookingEnd.ToString();
+        DateTime bookedEnd = bookingManager.AllBookings[whichBookingToChange].BookingEnd;
         string bookedEndDate = $"{bookedEnd:yyyy-MM-dd}";
         string bookedEndTime = $"{bookedEnd:HH:mm:ss}";
         Console.WriteLine($"Nuvarande sluttid: {bookedEndTime}");
