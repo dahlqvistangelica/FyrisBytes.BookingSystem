@@ -22,6 +22,8 @@ public static class Menu
             dataManager.Developers.Add("Filip Gidlöf");
             dataManager.Developers.Add("Tai Lenke Enarsson");
         }
+        IBookingRepository repository = dataManager;
+        BookingManager bookingManager = new BookingManager(repository);
         do
         {
             Console.Clear();
@@ -33,7 +35,7 @@ public static class Menu
                     ControllRoomScreen(dataManager);
                     break;
                 case 2:
-                    ControllBookingScreen(dataManager);
+                    ControllBookingScreen(bookingManager);
                     break;
                 case 3:
                     Console.Clear();
@@ -57,7 +59,7 @@ public static class Menu
     /// </summary>
     public static void ControllRoomScreen(DataManager dataManager)
     {
-        BookingManager.SortRoomLists(dataManager);
+        dataManager.SortRoomLists();
         int input;
         do
         {
@@ -112,7 +114,7 @@ public static class Menu
     /// <summary>
     /// Meny för att hantera bokningar i systemet.
     /// </summary>
-    public static void ControllBookingScreen(DataManager dataManager)
+    public static void ControllBookingScreen(BookingManager bookingManager)
     {
         int input;
         do
@@ -132,33 +134,30 @@ public static class Menu
                     Console.Clear();
                     Console.WriteLine("skapa ny bokning");
                     //Booking.CreateBooking(dataManager, 0);
-                    BookingManager.NewBooking(dataManager);
+                    bookingManager.NewBooking();
                     //Booking.CreateBooking(dataManager);
                     Console.ReadLine();
-                    dataManager.RebuildAllRooms();
                     break;
                 case 2:
                     Console.Clear();
                     Console.WriteLine("uppdatera bokning");
                     Console.ReadLine();
-                    dataManager.RebuildAllRooms();
                     break;
                 case 3:
                     Console.Clear();
                     Console.WriteLine("ta bort bokning");
                     Console.ReadLine();
-                    dataManager.RebuildAllRooms();
                     break;
                 case 4:
                     Console.Clear();
                     Console.WriteLine("visa alla bokningar");
-                    BookingManager.ListAllBookings(dataManager);
+                    bookingManager.ListAllBookings();
                     Console.ReadLine();
                     break;
                 case 5:
                     Console.Clear();
                     Console.WriteLine("sök efter bokning");
-                    BookingManager.BookingSearchYear(dataManager, UserInputManager.UserInputToInt("Vilket år söker du efter?"));
+                    bookingManager.BookingSearchYear(UserInputManager.UserInputToInt("Vilket år söker du efter?"));
                     Console.ReadLine();
                     break;
                 default:

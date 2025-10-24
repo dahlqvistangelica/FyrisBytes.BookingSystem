@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-public class DataManager
+public class DataManager : IBookingRepository
 {
 
     public List<Booking> AllBookings { get; set; }
@@ -33,6 +33,16 @@ public class DataManager
         AllRooms.Clear();
         AllRooms.AddRange(AllGroupRooms);
         AllRooms.AddRange(AllClassRooms);
+    }
+
+    /// <summary>
+    /// Sorterar listorna med rum efter rumsID. 
+    /// </summary>
+    public void SortRoomLists()
+    {
+        AllGroupRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
+        AllClassRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
+        AllRooms.Sort((r1, r2) => r1.RoomID.CompareTo(r2.RoomID));
     }
 
     /// <summary>
