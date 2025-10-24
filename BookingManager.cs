@@ -37,8 +37,9 @@ public class BookingManager
             Console.WriteLine($"[{counter}] {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
         }
     }
-    public void ListAllBookings()
+    public int ListAllBookings()
     {
+        int counter = 0;
         foreach (Booking item in _repository.AllBookings)
         {
             counter++;

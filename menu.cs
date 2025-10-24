@@ -147,12 +147,12 @@ public static class Menu
                     break;
                 case 2:
                     Console.Clear();
-                    BookingManager.ChangeBooking(dataManager);
+                    bookingManager.ChangeBooking();
                     Console.ReadLine();
                     break;
                 case 3:
                     Console.Clear();
-                    BookingManager.DeleteBooking(dataManager);
+                    bookingManager.DeleteBooking();
                     Console.ReadLine();
                     break;
                 case 4:
