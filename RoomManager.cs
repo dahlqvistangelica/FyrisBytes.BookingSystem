@@ -1,14 +1,19 @@
 ﻿using System;
 
-public static class RoomManager
+public class RoomManager
 {
     /// <summary>
-    /// Skapa room utifrån vilken underklass som är bäst. Kontroll mot manager.
+    /// Skapar room utifrån vilken underklass som är bäst.
     /// </summary>
     /// <param name="manager"></param>
     /// <returns></returns>
     /// 
+    private readonly IBookingRepository _repository;
 
+    public RoomManager(IBookingRepository repository)
+    {
+        _repository = repository;
+    }
     public static bool DetermineRoomType(int seats)
     {
         if (seats < 9) //Om användaren anger 8 eller mindre platser så returnar den true annars false för att avgöra vilket typ av rum som ska skapas.
@@ -20,15 +25,15 @@ public static class RoomManager
     /// </summary>
     /// <param name="manager"></param>
     /// <returns></returns>
-    public static int ValidRoomID(DataManager manager)
+    public int ValidRoomID()
     {
         int roomID = GetID();
-        bool checkID = CheckRoomID(roomID, manager);
+        bool checkID = CheckRoomID(roomID);
         while (checkID)
         {
             Console.WriteLine($"ID {roomID} finns redan. Ange ett annat ID.");
             roomID = GetID();
-            checkID = CheckRoomID(roomID, manager);
+            checkID = CheckRoomID(roomID);
         }
         return roomID;
     }
@@ -38,18 +43,18 @@ public static class RoomManager
     /// <param name="roomID"></param>
     /// <param name="dataManager"></param>
     /// <returns></returns>
-    public static bool CheckRoomID(int roomID, DataManager dataManager)
+    public bool CheckRoomID(int roomID)
     {
         bool classrooms = false;
         bool grouprooms = false;
         bool allrooms = false;
-        foreach (Room room in dataManager.AllRooms)
+        foreach (Room room in _repository.AllRooms)
             if (roomID == room.RoomID)
                 allrooms = true;
-        foreach (ClassRoom room in dataManager.AllClassRooms)
+        foreach (ClassRoom room in _repository.AllClassRooms)
             if (roomID == room.RoomID)
                 classrooms = true;
-        foreach (GroupRoom room in dataManager.AllGroupRooms)
+        foreach (GroupRoom room in _repository.AllGroupRooms)
             if (roomID == room.RoomID)
                 grouprooms = true;
         if ((grouprooms == true && allrooms == true) || (classrooms == true && allrooms== true))
@@ -60,7 +65,7 @@ public static class RoomManager
     /// Kontrollerar att klassrum innehåller minst en utrymningsväg.
     /// </summary>
     /// <returns></returns>
-    public static int CheckEmergencyExits()
+    public int CheckEmergencyExits()
     {
         int emergencyExits;
         do
@@ -79,9 +84,9 @@ public static class RoomManager
     /// <param name="seats"></param>
     /// <param name="manager"></param>
     /// <returns></returns>
-    public static GroupRoom CreateGroupRoom(int seats, DataManager manager)
+    public GroupRoom CreateGroupRoom(int seats)
     {
-        int roomID = ValidRoomID(manager);
+        int roomID = ValidRoomID();
         int emergencyExits = GetEmergencyExits();
         bool disabilityAccess = GetDisabilityAccess();
         bool whiteboard = GetWhiteBoard();
@@ -93,9 +98,9 @@ public static class RoomManager
     /// <param name="seats"></param>
     /// <param name="manager"></param>
     /// <returns></returns>
-    public static ClassRoom CreateClassRoom(int seats, DataManager manager)
+    public ClassRoom CreateClassRoom(int seats)
     {
-        int roomID = ValidRoomID(manager);
+        int roomID = ValidRoomID();
         int emergencyExits = CheckEmergencyExits();
 
         bool disablityAccess = GetDisabilityAccess();
@@ -110,13 +115,13 @@ public static class RoomManager
         return new ClassRoom(roomID, seats, disablityAccess, emergencyExits, whiteboard, projector, speaker);
 
     }
-    public static void DisplayRooms(DataManager dataManager)
+    public void DisplayRooms()
     {
-        DisplayClassRooms(dataManager);
+        DisplayClassRooms();
         Console.WriteLine();
-        DisplayGroopRooms(dataManager);
+        DisplayGroopRooms();
     }
-    public static void DisplayClassRooms(DataManager dataManager)
+    public void DisplayClassRooms()
     {
         const int ID_WIDTH = -10;
         const int AMOUNT_WIDTH = 15;
@@ -125,7 +130,7 @@ public static class RoomManager
         Console.WriteLine($"{"===== KLASSRUM =====", 50}");
         Console.WriteLine($"{"Rum ID",ID_WIDTH*-1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH*-1}{"Handikappanpassat",LONG_BOOL_WIDTH*-1}{"Projektor", BOOL_WIDTH*-1}{"Högtalare",BOOL_WIDTH*-1}");
         
-        foreach (ClassRoom room in dataManager.AllClassRooms)
+        foreach (ClassRoom room in _repository.AllClassRooms)
         {
 
             Console.Write($"{room.RoomID, ID_WIDTH*-1}{room.SeatAmount, AMOUNT_WIDTH}{room.EmergencyExits, AMOUNT_WIDTH}{(room.WhiteBoard ? "ja" : "nej"), BOOL_WIDTH*-1}{(room.DisablityAdapted ? "ja" : "nej"), LONG_BOOL_WIDTH*-1}{(room.Projector ? "ja" : "nej"),BOOL_WIDTH*-1}{(room.SpeakerSystem ? "ja" : "nej"), BOOL_WIDTH*-1}");
@@ -133,7 +138,7 @@ public static class RoomManager
             Console.WriteLine();
         }
     }
-    public static void DisplayGroopRooms(DataManager dataManager)
+    public void DisplayGroopRooms()
     {
         const int ID_WIDTH = -10;
         const int AMOUNT_WIDTH = 15;
@@ -142,7 +147,7 @@ public static class RoomManager
 
         Console.WriteLine($"{"===== GRUPPRUM =====", 50}");
         Console.WriteLine($"{"Rum ID",ID_WIDTH * -1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH * -1}{"Handikappanpassat",LONG_BOOL_WIDTH * -1}");
-        foreach (GroupRoom room in dataManager.AllGroupRooms)
+        foreach (GroupRoom room in _repository.AllGroupRooms)
         {
 
             Console.Write($"{room.RoomID,ID_WIDTH * -1}{room.SeatAmount,AMOUNT_WIDTH}{room.EmergencyExits,AMOUNT_WIDTH}{(room.WhiteBoard ? "ja" : "nej"),BOOL_WIDTH * -1}{(room.DisablityAdapted ? "ja" : "nej"),LONG_BOOL_WIDTH * -1}");
@@ -152,23 +157,22 @@ public static class RoomManager
     /// <summary>
     /// Metod för att kunna ändra tillagda rum.
     /// </summary>
-    /// <param name="dataManager"></param>
-    public static void DeleteRoom(DataManager dataManager)
+    public void DeleteRoom(DataManager manager)
     {
-        DisplayRooms(dataManager);
+        DisplayRooms();
         Console.WriteLine();
         int idToRemove = UserInputManager.UserInputToInt("Ange ID på rum du önskar ta bort (0 om du ångrar dig): ");
         if (idToRemove == 0)
         { Console.WriteLine("Återgår till menyn."); return; }
-        int removedCount = dataManager.AllRooms.RemoveAll(r => r.RoomID == idToRemove);
+        int removedCount = _repository.AllRooms.RemoveAll(r => r.RoomID == idToRemove);
         if(removedCount > 0)
-        {   dataManager.AllGroupRooms.RemoveAll(r=>r.RoomID == idToRemove);
-            dataManager.AllClassRooms.RemoveAll(r => r.RoomID == idToRemove);
+        {   _repository.AllGroupRooms.RemoveAll(r=>r.RoomID == idToRemove);
+            _repository.AllClassRooms.RemoveAll(r => r.RoomID == idToRemove);
             Console.WriteLine($"Rum med id {idToRemove} togs bort ur systemet.");
         }
         else
         { Console.WriteLine($"Fel: Rum med id {idToRemove} hittades inte."); }
-        StoreData.SaveToFile(dataManager);
+        StoreData.SaveToFile(manager);
 
     }
     #region InputMetoder
