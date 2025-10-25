@@ -27,6 +27,7 @@ public static class Menu
         }
         IBookingRepository repository = dataManager;
         BookingManager bookingManager = new BookingManager(repository);
+        RoomManager rManager = new RoomManager(repository);
         do
         {
             Console.Clear();
@@ -40,7 +41,7 @@ public static class Menu
             switch (input)
             {
                 case 1:
-                    ControllRoomScreen(dataManager);
+                    ControllRoomScreen(dataManager, rManager);
                     break;
                 case 2:
                     ControllBookingScreen(bookingManager);
@@ -65,7 +66,7 @@ public static class Menu
     /// <summary>
     /// Meny för att hantera rum.
     /// </summary>
-    public static void ControllRoomScreen(DataManager dataManager)
+    public static void ControllRoomScreen(DataManager dataManager, RoomManager roomManager)
     {
         dataManager.SortRoomLists();
         int input;
@@ -87,29 +88,29 @@ public static class Menu
                     Console.Clear();
                     int seats = RoomManager.GetSeats();
                     if (RoomManager.DetermineRoomType(seats))
-                    { dataManager.AllGroupRooms.Add(RoomManager.CreateGroupRoom(seats, dataManager)); }
+                    { dataManager.AllGroupRooms.Add(roomManager.CreateGroupRoom(seats)); }
                     else
-                    { dataManager.AllClassRooms.Add(RoomManager.CreateClassRoom(seats, dataManager)); }
+                    { dataManager.AllClassRooms.Add(roomManager.CreateClassRoom(seats)); }
                     dataManager.RebuildAllRooms();
                     break;
                 case 2:
                     Console.Clear();
-                    RoomManager.DisplayClassRooms(dataManager);
+                    roomManager.DisplayClassRooms();
                     Console.ReadLine();
                     break;
                 case 3:
                     Console.Clear();
-                    RoomManager.DisplayGroopRooms(dataManager);
+                    roomManager.DisplayGroopRooms();
                     Console.ReadLine();
                     break;
                 case 4:
                     Console.Clear();
-                    RoomManager.DisplayRooms(dataManager);
+                    roomManager.DisplayRooms();
                     Console.ReadLine();
                     break;
                 case 5:
                     Console.Clear();
-                    RoomManager.DeleteRoom(dataManager);
+                    roomManager.DeleteRoom(dataManager);
                     Console.ReadLine();
                     dataManager.RebuildAllRooms();
                     break;
