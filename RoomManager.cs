@@ -172,7 +172,7 @@ public class RoomManager
         }
         else
         { Console.WriteLine($"Fel: Rum med id {idToRemove} hittades inte."); }
-        StoreData.SaveToFile(manager);
+        //StoreData.SaveToFile(manager);
 
     }
     #region InputMetoder
