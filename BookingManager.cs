@@ -9,10 +9,12 @@ using System.Security.Cryptography.X509Certificates;
 public class BookingManager
 {
     private readonly IBookingRepository _repository;
+    private readonly IFileStorageProvider _storeData;
 
-    public BookingManager(IBookingRepository repository)
+    public BookingManager(IBookingRepository repository, IFileStorageProvider storeData)
     {
         _repository = repository;
+        _storeData = storeData;
     }
 
 
@@ -104,6 +106,7 @@ public class BookingManager
         }
         _repository.SortRoomLists();
         _repository.RebuildAllRooms();
+        _storeData.SaveToFile(_repository);
     }
     /// <summary>
     /// Metod för ändring av tidigare inlagd bokning. Ber användaren om ett tidsspann och listar bokningar inom spannet. Val finns om att uppdatera datum, tid eller rum.
@@ -127,6 +130,7 @@ public class BookingManager
         UpdateBookingWhichChange(whichBookingToChange); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
         _repository.SortRoomLists();
         _repository.RebuildAllRooms();
+        _storeData.SaveToFile(_repository);
     }
     /// <summary>
     /// Ber användaren om vilken ändring av bokningen som ska ske
@@ -250,8 +254,10 @@ public class BookingManager
         int indexToRemove = UserInputManager.UserInputToIntWithLimitations("Vilken bokning skulle du vilja ta bort?", _repository.AllBookings.Count - 1, 0) - 1;
         if (indexToRemove >= 0)
             _repository.AllBookings.RemoveAt(indexToRemove);
+        
         _repository.SortRoomLists();
         _repository.RebuildAllRooms();
+        _storeData.SaveToFile(_repository);
     }
     /// <summary>
     /// Dublett-metod? Kollar om ett rum är ledigt en viss tid.

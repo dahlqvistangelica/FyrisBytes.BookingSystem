@@ -26,7 +26,7 @@ public static class Menu
             dataManager.Developers.Add("Tai Lenke Enarsson");
         }
         IBookingRepository repository = dataManager;
-        BookingManager bookingManager = new BookingManager(repository);
+        BookingManager bookingManager = new BookingManager(repository, storeData);
         RoomManager rManager = new RoomManager(repository);
         do
         {
