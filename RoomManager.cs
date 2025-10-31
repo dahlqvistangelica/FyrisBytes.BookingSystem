@@ -2,17 +2,14 @@
 
 public class RoomManager
 {
-    /// <summary>
-    /// Skapar room utifrån vilken underklass som är bäst.
-    /// </summary>
-    /// <param name="manager"></param>
-    /// <returns></returns>
-    /// 
-    private readonly IBookingRepository _repository;
 
-    public RoomManager(IBookingRepository repository)
+    private readonly IBookingRepository _repository;
+    private readonly IFileStorageProvider _storeData;
+
+    public RoomManager(IBookingRepository repository, IFileStorageProvider storeData)
     {
         _repository = repository;
+        _storeData = storeData;
     }
     public static bool DetermineRoomType(int seats)
     {
@@ -23,8 +20,7 @@ public class RoomManager
     /// <summary>
     /// Tar in id från användaren, kontrollerar det och tvingar användaren att ange ett ID som inte finns om det redan finns. 
     /// </summary>
-    /// <param name="manager"></param>
-    /// <returns></returns>
+    /// <returns>Valid RoomID</returns>
     public int ValidRoomID()
     {
         int roomID = GetID();
@@ -90,7 +86,8 @@ public class RoomManager
         int emergencyExits = GetEmergencyExits();
         bool disabilityAccess = GetDisabilityAccess();
         bool whiteboard = GetWhiteBoard();
-        return new GroupRoom(roomID, seats, disabilityAccess, emergencyExits, whiteboard);
+        GroupRoom groupRoom = new GroupRoom(roomID, seats, disabilityAccess, emergencyExits, whiteboard);
+        return groupRoom;
     }
     /// <summary>
     /// Skapar klassrum, tar emot parametrar för antal platser och manager för att validera id.
@@ -112,7 +109,8 @@ public class RoomManager
         bool whiteboard = GetWhiteBoard();
         bool projector = GetProjector();
         bool speaker = GetSpeaker();
-        return new ClassRoom(roomID, seats, disablityAccess, emergencyExits, whiteboard, projector, speaker);
+        ClassRoom classRoom = new ClassRoom(roomID, seats, disablityAccess, emergencyExits, whiteboard, projector, speaker);
+        return classRoom;
 
     }
     public void DisplayRooms()
@@ -172,7 +170,7 @@ public class RoomManager
         }
         else
         { Console.WriteLine($"Fel: Rum med id {idToRemove} hittades inte."); }
-        //StoreData.SaveToFile(manager);
+        _storeData.SaveToFile(_repository);
 
     }
     #region InputMetoder
