@@ -104,8 +104,6 @@ public class BookingManager
             Booking newBooking = new Booking(bookingStart, bookingEnd, chosenRoom);
             _repository.AllBookings.Add(newBooking);
         }
-        _repository.SortRoomLists();
-        _repository.RebuildAllRooms();
         _storeData.SaveToFile(_repository);
     }
     /// <summary>
@@ -128,8 +126,6 @@ public class BookingManager
         }
         int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera: ");
         UpdateBookingWhichChange(whichBookingToChange); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
-        _repository.SortRoomLists();
-        _repository.RebuildAllRooms();
         _storeData.SaveToFile(_repository);
     }
     /// <summary>
@@ -255,8 +251,7 @@ public class BookingManager
         if (indexToRemove >= 0)
             _repository.AllBookings.RemoveAt(indexToRemove);
         
-        _repository.SortRoomLists();
-        _repository.RebuildAllRooms();
+
         _storeData.SaveToFile(_repository);
     }
     /// <summary>
