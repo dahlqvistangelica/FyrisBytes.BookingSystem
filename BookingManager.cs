@@ -91,9 +91,9 @@ public class BookingManager
 
         foreach (var room in _repository.AllRooms)
         {
-                if (room.IsAvailable(bookingStart, bookingEnd))
+                if (room.Bookable(bookingStart, bookingEnd))
                 {
-                    Console.WriteLine($"[{roomIndex + 1}] {room.Info}");
+                    Console.WriteLine($"{room.RoomID}");
                     availableRooms++;
                 }
                 else
@@ -107,13 +107,13 @@ public class BookingManager
         if (availableRooms == 0)
             Console.WriteLine("Det finns inga lediga salar för tiden du angivit.");
         else
-        {
+        {  
             int roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
             Room chosenRoom = _repository.AllRooms.FirstOrDefault(r => r.RoomID == roomToBook);
 
             Booking newBooking = new Booking(bookingStart, bookingEnd, chosenRoom);
             _repository.AllBookings.Add(newBooking);
-            chosenRoom.roomBookings.Add(newBooking);
+            chosenRoom.AddBooking(newBooking);
         }
         _repository.SortRoomLists();
         _repository.RebuildAllRooms();
@@ -246,7 +246,7 @@ public class BookingManager
         }
         int newRoom = UserInputManager.UserInputToIntWithLimitations("Ange vilken sal du vill använda för bokningen: ", _repository.AllBookings.Count, 0);
 
-        _repository.AllBookings[whichBookingToChange].BookedRoom = _repository.AllRooms[newRoom];
+        //_repository.AllBookings[whichBookingToChange].BookedRoomID = _repository.AllRooms[newRoom];
     }
     /// <summary>
     /// Listar samtliga bokningar och tar bort ett index i listan
