@@ -9,10 +9,12 @@ public class RoomManager
     /// <returns></returns>
     /// 
     private readonly IBookingRepository _repository;
+    private readonly IFileStorageProvider _storeData;
 
-    public RoomManager(IBookingRepository repository)
+    public RoomManager(IBookingRepository repository, IFileStorageProvider storeData)
     {
         _repository = repository;
+        _storeData = storeData;
     }
     public static bool DetermineRoomType(int seats)
     {
@@ -172,7 +174,7 @@ public class RoomManager
         }
         else
         { Console.WriteLine($"Fel: Rum med id {idToRemove} hittades inte."); }
-        //StoreData.SaveToFile(manager);
+        _storeData.SaveToFile(_repository);
 
     }
     #region InputMetoder

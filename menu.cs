@@ -27,7 +27,7 @@ public static class Menu
         }
         IBookingRepository repository = dataManager;
         BookingManager bookingManager = new BookingManager(repository, storeData);
-        RoomManager rManager = new RoomManager(repository);
+        RoomManager rManager = new RoomManager(repository, storeData);
         do
         {
             Console.Clear();
