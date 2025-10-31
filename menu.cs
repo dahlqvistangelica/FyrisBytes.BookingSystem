@@ -127,7 +127,7 @@ public static class Menu
     {
         int input;
         do
-        {
+        {   
             Console.Clear();
             Console.WriteLine("-- Hantera bokningar --");
             input = UserInputManager.UserInputToIntWithLimitations("[1] Skapa ny bokning. \n" +

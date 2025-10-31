@@ -69,14 +69,14 @@ public class Room : IBookable
         manager.AllBookings.Remove(booking);
     }
     /// <summary>
-    /// Kontrollerar om det finns en bokning på rummets lista den tiden.
+    /// Kontrollerar om det finns en bokning på rummets lista den tiden. Returnerar false om det krockar, annars true.
     /// </summary>
     /// <param name="bookingStart"></param>
     /// <param name="bookingEnd"></param>
     /// <returns></returns>
     public bool IsAvailable(DateTime bookingStart, DateTime bookingEnd)
     {
-        foreach (var booking in roomBookings)
+        foreach (Booking booking in roomBookings)
             if (bookingStart < booking.BookingEnd && bookingEnd > booking.BookingStart) //Kontrollerar krock med annan bokning. Om bokningsstarten är mindre (13.00) än bef. bokningsslut (14.00) och bokningsslut (14.00) är större än bef. bookingsstart (13.00) går det inte att boka. 
             { return false; }
         return true;
@@ -89,6 +89,7 @@ public class Room : IBookable
         DisablityAdapted = disabilityAccess;
         EmergencyExits = emergencyExits;
         WhiteBoard = whiteboard;
+        List<Booking> roomBookings = new(); 
     }
     public Room() : this(0, 1, false, 0, false) { } //Standardvärden för rum.
     

@@ -87,6 +87,7 @@ public class RoomManager
         bool disabilityAccess = GetDisabilityAccess();
         bool whiteboard = GetWhiteBoard();
         GroupRoom groupRoom = new GroupRoom(roomID, seats, disabilityAccess, emergencyExits, whiteboard);
+        _storeData.SaveToFile(_repository);
         return groupRoom;
     }
     /// <summary>
@@ -110,6 +111,7 @@ public class RoomManager
         bool projector = GetProjector();
         bool speaker = GetSpeaker();
         ClassRoom classRoom = new ClassRoom(roomID, seats, disablityAccess, emergencyExits, whiteboard, projector, speaker);
+        _storeData.SaveToFile(_repository);
         return classRoom;
 
     }

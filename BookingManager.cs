@@ -24,9 +24,15 @@ public class BookingManager
         foreach (Booking item in _repository.AllBookings)
         {
             if (item.BookingStart.Year == targetYear)
+            {
                 counter++;
-            Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
+                Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
+            }
+            
+
         }
+        if (counter <= 0)
+        { Console.WriteLine($"Inga bokningar hittades {targetYear}"); }
     }
     public void BookingSearchDate(DateOnly targetDate)
     {
@@ -82,6 +88,7 @@ public class BookingManager
         int availableRooms = 0;
 
         int roomIndex = 0;
+
         foreach (var room in _repository.AllRooms)
         {
                 if (room.IsAvailable(bookingStart, bookingEnd))
@@ -90,7 +97,10 @@ public class BookingManager
                     availableRooms++;
                 }
                 else
-                    break;
+                {
+                    continue;
+                }    
+            
             roomIndex++;
         }
 
@@ -98,11 +108,12 @@ public class BookingManager
             Console.WriteLine("Det finns inga lediga salar för tiden du angivit.");
         else
         {
-            int roomToBook = UserInputManager.UserInputToIntMinus1("\nVälj sal att boka: ");
-            Room chosenRoom = _repository.AllRooms[roomToBook];
+            int roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
+            Room chosenRoom = _repository.AllRooms.FirstOrDefault(r => r.RoomID == roomToBook);
 
             Booking newBooking = new Booking(bookingStart, bookingEnd, chosenRoom);
             _repository.AllBookings.Add(newBooking);
+            chosenRoom.roomBookings.Add(newBooking);
         }
         _repository.SortRoomLists();
         _repository.RebuildAllRooms();
@@ -251,7 +262,7 @@ public class BookingManager
             Console.WriteLine($"[{index + 1}]" + item.Info.ToString());
             index++;
         }
-        int indexToRemove = UserInputManager.UserInputToIntWithLimitations("Vilken bokning skulle du vilja ta bort?", _repository.AllBookings.Count - 1, 0) - 1;
+        int indexToRemove = UserInputManager.UserInputToIntWithLimitations("Vilken bokning skulle du vilja ta bort?", _repository.AllBookings.Count, 0) - 1;
         if (indexToRemove >= 0)
             _repository.AllBookings.RemoveAt(indexToRemove);
         
