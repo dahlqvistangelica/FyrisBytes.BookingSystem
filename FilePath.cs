@@ -4,7 +4,7 @@ using System.IO;
 
 public static class FilePath
 {
-    private const string _appFolder = "BokngingsSystem";
+    private const string _appFolder = "BokningingsSystem";
     private const string _fileName = "dataManager.json";
 
     /// <summary>
