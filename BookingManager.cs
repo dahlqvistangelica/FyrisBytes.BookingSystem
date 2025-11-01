@@ -28,7 +28,6 @@ public class BookingManager
                 counter++;
                 Console.WriteLine($"Bokning nummer {counter} {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
             }
-            
 
         }
         if (counter <= 0)
@@ -86,14 +85,14 @@ public class BookingManager
         List<Room> availableRooms = new List<Room>();
         foreach (var room in _repository.AllRooms)
         {
-                if (room.Bookable(bookingStart, bookingEnd))
-                {
+            if (room.Bookable(bookingStart, bookingEnd))
+            {
                 availableRooms.Add(room);
-                }
-                else
-                {
-                    continue;
-                }    
+            }
+            else
+            {
+                continue;
+            }
         }
         Console.WriteLine();
 
@@ -130,13 +129,13 @@ public class BookingManager
     /// <param name="_repository"></param>
     public void ChangeBooking() //Tai
     {
-        
+
         Console.WriteLine("--- Uppdatera Bokning ---");
         DateTime date = UserInputManager.UserCreateDateTime();
         Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
         int counter = 1;
         List<Booking> changeBooking = new List<Booking>();
-        foreach(Booking booking in _repository.AllBookings)
+        foreach (Booking booking in _repository.AllBookings)
         {
             if (date >= booking.BookingStart && date <= booking.BookingEnd)
             {
@@ -147,25 +146,48 @@ public class BookingManager
             else
                 continue;
         }
-        //Funkar inte.
-        //for (int i = 0; i < _repository.AllBookings.Count; i++)
-        //{
-        //    if (date > _repository.AllBookings[i].BookingStart && date < _repository.AllBookings[i].BookingEnd)
-        //        Console.WriteLine($"[{i + 1}] {_repository.AllBookings[i].Info.ToString()}");
-        //    else
-        //        continue;
-        //}
-        int whichBookingToChange = UserInputManager.UserInputToIntMinus1("Ange nummer för bokningen du vill uppdatera (0 för att backa): ");
+        int whichBookingToChange = UserInputManager.UserInputToInt("Ange nummer för bokningen du vill uppdatera (0 för att backa): ");
         if (whichBookingToChange <= 0)
             return;
-        Booking chosenBooking = changeBooking[whichBookingToChange];
-        _repository.AllBookings.Remove(chosenBooking);
-        Booking newBooking = UpdateBookingWhichChange(ref chosenBooking); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen 
-        int roomIndex = _repository.AllRooms.FindIndex(r => r.RoomID == newBooking.BookedRoomID);
-        _repository.AllRooms[roomIndex].roomBookings.Remove(chosenBooking);
-        _repository.AllRooms[roomIndex].roomBookings.Add(newBooking);
-        _repository.AllBookings.Add(newBooking);
-        
+        Booking chosenBooking = changeBooking[whichBookingToChange - 1]; //Hämtar från listan med tillgängliga bokningar.
+        Booking workingCopy = new Booking(chosenBooking);
+
+        int originalRoomID = chosenBooking.BookedRoomID;
+        TimeSpan originalSpan = chosenBooking.BookingSpan;
+        DateTime originalStart = chosenBooking.BookingStart;
+        DateTime originalEnd = chosenBooking.BookingEnd;
+
+        int allBookingsIndex = _repository.AllBookings.FindIndex(b => b.BookingId == chosenBooking.BookingId); //Index för bokningen i allaBokningslistan 
+        int originalRoomIndex = _repository.AllRooms.FindIndex(r => r.RoomID == originalRoomID); //Hittar index för bokningen i rummets lista. 
+        int originalRoomBookingIndex = _repository.AllRooms[originalRoomIndex].roomBookings.FindIndex(b => b.BookingId == chosenBooking.BookingId);//Hämtar index för bokningen i rummets lista.
+
+
+        UpdateBookingWhichChange(workingCopy); //bestämmer vad som ska skrivas över i angiven bokning och utför överskrivningen.
+
+        int newRoomIndex = _repository.AllRooms.FindIndex(r => r.RoomID == workingCopy.BookedRoomID);
+
+        if (workingCopy.BookedRoomID == originalRoomID)
+        {
+            _repository.AllRooms[originalRoomIndex].roomBookings[originalRoomBookingIndex] = workingCopy; //Uppdaterar den gamla bokningen med det nya.
+            if ((workingCopy.BookingSpan != originalSpan) || (workingCopy.BookingStart != originalStart) || (workingCopy.BookingEnd != originalStart))
+            {
+                Console.WriteLine("Bokningens tider ändrades.");
+            }
+            else
+            {
+                Console.WriteLine("Ingen ändring gjordes.");
+            }
+        }
+        else
+        {
+
+
+            _repository.AllRooms[newRoomIndex].roomBookings.Add(workingCopy);//Flyttar bokningen till nya rummets lista.
+            _repository.AllRooms[originalRoomIndex].roomBookings.RemoveAt(originalRoomBookingIndex);//Tar bort bokningen från gamla rummets lista.
+            Console.WriteLine($"Bokningen flyttades till {workingCopy.BookedRoomID} från {originalRoomID}"); 
+        }
+        _repository.AllBookings[allBookingsIndex] = workingCopy;        //Uppdaterar den gamla bokningen med den nya
+
         _repository.SortRoomLists();
         _repository.RebuildAllRooms();
         _storeData.SaveToFile(_repository);
@@ -173,9 +195,9 @@ public class BookingManager
     /// <summary>
     /// Ber användaren om vilken ändring av bokningen som ska ske
     /// </summary>
-    /// <param name="whichBookingToChange"></param>
+    /// <param name="BookingToChange"></param>
     /// <param name="_repository"></param>
-    private Booking UpdateBookingWhichChange(ref Booking whichBookingToChange) //Tai
+    private Booking UpdateBookingWhichChange(Booking BookingToChange) //Tai
     {
         int initialCount = _repository.AllBookings.Count;
         int inputWhatToChange = UserInputManager.UserInputToIntWithLimitations("Vad vill du uppdatera i denna bokning?" +
@@ -184,79 +206,92 @@ public class BookingManager
                 "\n[3] Sal", 3, 1);
         Console.WriteLine();
 
-        return inputWhatToChange switch
+        do
         {
-            1 => UpdateBookingDate(ref whichBookingToChange),
-            2 => UpdateBookingTime(ref whichBookingToChange),
-            3 => UpdateBookingRoom(ref whichBookingToChange)
-        };
-        
+            switch (inputWhatToChange)
+            {
+                case 1: return UpdateBookingDate(BookingToChange);
+                case 2: return UpdateBookingTime(BookingToChange);
+                case 3: return UpdateBookingRoom(BookingToChange);
+                case 0: return BookingToChange;
+                default:
+                    Console.WriteLine("Ogiltigt val, försök igen.");
+                    break;
+            }
+        } while (inputWhatToChange != 0);
+        return BookingToChange;
     }
     /// <summary>
     /// Metod för att uppdatera datum på redan inlagd bokning.
     /// </summary>
-    /// <param name="whichBookingToChange"></param>
+    /// <param name="bookingToChange"></param>
     /// <param name="_repository"></param>
-    private Booking UpdateBookingDate(ref Booking whichBookingToChange) //Tai
+    private Booking UpdateBookingDate(Booking bookingToChange) //Tai
     {
-        string bookedStart = whichBookingToChange.BookingStart.ToString();
+        string bookedStart = bookingToChange.BookingStart.ToString();
         string bookedStartDate = $"{bookedStart:yyyy-MM-dd}";
         string bookedStartTime = $"{bookedStart:HH:mm:ss}";
+        bookingToChange.BookingStart.Deconstruct(out DateOnly OldStartdate, out TimeOnly oldStartTime);
         Console.WriteLine($"Nuvarande startdag: {bookedStartDate}");
         Console.WriteLine($"Uppdatera startdag för bokning:");
         DateOnly newStartDay = UserInputManager.UserCreateDate();
-        DateTime newStart = DateTime.Parse($"{newStartDay:yyyy-MM-dd} {bookedStartTime:HH:mm:ss}");
+        DateTime newStart = new DateTime(newStartDay, oldStartTime);
+        //DateTime newStart = DateTime.Parse($"{newStartDay:yyyy-MM-dd} {bookedStartTime:HH:mm:ss}");
 
         Console.WriteLine($"Uppdatera slutdag för bokning:");
 
-        string bookedEnd = whichBookingToChange.BookingEnd.ToString();
+        string bookedEnd = bookingToChange.BookingEnd.ToString();
         string bookedEndDate = $"{bookedEnd:yyyy-MM-dd}";
         string bookedEndTime = $"{bookedEnd:HH:mm:ss}";
+        bookingToChange.BookingStart.Deconstruct(out DateOnly oldEndDate, out TimeOnly oldEndTime);
         Console.WriteLine($"Nuvarande slutdag: {bookedEndDate}");
         Console.WriteLine($"Uppdatera slutdag för bokning:");
         DateOnly newEndDate = UserInputManager.UserCreateDate();
-        DateTime newEnd = DateTime.Parse($"{newEndDate:yyyy-MM-dd} {bookedEndTime:HH:mm:ss}");
+        DateTime newEnd = new DateTime(newEndDate, oldEndTime);
+        //DateTime newEnd = DateTime.Parse($"{newEndDate:yyyy-MM-dd} {bookedEndTime:HH:mm:ss}");
 
-       whichBookingToChange.BookingStart = newStart;
-       whichBookingToChange.BookingEnd = newEnd;
-       whichBookingToChange.BookingSpan = newStart - newEnd;
-        return whichBookingToChange;
+       bookingToChange.BookingStart = newStart;
+       bookingToChange.BookingEnd = newEnd;
+       bookingToChange.BookingSpan = newStart - newEnd;
+        return bookingToChange;
     }
     /// <summary>
     /// Metod för att uppdatera tid på redan inlagd bokning.
     /// </summary>
     /// <param name="whichBookingToChange"></param>
     /// <param name="_repository"></param>
-    private Booking UpdateBookingTime(ref Booking whichBookingToChange) //Tai
+    private Booking UpdateBookingTime(Booking bookingToChange) //Tai
     {
-        string bookedStart = whichBookingToChange.BookingStart.ToString();
+        string bookedStart = bookingToChange.BookingStart.ToString();
         string bookedStartDate = $"{bookedStart:yyyy-MM-dd}";
         string bookedStartTime = $"{bookedStart:HH:mm:ss}";
+        bookingToChange.BookingStart.Deconstruct(out DateOnly OldStartDate, out TimeOnly oldStartTime);
         Console.WriteLine($"Nuvarande starttid: {bookedStartTime}");
         Console.WriteLine("Uppdatera starttid för bokningen: ");
         TimeOnly newStartTime = UserInputManager.UserCreateTime(); 
-        DateTime newStart = DateTime.Parse($"{bookedStartDate:yyyy-MM-dd} {newStartTime:HH:mm:ss}");
+        DateTime newStart = new DateTime(OldStartDate, newStartTime);
 
         Console.WriteLine($"Uppdatera sluttid för bokning:");
-        string bookedEnd = whichBookingToChange.BookingEnd.ToString();
+        string bookedEnd = bookingToChange.BookingEnd.ToString();
         string bookedEndDate = $"{bookedEnd:yyyy-MM-dd}";
         string bookedEndTime = $"{bookedEnd:HH:mm:ss}";
+        bookingToChange.BookingEnd.Deconstruct(out DateOnly OldEndDate, out TimeOnly oldEndTime);
         Console.WriteLine($"Nuvarande sluttid: {bookedEndTime}");
         Console.WriteLine($"Uppdatera sluttid för bokning:");
         TimeOnly newEndTime = UserInputManager.UserCreateTime();
-        DateTime newEnd = DateTime.Parse($"{bookedEndDate:yyyy-MM-dd} {newEndTime:HH:mm:ss}");
+        DateTime newEnd = new DateTime(OldEndDate, newEndTime);
 
-        whichBookingToChange.BookingStart = newStart;
-        whichBookingToChange.BookingEnd = newEnd;
-        whichBookingToChange.BookingSpan = newStart - newEnd;
-        return whichBookingToChange;
+        bookingToChange.BookingStart = newStart;
+        bookingToChange.BookingEnd = newEnd;
+        bookingToChange.BookingSpan = newStart - newEnd;
+        return bookingToChange;
     }
     /// <summary>
     /// Metod för att uppdatera sal på redan inlagd bokning.
     /// </summary>
     /// <param name="whichBookingToChange"></param>
     /// <param name="_repository"></param>
-    private Booking UpdateBookingRoom(ref Booking whichBookingToChange) //Tai
+    private Booking UpdateBookingRoom(Booking whichBookingToChange) //Tai
     {
         DateTime startTime = whichBookingToChange.BookingStart;
         DateTime endTime = whichBookingToChange.BookingEnd;
@@ -267,28 +302,34 @@ public class BookingManager
             if (room.Bookable(startTime, endTime))
             {
                 availableRooms.Add(room);
+                Console.WriteLine(room.Info);
             }
             else
             {
                 continue;
             }
         }
-        foreach (Room room in availableRooms)
+        if (availableRooms.Count > 0)
         {
-            Console.WriteLine(room.Info);
+            int roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
+            Room chosenRoom = availableRooms.FirstOrDefault(r => r.RoomID == roomToBook);
+            while (chosenRoom == null)
+            {
+                Console.WriteLine("Ogiltigt id");
+                roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
+                chosenRoom = availableRooms.FirstOrDefault(r => r.RoomID == roomToBook);
+            }
+            whichBookingToChange.BookedRoomID = chosenRoom.RoomID;
+            return whichBookingToChange;
         }
-
-        int roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
-        Room chosenRoom = availableRooms.FirstOrDefault(r => r.RoomID == roomToBook);
-        while (chosenRoom == null)
+        else
         {
-            Console.WriteLine("Ogiltigt id");
-            roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
-            chosenRoom = availableRooms.FirstOrDefault(r => r.RoomID == roomToBook);
+            Console.WriteLine("Inga salar tillgängliga under din befintliga bokning.");
+            Console.WriteLine("Tryck på valfri tangent för att backa.");
+            Console.WriteLine();
+            return whichBookingToChange;
         }
-        whichBookingToChange.BookedRoomID = chosenRoom.RoomID;
-
-        return whichBookingToChange;
+                
     }
     /// <summary>
     /// Listar samtliga bokningar och tar bort ett index i listan
@@ -306,25 +347,17 @@ public class BookingManager
         }
         int indexToRemove = UserInputManager.UserInputToIntWithLimitations("Vilken bokning skulle du vilja ta bort?", _repository.AllBookings.Count, 0) - 1;
         if (indexToRemove >= 0)
-            _repository.AllBookings.RemoveAt(indexToRemove);
-        
+        {
+            Booking chosenBooking = _repository.AllBookings[indexToRemove]; //Hämtar från listan med tillgängliga bokningar.
+            int roomId = _repository.AllRooms.FindIndex(r => r.RoomID == chosenBooking.BookedRoomID); //Hittar RoomID för bokningen i rummets lista. 
+            if ((_repository.AllBookings.Remove(chosenBooking)) && (_repository.AllRooms[roomId].roomBookings.Remove(chosenBooking)))
+            {
+                Console.WriteLine("Bokning borttagen.");
+            }
+        }
         _repository.SortRoomLists();
         _repository.RebuildAllRooms();
         _storeData.SaveToFile(_repository);
-    }
-    /// <summary>
-    /// Dublett-metod? Kollar om ett rum är ledigt en viss tid.
-    /// </summary>
-    /// <param name="wantedStartTime"></param>
-    /// <param name="wantedEndTime"></param>
-    /// <param name="room"></param>
-    /// <returns></returns>
-    public bool IsBookable(DateTime wantedStartTime, DateTime wantedEndTime, Room room)
-    {
-        if (!room.IsAvailable(wantedStartTime, wantedEndTime))
-            return false;
-        else
-            return true;
     }
 }
 
