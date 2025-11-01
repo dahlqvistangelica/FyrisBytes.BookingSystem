@@ -10,13 +10,13 @@ public class Booking
     public string Info
     {
         get {
-            string Info = $"Bokat rum: {BookedRoom?.RoomID.ToString()}, {BookingStart.ToString("g")} - {BookingEnd.ToString("g")} ({BookingSpan.ToString("hh':'mm")})";
+            string Info = $"Bokat rum: {BookedRoomID.ToString()}, {BookingStart.ToString("g")} - {BookingEnd.ToString("g")} ({BookingSpan.ToString("hh':'mm")})";
             return Info; }
         set
         {
         }
     } 
-    public Room? BookedRoom { get; set; }
+    public int BookedRoomID { get; set; }
     
     //Tom constructor för deserializer
     public Booking () { }
@@ -25,7 +25,7 @@ public class Booking
         BookingStart = start;
         BookingEnd = ends;
         BookingSpan = ends - start;
-        BookedRoom = room;
+        BookedRoomID = room.RoomID;
     }
     static public void CreateBooking(DataManager dataManager, int i)
     {

@@ -10,7 +10,7 @@ using System.Text.Json.Serialization;
 /// </summary>
 public class Room : IBookable
 {
-    public List<Booking> roomBookings = new(); //Lista för att hålla rummets bokningar.
+    public List<Booking> roomBookings { get; set; } = new List<Booking>(); //Lista för att hålla rummets bokningar.
     private int _roomID; //Inkapsling av RoomID för att skydda mot yttre åtkomst.
     public int RoomID
     {
@@ -42,6 +42,16 @@ public class Room : IBookable
     public virtual bool DisablityAdapted { get; init; } //Handikappanpassat rum true = ja, false = nej.
     public int EmergencyExits { get; init; } //Hur många nödutgångar har rummet.
     public bool WhiteBoard { get; init; } //Finns whiteboard.
+    public Room(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard)
+    {
+        RoomID = idNumb;
+        SeatAmount = seats;
+        DisablityAdapted = disabilityAccess;
+        EmergencyExits = emergencyExits;
+        WhiteBoard = whiteboard;
+        List<Booking> roomBookings = new List<Booking>();
+    }
+    public Room() : this(0, 1, false, 0, false) { } //Standardvärden för rum.
     //IBookable metoder
     /// <summary>
     /// Returnerar en bool utifrån om rummet går att boka eller inte.
@@ -50,7 +60,7 @@ public class Room : IBookable
     /// <param name="bookingEnd"></param>
     /// <param name="manager"></param>
     /// <returns></returns>
-    public bool Book(DateTime bookingStart, DateTime bookingEnd, DataManager manager)
+    public bool Bookable(DateTime bookingStart, DateTime bookingEnd)
     {
         if (bookingStart >= bookingEnd) //Om starttiden är efter sluttiden.
         { return false; }
@@ -82,17 +92,10 @@ public class Room : IBookable
         return true;
     }
 
-    public Room(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard)
+    public void AddBooking(Booking booking)
     {
-        RoomID = idNumb;
-        SeatAmount = seats;
-        DisablityAdapted = disabilityAccess;
-        EmergencyExits = emergencyExits;
-        WhiteBoard = whiteboard;
-        List<Booking> roomBookings = new(); 
+        roomBookings.Add(booking);
     }
-    public Room() : this(0, 1, false, 0, false) { } //Standardvärden för rum.
-    
 
     
 }
