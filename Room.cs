@@ -37,7 +37,7 @@ public class Room : IBookable
                 $"Whiteboard: {this.WhiteBoard} ";
             return AllProperties;
         }
-        set { }
+        
     }
     public virtual bool DisablityAdapted { get; init; } //Handikappanpassat rum true = ja, false = nej.
     public int EmergencyExits { get; init; } //Hur många nödutgångar har rummet.
@@ -143,7 +143,7 @@ public class ClassRoom : Room  //Sal med minst 9 platser, måste vara handikappa
                 $"Högtaler: {this.SpeakerSystem} ";
             return AllPropteties;
         }
-        set { }
+        
     }
 
     public override int SeatAmount

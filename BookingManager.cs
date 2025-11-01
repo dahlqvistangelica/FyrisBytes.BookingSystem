@@ -119,8 +119,6 @@ public class BookingManager
             chosenRoom.AddBooking(newBooking);
             Console.WriteLine($"Rum {roomToBook} är bokat.");
         }
-        _repository.SortRoomLists();
-        _repository.RebuildAllRooms();
         _storeData.SaveToFile(_repository);
     }
     /// <summary>
