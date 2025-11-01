@@ -83,37 +83,41 @@ public class BookingManager
                 correctEndTime = true;
         }
         TimeSpan bookedTime = bookingStart - bookingEnd;
-
-        Console.WriteLine("Följande salar är lediga att boka för din angivna tid: ");
-        int availableRooms = 0;
-
-        int roomIndex = 0;
-
+        List<Room> availableRooms = new List<Room>();
         foreach (var room in _repository.AllRooms)
         {
                 if (room.Bookable(bookingStart, bookingEnd))
                 {
-                    Console.WriteLine($"{room.RoomID}");
-                    availableRooms++;
+                availableRooms.Add(room);
                 }
                 else
                 {
                     continue;
                 }    
-            
-            roomIndex++;
         }
-
-        if (availableRooms == 0)
+        Console.WriteLine();
+        if (availableRooms.Count() == 0)
             Console.WriteLine("Det finns inga lediga salar för tiden du angivit.");
         else
-        {  
-            int roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
-            Room chosenRoom = _repository.AllRooms.FirstOrDefault(r => r.RoomID == roomToBook);
+        {
+            Console.WriteLine("Följande salar är lediga att boka för din angivna tid: ");
+            foreach (Room room in availableRooms)
+            {
+                Console.WriteLine(room.Info);
+            }
 
+            int roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
+            Room chosenRoom = availableRooms.FirstOrDefault(r => r.RoomID == roomToBook);
+            while (chosenRoom == null)
+            {
+                Console.WriteLine("Ogiltigt id");
+                roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
+                chosenRoom = availableRooms.FirstOrDefault(r => r.RoomID == roomToBook);
+            }
             Booking newBooking = new Booking(bookingStart, bookingEnd, chosenRoom);
             _repository.AllBookings.Add(newBooking);
             chosenRoom.AddBooking(newBooking);
+            Console.WriteLine($"Rum {roomToBook} är bokat.");
         }
         _repository.SortRoomLists();
         _repository.RebuildAllRooms();
