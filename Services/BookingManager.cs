@@ -129,13 +129,15 @@ public class BookingManager
     {
 
         Console.WriteLine("--- Uppdatera Bokning ---");
-        DateTime date = UserInputManager.UserCreateDateTime();
+        DateOnly dateOnly = UserInputManager.UserCreateDate();
+        TimeOnly timeOnly = new TimeOnly(00, 00, 00);
+        DateTime date = new DateTime(dateOnly, timeOnly);
         Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
         int counter = 1;
         List<Booking> changeBooking = new List<Booking>();
         foreach (Booking booking in _repository.AllBookings)
         {
-            if (date >= booking.BookingStart && date <= booking.BookingEnd)
+            if (date.Date >= booking.BookingStart.Date && date.Date <= booking.BookingEnd.Date)
             {
                 Console.WriteLine($"[{counter}] {booking.Info.ToString()}");
                 counter++;
