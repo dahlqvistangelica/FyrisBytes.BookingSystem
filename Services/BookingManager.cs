@@ -133,27 +133,29 @@ namespace Bokningssystem.Services
         public void ChangeBooking() //Tai
         {
 
-            Console.WriteLine("--- Uppdatera Bokning ---");
-            DateTime date = UserInputManager.UserCreateDateTime();
-            Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
-            int counter = 1;
-            List<Booking> changeBooking = new List<Booking>();
-            foreach (Booking booking in _repository.AllBookings)
+        Console.WriteLine("--- Uppdatera Bokning ---");
+        DateOnly dateOnly = UserInputManager.UserCreateDate();
+        TimeOnly timeOnly = new TimeOnly(00, 00, 00);
+        DateTime date = new DateTime(dateOnly, timeOnly);
+        Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
+        int counter = 1;
+        List<Booking> changeBooking = new List<Booking>();
+        foreach (Booking booking in _repository.AllBookings)
+        {
+            if (date.Date >= booking.BookingStart.Date && date.Date <= booking.BookingEnd.Date)
             {
-                if (date >= booking.BookingStart && date <= booking.BookingEnd)
-                {
-                    Console.WriteLine($"[{counter}] {booking.Info.ToString()}");
-                    counter++;
-                    changeBooking.Add(booking);
-                }
-                else
-                    continue;
+                Console.WriteLine($"[{counter}] {booking.Info.ToString()}");
+                counter++;
+                changeBooking.Add(booking);
             }
-            int whichBookingToChange = UserInputManager.UserInputToInt("Ange nummer för bokningen du vill uppdatera (0 för att backa): ");
-            if (whichBookingToChange <= 0)
-                return;
-            Booking chosenBooking = changeBooking[whichBookingToChange - 1]; //Hämtar från listan med tillgängliga bokningar.
-            Booking workingCopy = new Booking(chosenBooking);
+            else
+                continue;
+        }
+        int whichBookingToChange = UserInputManager.UserInputToInt("Ange nummer för bokningen du vill uppdatera (0 för att backa): ");
+        if (whichBookingToChange <= 0)
+            return;
+        Booking chosenBooking = changeBooking[whichBookingToChange - 1]; //Hämtar från listan med tillgängliga bokningar.
+        Booking workingCopy = new Booking(chosenBooking);
 
             int originalRoomID = chosenBooking.BookedRoomID;
             TimeSpan originalSpan = chosenBooking.BookingSpan;
