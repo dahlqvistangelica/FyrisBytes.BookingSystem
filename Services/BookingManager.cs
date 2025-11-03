@@ -248,7 +248,7 @@ namespace Bokningssystem.Services
             string bookedEnd = bookingToChange.BookingEnd.ToString();
             string bookedEndDate = $"{bookedEnd:yyyy-MM-dd}";
             string bookedEndTime = $"{bookedEnd:HH:mm:ss}";
-            bookingToChange.BookingStart.Deconstruct(out DateOnly oldEndDate, out TimeOnly oldEndTime);
+            bookingToChange.BookingEnd.Deconstruct(out DateOnly oldEndDate, out TimeOnly oldEndTime);
             Console.WriteLine($"Nuvarande slutdag: {bookedEndDate}");
             Console.WriteLine($"Uppdatera slutdag för bokning:");
             DateOnly newEndDate = UserInputManager.UserCreateDate();

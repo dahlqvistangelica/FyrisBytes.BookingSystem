@@ -5,7 +5,7 @@ namespace Bokningssystem.Persistence
 {
     public static class FilePath
     {
-        private const string _appFolder = "BokningingsSystem";
+        private const string _appFolder = "BokningsSystem";
         private const string _fileName = "dataManager.json";
 
         /// <summary>

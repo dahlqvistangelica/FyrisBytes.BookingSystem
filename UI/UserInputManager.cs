@@ -179,14 +179,23 @@ namespace Bokningssystem.UI
                 }
                 else
                 {
-                    int year = UserInputToIntWithLimitations("Ange ett årtal [yyyy]", 9999, 0);
-                    int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
-                    int maxvalueDate = DateTime.DaysInMonth(year, month);
-                    int day = UserInputToIntWithLimitations("Ange ett datum[dd]", maxvalueDate, 0);
-                    DateOnly date = new DateOnly(year, month, day);
-                    return date;
+                    return UserChoiceDate();
                 }
             }
+        }
+        internal static DateOnly UserChoiceDate()
+        {
+            Console.Write("Ange datum du vill boka (yyyy-mm-dd): ");
+            string inputDate = Console.ReadLine();
+            DateOnly.TryParse(inputDate, out DateOnly date);
+            while (!DateOnly.TryParse(inputDate, out date))
+            {
+                Console.WriteLine($"Felaktig inmatning av datum, försök igen.");
+                inputDate = Console.ReadLine();
+                DateOnly.TryParse(inputDate, out date);
+            }
+            return date;
+
         }
         /// <summary>
         /// En Metod som låter anvöndaren skapa ett DateTime med både Datum och Tid
@@ -206,13 +215,9 @@ namespace Bokningssystem.UI
                 }
                 else
                 {
-                    int year = UserInputToIntWithLimitations("Ange ett årtal [åååå]", 9999, 0);
-                    int month = UserInputToIntWithLimitations("Ange en månad [mm]", 12, 0);
-                    int maxvalueDate = DateTime.DaysInMonth(year, month);
-                    int day = UserInputToIntWithLimitations("Ange ett datum[dd]", maxvalueDate, 0);
-                    int hours = UserInputToIntWithLimitations("Ange timme (24h)", 23, 0);
-                    int minutes = UserInputToIntWithLimitations("Ange minut", 59, 0);
-                    DateTime dateTime = new DateTime(year, month, day, hours, minutes, 0);
+                    DateOnly date = UserChoiceDate();
+                    TimeOnly time = UserCreateTime();
+                    DateTime dateTime = new DateTime(date, time);
                     return dateTime;
                 }
             }
@@ -223,10 +228,16 @@ namespace Bokningssystem.UI
         /// <returns></returns>
         internal static TimeOnly UserCreateTime()
         {
-            int hours = UserInputToIntWithLimitations("Ange timme (24h)", 23, 0);
-            int minutes = UserInputToIntWithLimitations("Ange minut", 59, 0);
-            TimeOnly Time = new TimeOnly(hours, minutes, 0);
-            return Time;
+            Console.Write("Ange tid (HH:MM): ");
+            string inputTime = Console.ReadLine();
+            TimeOnly.TryParse(inputTime, out TimeOnly time);
+            while (!TimeOnly.TryParse(inputTime, out time))
+            {
+                Console.WriteLine($"Felaktig inmatning av tid, försök igen.");
+                inputTime = Console.ReadLine();
+                TimeOnly.TryParse(inputTime, out time);
+            }
+            return time;
         }
     }
 }
