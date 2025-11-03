@@ -16,27 +16,9 @@ namespace Bokningssystem.UI
         /// <summary>
         /// Huvudmeny som visas vid uppstart av programmet.
         /// </summary>
-        public static void StartUpScreen()
+        public static void StartUpScreen(DataManager dataManager, BookingManager bookingManager, RoomManager rManager, StoreData storeData)
         {
-            var filePath = FilePath.GetPath();
-            IFileStorageProvider storeData = new StoreData(filePath);
             int input;
-            var dataManager = storeData.ReadFromFile<DataManager>();
-            if (dataManager != null)
-            {
-                dataManager.RebuildAllRooms();
-            }
-            else
-            {
-                dataManager = new DataManager();
-                dataManager.Developers.Add("Olof Brahm");
-                dataManager.Developers.Add("Angelica Dahlqvist");
-                dataManager.Developers.Add("Filip Gidlöf");
-                dataManager.Developers.Add("Tai Lenke Enarsson");
-            }
-            IBookingRepository repository = dataManager;
-            BookingManager bookingManager = new BookingManager(repository, storeData);
-            RoomManager rManager = new RoomManager(repository, storeData);
             do
             {
                 Console.Clear();

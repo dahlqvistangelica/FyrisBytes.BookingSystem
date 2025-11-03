@@ -36,14 +36,14 @@ namespace Bokningssystem.Models
             {
                 string AllProperties = $"Rum id: {this.RoomID} " +
                     $"Antal platser: {this.SeatAmount} " +
-                    $"Handikapp: {this.DisablityAdapted} " +
+                    $"Funktionsanpassat: {this.DisablityAdapted} " +
                     $"Nödutgångar: {this.EmergencyExits} " +
                     $"Whiteboard: {this.WhiteBoard} ";
                 return AllProperties;
             }
 
         }
-        public virtual bool DisablityAdapted { get; init; } //Handikappanpassat rum true = ja, false = nej.
+        public virtual bool DisablityAdapted { get; init; } //Funktionsanpassat rum true = ja, false = nej.
         public int EmergencyExits { get; init; } //Hur många nödutgångar har rummet.
         public bool WhiteBoard { get; init; } //Finns whiteboard.
         public Room(int idNumb, int seats, bool disabilityAccess, int emergencyExits, bool whiteboard)
@@ -168,7 +168,7 @@ namespace Bokningssystem.Models
             init
             {
                 if (!value)
-                    Console.WriteLine("Klassrum måste vara handikappanpassade.");
+                    Console.WriteLine("Klassrum måste vara funktionsanpassade.");
                 else
                     base.DisablityAdapted = value;
             }
