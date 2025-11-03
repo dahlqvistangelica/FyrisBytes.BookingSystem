@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using Bokningssystem.UI;
 using Bokningssystem.Services;
 
@@ -60,5 +61,7 @@ namespace Bokningssystem.Models
                 dataManager.AllBookings.Add(booking);
             }
         }
+
+        
     }
 }

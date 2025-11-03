@@ -51,14 +51,16 @@ namespace Bokningssystem.Services
         }
         public int ListAllBookings()
         {
+            List<Booking> SortedBookings = SortAfterUpcoming();
             int counter = 0;
-            foreach (Booking item in _repository.AllBookings)
+            foreach (Booking item in SortedBookings)
             {
                 counter++;
                 Console.WriteLine($"[{counter}] {item.Info.ToString()}");
             }
             if (counter <= 0)
                 Console.WriteLine("Inga bokningar hittades.");
+
 
             return counter;
         }
@@ -363,6 +365,17 @@ namespace Bokningssystem.Services
             _repository.SortRoomLists();
             _repository.RebuildAllRooms();
             _storeData.SaveToFile(_repository);
+        }
+
+        public List<Booking> SortAfterUpcoming()
+        {
+            DateTime now = DateTime.Now;
+
+            var SortedBookings = _repository.AllBookings
+                .Where(b => b.BookingStart >= now)
+                .OrderBy(b => b.BookingEnd)
+                .ToList();
+            return SortedBookings;
         }
     }
 }
