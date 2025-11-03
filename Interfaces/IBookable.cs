@@ -1,4 +1,6 @@
 ﻿using System;
+using Bokningssystem.Services;
+using Bokningssystem.Models;
 
 namespace Bokningssystem.Interfaces
 {
