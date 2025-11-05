@@ -7,9 +7,16 @@ using System.Text.Json.Serialization.Metadata;
 
 //Objekten man vill spara måste ha en tom constructor för att deserializern ska fungera
 //JSONderivedtype headers för att ge objektetn du sparar en type så att man kan öppna json filen igen och få korrekt objektyp.
+
+/// <summary>
+/// Spara och laddda data metoder
+/// </summary>
 public class StoreData
 {
-    //Sparar till JSON
+    /// <summary>
+    /// Sparar till JSON
+    /// </summary>
+    /// <param name="saveInstance"></param>
     public static void SaveToFile(DataManager saveInstance)
     {
         var path = FilePath.GetPath();
@@ -20,7 +27,10 @@ public class StoreData
         File.WriteAllText(path, jString);
     }
 
-    //Läser ifrån JSON
+    /// <summary>
+    /// Läser ifrån JSON
+    /// </summary>
+    /// <returns></returns>
     public static DataManager? ReadFromFile()
     {
         var path = FilePath.GetPath();
