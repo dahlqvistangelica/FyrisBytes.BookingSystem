@@ -229,7 +229,7 @@ namespace Bokningssystem.UI
         internal static TimeOnly UserCreateTime()
         {
             Console.Write("Ange tid (HH:MM): ");
-            string inputTime = Console.ReadLine();
+            string inputTime = Console.ReadLine() ?? DateTime.Now.ToString("t");
             TimeOnly.TryParse(inputTime, out TimeOnly time);
             while (!TimeOnly.TryParse(inputTime, out time))
             {
