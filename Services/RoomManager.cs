@@ -100,7 +100,6 @@ namespace Bokningssystem.Services
         /// Skapar klassrum, tar emot parametrar för antal platser och manager för att validera id.
         /// </summary>
         /// <param name="seats"></param>
-        /// <param name="manager"></param>
         /// <returns></returns>
         public ClassRoom CreateClassRoom(int seats)
         {
@@ -121,12 +120,18 @@ namespace Bokningssystem.Services
             return classRoom;
 
         }
+        /// <summary>
+        /// Visar alla inlagda rum.
+        /// </summary>
         public void DisplayRooms()
         {
             DisplayClassRooms();
             Console.WriteLine();
             DisplayGroupRooms();
         }
+        /// <summary>
+        /// Visar alla klassrum med egenskaper i ordnad lista.
+        /// </summary>
         public void DisplayClassRooms()
         {
             const int ID_WIDTH = -10;
@@ -144,6 +149,9 @@ namespace Bokningssystem.Services
                 Console.WriteLine();
             }
         }
+        /// <summary>
+        /// Visar alla grupprum med deras egenskaper i lista. 
+        /// </summary>
         public void DisplayGroupRooms()
         {
             const int ID_WIDTH = -10;
@@ -160,9 +168,9 @@ namespace Bokningssystem.Services
                 Console.WriteLine();
             }
         }
-        //TODO: Ta bort alla bokningar för rummet som tas bort.
+        
         /// <summary>
-        /// Metod för att kunna ändra tillagda rum.
+        /// Metod för att kunna ta tillagda rum och tillhörande bokningar på rummet.
         /// </summary>
         public void DeleteRoom(DataManager manager)
         {
