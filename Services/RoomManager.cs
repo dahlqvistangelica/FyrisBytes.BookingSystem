@@ -133,7 +133,7 @@ namespace Bokningssystem.Services
             const int AMOUNT_WIDTH = 15;
             const int LONG_BOOL_WIDTH = -20;
             const int BOOL_WIDTH = -15;
-            Console.WriteLine($"{"===== KLASSRUM =====",50}");
+            Console.WriteLine($"{"===== ALLA KLASSRUM =====",50}");
             Console.WriteLine($"{"Rum ID",ID_WIDTH * -1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH * -1}{"Handikappanpassat",LONG_BOOL_WIDTH * -1}{"Projektor",BOOL_WIDTH * -1}{"Högtalare",BOOL_WIDTH * -1}");
 
             foreach (ClassRoom room in _repository.AllClassRooms)
@@ -151,7 +151,7 @@ namespace Bokningssystem.Services
             const int LONG_BOOL_WIDTH = -20;
             const int BOOL_WIDTH = -15;
 
-            Console.WriteLine($"{"===== GRUPPRUM =====",50}");
+            Console.WriteLine($"{"===== ALLA GRUPPRUM =====",50}");
             Console.WriteLine($"{"Rum ID",ID_WIDTH * -1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH * -1}{"Handikappanpassat",LONG_BOOL_WIDTH * -1}");
             foreach (GroupRoom room in _repository.AllGroupRooms)
             {
