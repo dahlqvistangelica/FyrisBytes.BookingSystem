@@ -100,7 +100,6 @@ namespace Bokningssystem.Services
         /// Skapar klassrum, tar emot parametrar för antal platser och manager för att validera id.
         /// </summary>
         /// <param name="seats"></param>
-        /// <param name="manager"></param>
         /// <returns></returns>
         public ClassRoom CreateClassRoom(int seats)
         {
@@ -121,19 +120,25 @@ namespace Bokningssystem.Services
             return classRoom;
 
         }
+        /// <summary>
+        /// Visar alla inlagda rum.
+        /// </summary>
         public void DisplayRooms()
         {
             DisplayClassRooms();
             Console.WriteLine();
             DisplayGroupRooms();
         }
+        /// <summary>
+        /// Visar alla klassrum med egenskaper i ordnad lista.
+        /// </summary>
         public void DisplayClassRooms()
         {
             const int ID_WIDTH = -10;
             const int AMOUNT_WIDTH = 15;
             const int LONG_BOOL_WIDTH = -20;
             const int BOOL_WIDTH = -15;
-            Console.WriteLine($"{"===== KLASSRUM =====",50}");
+            Console.WriteLine($"{"===== ALLA KLASSRUM =====",50}");
             Console.WriteLine($"{"Rum ID",ID_WIDTH * -1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH * -1}{"Handikappanpassat",LONG_BOOL_WIDTH * -1}{"Projektor",BOOL_WIDTH * -1}{"Högtalare",BOOL_WIDTH * -1}");
 
             foreach (ClassRoom room in _repository.AllClassRooms)
@@ -144,6 +149,9 @@ namespace Bokningssystem.Services
                 Console.WriteLine();
             }
         }
+        /// <summary>
+        /// Visar alla grupprum med deras egenskaper i lista. 
+        /// </summary>
         public void DisplayGroupRooms()
         {
             const int ID_WIDTH = -10;
@@ -151,7 +159,7 @@ namespace Bokningssystem.Services
             const int LONG_BOOL_WIDTH = -20;
             const int BOOL_WIDTH = -15;
 
-            Console.WriteLine($"{"===== GRUPPRUM =====",50}");
+            Console.WriteLine($"{"===== ALLA GRUPPRUM =====",50}");
             Console.WriteLine($"{"Rum ID",ID_WIDTH * -1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH * -1}{"Handikappanpassat",LONG_BOOL_WIDTH * -1}");
             foreach (GroupRoom room in _repository.AllGroupRooms)
             {
@@ -160,9 +168,9 @@ namespace Bokningssystem.Services
                 Console.WriteLine();
             }
         }
-        //TODO: Ta bort alla bokningar för rummet som tas bort.
+        
         /// <summary>
-        /// Metod för att kunna ändra tillagda rum.
+        /// Metod för att kunna ta tillagda rum och tillhörande bokningar på rummet.
         /// </summary>
         public void DeleteRoom(DataManager manager)
         {
