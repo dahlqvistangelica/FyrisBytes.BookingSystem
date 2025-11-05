@@ -13,9 +13,15 @@ namespace Bokningssystem.Services
     /// </summary>
     public class BookingManager
     {
+        //Privata fält för att garantera att ingen utanför klassen kan se eller ändra. Och readonly för att garantera att refernsen inte kan ändras eter satt i konstruktorn.
+        
+        //Privata fält för att hålla referensen till DataManager
         private readonly IBookingRepository _repository;
+        
+        //Privata fält för att hålla referensen till StoreData
         private readonly IFileStorageProvider _storeData;
 
+        //Dependency injection för att ge privata fälten värdet av de instanser av objekten vi vill
         public BookingManager(IBookingRepository repository, IFileStorageProvider storeData)
         {
             _repository = repository;
