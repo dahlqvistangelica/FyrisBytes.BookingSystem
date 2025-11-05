@@ -373,7 +373,7 @@ namespace Bokningssystem.Services
 
             var SortedBookings = _repository.AllBookings
                 .Where(b => b.BookingStart >= now)
-                .OrderBy(b => b.BookingEnd)
+                .OrderBy(b => b.BookingStart)
                 .ToList();
             return SortedBookings;
         }
