@@ -373,7 +373,6 @@ namespace Bokningssystem.Services
         }
         public List<Booking> SortAfterUpcomingAllBookings()
         {
-            DateTime now = DateTime.Now;
             var SortedBookings = _repository.AllBookings
                 .OrderBy(b => b.BookingStart)
                 .ToList();
