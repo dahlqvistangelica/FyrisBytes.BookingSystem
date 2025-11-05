@@ -90,51 +90,51 @@ namespace Bokningssystem.UI
                 }
             }
         }
-        /// <summary>
-        /// Säker hantering av Användarinput och konvertering till double
-        /// </summary>
-        /// <param name="prompt"></param>
-        /// <param name="errorMessage"></param>
-        /// <returns></returns>
-        internal static double UserInputToDouble(string prompt, string errorMessage)
-        {
-            while (true)
-            {
-                Console.WriteLine(prompt);
-                string input = Console.ReadLine();
-                if (input != null && Double.TryParse(input.Replace(".", ","), out double inputInDouble))
-                {
-                    return inputInDouble;
-                }
-                else if (!(input != null && Double.TryParse(input.Replace(".", ","), out inputInDouble)))
-                {
-                    Console.WriteLine("Felaktigt värde");
-                }
-                else if (input == null)
-                {
-                    Console.WriteLine("Input var null");
-                }
-            }
-        }
+        ///// <summary>
+        ///// Säker hantering av Användarinput och konvertering till double
+        ///// </summary>
+        ///// <param name="prompt"></param>
+        ///// <param name="errorMessage"></param>
+        ///// <returns></returns>
+        //internal static double UserInputToDouble(string prompt, string errorMessage)
+        //{
+        //    while (true)
+        //    {
+        //        Console.WriteLine(prompt);
+        //        string input = Console.ReadLine();
+        //        if (input != null && Double.TryParse(input.Replace(".", ","), out double inputInDouble))
+        //        {
+        //            return inputInDouble;
+        //        }
+        //        else if (!(input != null && Double.TryParse(input.Replace(".", ","), out inputInDouble)))
+        //        {
+        //            Console.WriteLine("Felaktigt värde");
+        //        }
+        //        else if (input == null)
+        //        {
+        //            Console.WriteLine("Input var null");
+        //        }
+        //    }
+        //}
         /// <summary>
         /// En metod för säker hantering av användarstringar
         /// </summary>
         /// <param name="prompt"></param>
         /// <param name="errorMessage"></param>
         /// <returns></returns>
-        internal static string UserInputSafeString(string prompt, string errorMessage)
-        {
-            while (true)
-            {
-                Console.WriteLine(prompt);
-                string userInput = Console.ReadLine();
-                if (userInput != null)
-                {
-                    return userInput;
-                }
-                else Console.WriteLine(errorMessage);
-            }
-        }
+        //internal static string UserInputSafeString(string prompt, string errorMessage)
+        //{
+        //    while (true)
+        //    {
+        //        Console.WriteLine(prompt);
+        //        string userInput = Console.ReadLine();
+        //        if (userInput != null)
+        //        {
+        //            return userInput;
+        //        }
+        //        else Console.WriteLine(errorMessage);
+        //    }
+        //}
         /// <summary>
         /// En metod för att ställa Ja/Nej Frågor till användaren
         /// </summary>

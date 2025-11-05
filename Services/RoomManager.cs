@@ -125,7 +125,7 @@ namespace Bokningssystem.Services
         {
             DisplayClassRooms();
             Console.WriteLine();
-            DisplayGroopRooms();
+            DisplayGroupRooms();
         }
         public void DisplayClassRooms()
         {
@@ -144,7 +144,7 @@ namespace Bokningssystem.Services
                 Console.WriteLine();
             }
         }
-        public void DisplayGroopRooms()
+        public void DisplayGroupRooms()
         {
             const int ID_WIDTH = -10;
             const int AMOUNT_WIDTH = 15;
@@ -160,6 +160,7 @@ namespace Bokningssystem.Services
                 Console.WriteLine();
             }
         }
+        //TODO: Ta bort alla bokningar för rummet som tas bort.
         /// <summary>
         /// Metod för att kunna ändra tillagda rum.
         /// </summary>
@@ -170,12 +171,15 @@ namespace Bokningssystem.Services
             int idToRemove = UserInputManager.UserInputToInt("Ange ID på rum du önskar ta bort (0 om du ångrar dig): ");
             if (idToRemove == 0)
             { Console.WriteLine("Återgår till menyn."); return; }
+
             int removedCount = _repository.AllRooms.RemoveAll(r => r.RoomID == idToRemove);
+            int bookingsRemovedCount = _repository.AllBookings.RemoveAll(b => b.BookedRoomID == idToRemove);
             if (removedCount > 0)
             {
                 _repository.AllGroupRooms.RemoveAll(r => r.RoomID == idToRemove);
                 _repository.AllClassRooms.RemoveAll(r => r.RoomID == idToRemove);
-                Console.WriteLine($"Rum med id {idToRemove} togs bort ur systemet.");
+                
+                Console.WriteLine($"Rum med id {idToRemove} samt {bookingsRemovedCount} bokning(ar) på detta rum togs bort ur systemet.");
             }
             else
             { Console.WriteLine($"Fel: Rum med id {idToRemove} hittades inte."); }
