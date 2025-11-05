@@ -352,7 +352,6 @@ namespace Bokningssystem.Services
         /// <param name="_repository"></param>
         public void DeleteBooking()//Tai
         {
-            DateTime date = UserInputManager.UserCreateDateTime();
             int index = 0;
             Console.WriteLine("[0] AVBRYT");
             foreach (var item in _repository.AllBookings)

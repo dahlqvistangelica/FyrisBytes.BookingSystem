@@ -217,7 +217,7 @@ namespace Bokningssystem.UI
                 {
                     DateOnly date = UserChoiceDate();
                     TimeOnly time = UserCreateTime();
-                    DateTime dateTime = new DateTime(date, time);
+                    DateTime dateTime = date.ToDateTime(time);
                     return dateTime;
                 }
             }
