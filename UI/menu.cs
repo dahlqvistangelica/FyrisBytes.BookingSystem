@@ -18,6 +18,7 @@ namespace Bokningssystem.UI
         /// </summary>
         public static void StartUpScreen(DataManager dataManager, BookingManager bookingManager, RoomManager rManager, StoreData storeData)
         {
+            int exixnumber = 4;
             int input;
             do
             {
@@ -28,7 +29,7 @@ namespace Bokningssystem.UI
                     "[2] Hantera bokningar\n" +
                     "[3] Visa utvecklare \n" +
                     "[4] Avsluta programmet \n" +
-                    "Välj: ", 4, 0);
+                    "Välj: ", exixnumber, 0);
                 switch (input)
                 {
                     case 1:
@@ -51,7 +52,7 @@ namespace Bokningssystem.UI
                         break;
                 }
             }
-            while (input != 4);
+            while (input != exixnumber);
         }
 
         /// <summary>
