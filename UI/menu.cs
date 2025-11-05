@@ -59,6 +59,7 @@ namespace Bokningssystem.UI
         /// </summary>
         public static void ControllRoomScreen(DataManager dataManager, RoomManager roomManager, IFileStorageProvider storeData)
         {
+            int exitnumber = 6;
             dataManager.SortRoomLists();
             int input;
             do
@@ -71,7 +72,7 @@ namespace Bokningssystem.UI
                     "[3] Visa grupprum. \n" +
                     "[4] Visa alla rum. \n" +
                     "[5] Ta bort befintligt rum. \n" +
-                    "[6] Tillbaka till huvudmenyn\nVälj: ", 6, 0);
+                    "[6] Tillbaka till huvudmenyn\nVälj: ", exitnumber, 0);
 
                 switch (input)
                 {
@@ -111,13 +112,14 @@ namespace Bokningssystem.UI
                         Console.WriteLine("Ogiltigt val, försök igen.");
                         break;
                 }
-            } while (input != 6);
+            } while (input != exitnumber);
         }
         /// <summary>
         /// Meny för att hantera bokningar i systemet.
         /// </summary>
         public static void ControllBookingScreen(BookingManager bookingManager)
         {
+            int exitNumber = 7;
             int input;
             do
             {
@@ -126,10 +128,11 @@ namespace Bokningssystem.UI
                 input = UserInputManager.UserInputToIntWithLimitations("[1] Skapa ny bokning. \n" +
                     "[2] Uppdatera bokning. \n" +
                     "[3] Ta bort bokning.\n" +
-                    "[4] Visa alla bokningar. \n" +
-                    "[5] Sök efter bokning. \n" +
-                    "[6] Tillbaka till huvudmenyn.\n" +
-                    "Välj: ", 6, 0);
+                    "[4] Visa alla framtida bokningar. \n" +
+                    "[5] Visa alla bokningar. \n" +
+                    "[6] Sök efter bokning. \n" +
+                    "[7] Tillbaka till huvudmenyn.\n" +
+                    "Välj: ", exitNumber, 0);
                 switch (input)
                 {
                     case 1:
@@ -149,10 +152,15 @@ namespace Bokningssystem.UI
                         break;
                     case 4:
                         Console.Clear();
-                        bookingManager.ListAllBookings();
+                        bookingManager.ListAllUpcomingBookings();
                         Console.ReadLine();
                         break;
                     case 5:
+                        Console.Clear();
+                        bookingManager.ListAllBookings();
+                        Console.ReadLine();
+                        break;
+                    case 6:
                         Console.Clear();
                         bookingManager.BookingSearchYear(UserInputManager.UserInputToInt("Vilket år söker du efter?"));
                         Console.ReadLine();
@@ -161,7 +169,7 @@ namespace Bokningssystem.UI
                         Console.WriteLine("Ogiltigt val, försök igen.");
                         break;
                 }
-            } while (input != 6);
+            } while (input != exitNumber);
         }
     }
 }
