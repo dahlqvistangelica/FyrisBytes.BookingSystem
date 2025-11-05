@@ -145,7 +145,7 @@ namespace Bokningssystem.Models
                 string AllPropteties = base.Info;
                 AllPropteties +=
                     $"Projektor: {this.Projector} " +
-                    $"Högtaler: {this.SpeakerSystem} ";
+                    $"Högtalare: {this.SpeakerSystem} ";
                 return AllPropteties;
             }
 
