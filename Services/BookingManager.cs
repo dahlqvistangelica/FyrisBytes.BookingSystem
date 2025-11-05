@@ -14,10 +14,10 @@ namespace Bokningssystem.Services
     public class BookingManager
     {
         //Privata fält för att garantera att ingen utanför klassen kan se eller ändra. Och readonly för att garantera att refernsen inte kan ändras efter satt i konstruktorn.
-        
+
         //Privata fält för att hålla referensen till DataManager
         private readonly IBookingRepository _repository;
-        
+
         //Privata fält för att hålla referensen till StoreData
         private readonly IFileStorageProvider _storeData;
 
@@ -29,7 +29,7 @@ namespace Bokningssystem.Services
         }
 
 
-        public void BookingSearchYear(int targetYear) 
+        public void BookingSearchYear(int targetYear)
         {
             int counter = 0;
             foreach (Booking item in _repository.AllBookings)
@@ -105,7 +105,7 @@ namespace Bokningssystem.Services
                     correctEndTime = true;
             }
             TimeSpan bookedTime = bookingStart - bookingEnd;
-            
+
             List<Room> availableRooms = new List<Room>();
             foreach (var room in _repository.AllRooms)
             {
@@ -152,29 +152,29 @@ namespace Bokningssystem.Services
         public void ChangeBooking() //Tai
         {
 
-        Console.WriteLine("--- Uppdatera Bokning ---");
-        DateOnly dateOnly = UserInputManager.UserCreateDate();
-        TimeOnly timeOnly = new TimeOnly(00, 00, 00);
-        DateTime date = new DateTime(dateOnly, timeOnly);
-        Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
-        int counter = 1;
-        List<Booking> changeBooking = new List<Booking>();
-        foreach (Booking booking in _repository.AllBookings)
-        {
-            if (date.Date >= booking.BookingStart.Date && date.Date <= booking.BookingEnd.Date)
+            Console.WriteLine("--- Uppdatera Bokning ---");
+            DateOnly dateOnly = UserInputManager.UserCreateDate();
+            TimeOnly timeOnly = new TimeOnly(00, 00, 00);
+            DateTime date = new DateTime(dateOnly, timeOnly);
+            Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
+            int counter = 1;
+            List<Booking> changeBooking = new List<Booking>();
+            foreach (Booking booking in _repository.AllBookings)
             {
-                Console.WriteLine($"[{counter}] {booking.Info.ToString()}");
-                counter++;
-                changeBooking.Add(booking);
+                if (date.Date >= booking.BookingStart.Date && date.Date <= booking.BookingEnd.Date)
+                {
+                    Console.WriteLine($"[{counter}] {booking.Info.ToString()}");
+                    counter++;
+                    changeBooking.Add(booking);
+                }
+                else
+                    continue;
             }
-            else
-                continue;
-        }
-        int whichBookingToChange = UserInputManager.UserInputToInt("Ange nummer för bokningen du vill uppdatera (0 för att backa): ");
-        if (whichBookingToChange <= 0)
-            return;
-        Booking chosenBooking = changeBooking[whichBookingToChange - 1]; //Hämtar från listan med tillgängliga bokningar.
-        Booking workingCopy = new Booking(chosenBooking);
+            int whichBookingToChange = UserInputManager.UserInputToInt("Ange nummer för bokningen du vill uppdatera (0 för att backa): ");
+            if (whichBookingToChange <= 0)
+                return;
+            Booking chosenBooking = changeBooking[whichBookingToChange - 1]; //Hämtar från listan med tillgängliga bokningar.
+            Booking workingCopy = new Booking(chosenBooking);
 
             int originalRoomID = chosenBooking.BookedRoomID;
             TimeSpan originalSpan = chosenBooking.BookingSpan;
@@ -273,7 +273,7 @@ namespace Bokningssystem.Services
 
             bookingToChange.BookingStart = newStart;
             bookingToChange.BookingEnd = newEnd;
-            bookingToChange.BookingSpan = newStart - newEnd;
+            bookingToChange.BookingSpan = newEnd - newStart;
             return bookingToChange;
         }
         /// <summary>
@@ -304,7 +304,7 @@ namespace Bokningssystem.Services
 
             bookingToChange.BookingStart = newStart;
             bookingToChange.BookingEnd = newEnd;
-            bookingToChange.BookingSpan = newStart - newEnd;
+            bookingToChange.BookingSpan = newEnd - newStart;
             return bookingToChange;
         }
         /// <summary>
