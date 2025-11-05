@@ -125,7 +125,7 @@ namespace Bokningssystem.Services
         {
             DisplayClassRooms();
             Console.WriteLine();
-            DisplayGroopRooms();
+            DisplayGroupRooms();
         }
         public void DisplayClassRooms()
         {
@@ -144,7 +144,7 @@ namespace Bokningssystem.Services
                 Console.WriteLine();
             }
         }
-        public void DisplayGroopRooms()
+        public void DisplayGroupRooms()
         {
             const int ID_WIDTH = -10;
             const int AMOUNT_WIDTH = 15;
@@ -160,6 +160,7 @@ namespace Bokningssystem.Services
                 Console.WriteLine();
             }
         }
+        //TODO: Ta bort alla bokningar för rummet som tas bort.
         /// <summary>
         /// Metod för att kunna ändra tillagda rum.
         /// </summary>
