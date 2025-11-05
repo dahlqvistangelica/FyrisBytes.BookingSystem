@@ -82,7 +82,7 @@ namespace Bokningssystem.UI
                         { dataManager.AllGroupRooms.Add(roomManager.CreateGroupRoom(seats)); }
                         else
                         { dataManager.AllClassRooms.Add(roomManager.CreateClassRoom(seats)); }
-                        dataManager.RebuildAllRooms();
+                        dataManager.RebuildListAllRooms();
                         storeData.SaveToFile(dataManager);
                         break;
                     case 2:
@@ -92,7 +92,7 @@ namespace Bokningssystem.UI
                         break;
                     case 3:
                         Console.Clear();
-                        roomManager.DisplayGroopRooms();
+                        roomManager.DisplayGroupRooms();
                         Console.ReadLine();
                         break;
                     case 4:
@@ -104,7 +104,7 @@ namespace Bokningssystem.UI
                         Console.Clear();
                         roomManager.DeleteRoom(dataManager);
                         Console.ReadLine();
-                        dataManager.RebuildAllRooms();
+                        dataManager.RebuildListAllRooms();
                         storeData.SaveToFile(dataManager);
                         break;
                     default:
@@ -134,10 +134,7 @@ namespace Bokningssystem.UI
                 {
                     case 1:
                         Console.Clear();
-                        Console.WriteLine("skapa ny bokning");
-                        //Booking.CreateBooking(dataManager, 0);
                         bookingManager.NewBooking();
-                        //Booking.CreateBooking(dataManager);
                         Console.ReadLine();
                         break;
                     case 2:
@@ -152,13 +149,11 @@ namespace Bokningssystem.UI
                         break;
                     case 4:
                         Console.Clear();
-                        Console.WriteLine("visa alla bokningar");
                         bookingManager.ListAllBookings();
                         Console.ReadLine();
                         break;
                     case 5:
                         Console.Clear();
-                        Console.WriteLine("sök efter bokning");
                         bookingManager.BookingSearchYear(UserInputManager.UserInputToInt("Vilket år söker du efter?"));
                         Console.ReadLine();
                         break;

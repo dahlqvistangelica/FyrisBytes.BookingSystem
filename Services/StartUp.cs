@@ -20,7 +20,7 @@ namespace bokningssystem.Services
             var dataManager = storeData.ReadFromFile<DataManager>();
             if (dataManager != null)
             {
-                dataManager.RebuildAllRooms();
+                dataManager.RebuildListAllRooms();
             }
             else
             {

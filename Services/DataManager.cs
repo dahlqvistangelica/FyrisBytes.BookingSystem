@@ -32,7 +32,7 @@ namespace Bokningssystem.Services
         /// <summary>
         /// Uppdaterar AllRooms listan med nya rum
         /// </summary>
-        public void RebuildAllRooms()
+        public void RebuildListAllRooms()
         {
             AllRooms.Clear();
             AllRooms.AddRange(AllGroupRooms);

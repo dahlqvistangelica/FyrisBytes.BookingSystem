@@ -23,7 +23,7 @@ namespace Bokningssystem.Services
         }
 
 
-        public void BookingSearchYear(int targetYear)
+        public void BookingSearchYear(int targetYear) 
         {
             int counter = 0;
             foreach (Booking item in _repository.AllBookings)
@@ -38,6 +38,7 @@ namespace Bokningssystem.Services
             if (counter <= 0)
             { Console.WriteLine($"Inga bokningar hittades {targetYear}"); }
         }
+        //Tas bort? 
         public void BookingSearchDate(DateOnly targetDate)
         {
             int counter = 0;
@@ -49,9 +50,9 @@ namespace Bokningssystem.Services
                 Console.WriteLine($"[{counter}] {item.BookingStart.ToString("g")}  {item.BookingEnd.ToString("g")}");
             }
         }
-        public int ListAllBookings()
+        public void ListAllBookings()
         {
-            List<Booking> SortedBookings = SortAfterUpcoming();
+            List<Booking> SortedBookings = SortByStartDaT();
             int counter = 0;
             foreach (Booking item in SortedBookings)
             {
@@ -60,9 +61,6 @@ namespace Bokningssystem.Services
             }
             if (counter <= 0)
                 Console.WriteLine("Inga bokningar hittades.");
-
-
-            return counter;
         }
         /// <summary>
         /// Skapar ny bokning av valfritt rum
@@ -89,6 +87,7 @@ namespace Bokningssystem.Services
                     correctEndTime = true;
             }
             TimeSpan bookedTime = bookingStart - bookingEnd;
+            
             List<Room> availableRooms = new List<Room>();
             foreach (var room in _repository.AllRooms)
             {
@@ -113,12 +112,12 @@ namespace Bokningssystem.Services
                     Console.WriteLine(room.Info);
                 }
 
-                int roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
+                int roomToBook = UserInputManager.UserInputToInt("\nSkriv in rumID du vill boka: ");
                 Room chosenRoom = availableRooms.FirstOrDefault(r => r.RoomID == roomToBook);
                 while (chosenRoom == null)
                 {
                     Console.WriteLine("Ogiltigt id");
-                    roomToBook = UserInputManager.UserInputToInt("\nSkriv in salID du vill boka: ");
+                    roomToBook = UserInputManager.UserInputToInt("\nSkriv in rumID du vill boka: ");
                     chosenRoom = availableRooms.FirstOrDefault(r => r.RoomID == roomToBook);
                 }
                 Booking newBooking = new Booking(bookingStart, bookingEnd, chosenRoom);
@@ -194,9 +193,6 @@ namespace Bokningssystem.Services
                 Console.WriteLine($"Bokningen flyttades till {workingCopy.BookedRoomID} från {originalRoomID}");
             }
             _repository.AllBookings[allBookingsIndex] = workingCopy;        //Uppdaterar den gamla bokningen med den nya
-
-            _repository.SortRoomLists();
-            _repository.RebuildAllRooms();
             _storeData.SaveToFile(_repository);
         }
         /// <summary>
@@ -362,18 +358,16 @@ namespace Bokningssystem.Services
                     Console.WriteLine("Bokning borttagen.");
                 }
             }
-            _repository.SortRoomLists();
-            _repository.RebuildAllRooms();
             _storeData.SaveToFile(_repository);
         }
 
-        public List<Booking> SortAfterUpcoming()
+        public List<Booking> SortByStartDaT()
         {
             DateTime now = DateTime.Now;
 
             var SortedBookings = _repository.AllBookings
                 .Where(b => b.BookingStart >= now)
-                .OrderBy(b => b.BookingEnd)
+                .OrderBy(b => b.BookingStart)
                 .ToList();
             return SortedBookings;
         }

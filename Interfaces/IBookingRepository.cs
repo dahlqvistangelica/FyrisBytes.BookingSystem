@@ -12,7 +12,7 @@ namespace Bokningssystem.Interfaces
         List<Room> AllRooms { get; }
         List<GroupRoom> AllGroupRooms { get; }
         List<ClassRoom> AllClassRooms { get; }
-        void RebuildAllRooms();
+        void RebuildListAllRooms();
         void SortRoomLists();
     }
 }
