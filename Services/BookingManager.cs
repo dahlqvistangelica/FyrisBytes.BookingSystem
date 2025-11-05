@@ -361,12 +361,21 @@ namespace Bokningssystem.Services
             _storeData.SaveToFile(_repository);
         }
 
-        public List<Booking> SortByStartDaT()
+        public List<Booking> SortAfterUpcomingFromNow()
         {
             DateTime now = DateTime.Now;
 
             var SortedBookings = _repository.AllBookings
                 .Where(b => b.BookingStart >= now)
+                .OrderBy(b => b.BookingStart)
+                .ToList();
+            return SortedBookings;
+        }
+        public List<Booking> SortAfterUpcomingAllBookings()
+        {
+            DateTime now = DateTime.Now;
+
+            var SortedBookings = _repository.AllBookings
                 .OrderBy(b => b.BookingStart)
                 .ToList();
             return SortedBookings;
