@@ -62,6 +62,18 @@ namespace Bokningssystem.Services
             if (counter <= 0)
                 Console.WriteLine("Inga bokningar hittades.");
         }
+        public void ListAllUpcomingBookings()
+        {
+            List<Booking> SortedBookings = SortAfterUpcomingFromNow();
+            int counter = 0;
+            foreach (Booking item in SortedBookings)
+            {
+                counter++;
+                Console.WriteLine($"[{counter}] {item.Info.ToString()}");
+            }
+            if (counter <= 0)
+                Console.WriteLine("Inga bokningar hittades.");
+        }
         /// <summary>
         /// Skapar ny bokning av valfritt rum
         /// </summary>
