@@ -52,7 +52,7 @@ namespace Bokningssystem.Services
         }
         public void ListAllBookings()
         {
-            List<Booking> SortedBookings = SortAfterUpcomingAllBookings();
+            List<Booking> SortedBookings = SortAfterStartTimeAllBookings();
             int counter = 0;
             foreach (Booking item in SortedBookings)
             {
@@ -361,17 +361,24 @@ namespace Bokningssystem.Services
             _storeData.SaveToFile(_repository);
         }
 
-        public List<Booking> SortAfterUpcomingFromNow()
+        /// <summary>
+        /// Sorterar bokningar efter starttid och visar bara bokningar som kommer hända.
+        /// </summary>
+        /// <returns></returns>
+        public List<Booking> SortAfterUpcomingBooking()
         {
             DateTime now = DateTime.Now;
-
             var SortedBookings = _repository.AllBookings
                 .Where(b => b.BookingStart >= now)
                 .OrderBy(b => b.BookingStart)
                 .ToList();
             return SortedBookings;
         }
-        public List<Booking> SortAfterUpcomingAllBookings()
+        /// <summary>
+        /// Sorterar ALLA bokningar efter starttid.
+        /// </summary>
+        /// <returns></returns>
+        public List<Booking> SortAfterStartTimeAllBookings()
         {
             var SortedBookings = _repository.AllBookings
                 .OrderBy(b => b.BookingStart)
