@@ -142,11 +142,11 @@ namespace Bokningssystem.Models
         {
             get
             {
-                string AllPropteties = base.Info;
-                AllPropteties +=
+                string AllProperties = base.Info;
+                AllProperties +=
                     $"Projektor: {this.Projector} " +
                     $"Högtalare: {this.SpeakerSystem} ";
-                return AllPropteties;
+                return AllProperties;
             }
 
         }
