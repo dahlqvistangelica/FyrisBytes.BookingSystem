@@ -52,7 +52,7 @@ namespace Bokningssystem.Services
         }
         public void ListAllBookings()
         {
-            List<Booking> SortedBookings = SortByStartDaT();
+            List<Booking> SortedBookings = SortAfterUpcomingAllBookings();
             int counter = 0;
             foreach (Booking item in SortedBookings)
             {
@@ -374,7 +374,6 @@ namespace Bokningssystem.Services
         public List<Booking> SortAfterUpcomingAllBookings()
         {
             DateTime now = DateTime.Now;
-
             var SortedBookings = _repository.AllBookings
                 .OrderBy(b => b.BookingStart)
                 .ToList();
