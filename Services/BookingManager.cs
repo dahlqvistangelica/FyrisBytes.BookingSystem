@@ -13,9 +13,15 @@ namespace Bokningssystem.Services
     /// </summary>
     public class BookingManager
     {
+        //Privata fält för att garantera att ingen utanför klassen kan se eller ändra. Och readonly för att garantera att refernsen inte kan ändras efter satt i konstruktorn.
+        
+        //Privata fält för att hålla referensen till DataManager
         private readonly IBookingRepository _repository;
+        
+        //Privata fält för att hålla referensen till StoreData
         private readonly IFileStorageProvider _storeData;
 
+        //Dependency injection för att ge privata fälten värdet av de instanser av objekten vi vill
         public BookingManager(IBookingRepository repository, IFileStorageProvider storeData)
         {
             _repository = repository;
@@ -64,7 +70,7 @@ namespace Bokningssystem.Services
         }
         public void ListAllUpcomingBookings()
         {
-            List<Booking> SortedBookings = SortAfterUpcomingBooking();
+            List<Booking> SortedBookings = OnlyUpcomingBookingsSort();
             int counter = 0;
             foreach (Booking item in SortedBookings)
             {
@@ -376,7 +382,7 @@ namespace Bokningssystem.Services
         /// Sorterar bokningar efter starttid och visar bara bokningar som kommer hända.
         /// </summary>
         /// <returns></returns>
-        public List<Booking> SortAfterUpcomingBooking()
+        public List<Booking> OnlyUpcomingBookingsSort()
         {
             DateTime now = DateTime.Now;
             var SortedBookings = _repository.AllBookings

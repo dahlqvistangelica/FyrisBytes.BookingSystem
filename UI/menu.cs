@@ -66,7 +66,7 @@ namespace Bokningssystem.UI
             do
             {
                 Console.Clear();
-                Console.WriteLine("-- Hantera salar --");
+                Console.WriteLine("==== HANTERA RUM ====");
                 input = UserInputManager.UserInputToIntWithLimitations(
                     "[1] Lägg till rum. \n" +
                     "[2] Visa klassrum. \n" +
@@ -79,6 +79,7 @@ namespace Bokningssystem.UI
                 {
                     case 1:
                         Console.Clear();
+                        Console.WriteLine("==== LÄGG TILL NYTT RUM ====");
                         int seats = RoomManager.GetSeats();
                         if (RoomManager.DetermineRoomType(seats))
                         { dataManager.AllGroupRooms.Add(roomManager.CreateGroupRoom(seats)); }
@@ -104,6 +105,7 @@ namespace Bokningssystem.UI
                         break;
                     case 5:
                         Console.Clear();
+                        Console.WriteLine("==== TA BORT BEFINTLIGT RUM ====");
                         roomManager.DeleteRoom(dataManager);
                         Console.ReadLine();
                         dataManager.RebuildListAllRooms();
@@ -125,7 +127,7 @@ namespace Bokningssystem.UI
             do
             {
                 Console.Clear();
-                Console.WriteLine("-- Hantera bokningar --");
+                Console.WriteLine("==== HANTERA BOKNINGAR ====");
                 input = UserInputManager.UserInputToIntWithLimitations("[1] Skapa ny bokning. \n" +
                     "[2] Uppdatera bokning. \n" +
                     "[3] Ta bort bokning.\n" +
@@ -138,31 +140,37 @@ namespace Bokningssystem.UI
                 {
                     case 1:
                         Console.Clear();
+                        Console.WriteLine("==== NY BOKNING ====");
                         bookingManager.NewBooking();
                         Console.ReadLine();
                         break;
                     case 2:
                         Console.Clear();
+                        Console.WriteLine("==== UPPDATERA BOKNING ====");
                         bookingManager.ChangeBooking();
                         Console.ReadLine();
                         break;
                     case 3:
                         Console.Clear();
+                        Console.WriteLine("==== TA BORT BOKNING ====");
                         bookingManager.DeleteBooking();
                         Console.ReadLine();
                         break;
                     case 4:
                         Console.Clear();
+                        Console.WriteLine("==== KOMMANDE BOKNINGAR ===== ");
                         bookingManager.ListAllUpcomingBookings();
                         Console.ReadLine();
                         break;
                     case 5:
                         Console.Clear();
+                        Console.WriteLine("==== ALLA BOKNINGAR ====");
                         bookingManager.ListAllBookings();
                         Console.ReadLine();
                         break;
                     case 6:
                         Console.Clear();
+                        Console.WriteLine("==== SÖK EFTER BOKNING ====");
                         bookingManager.BookingSearchYear(UserInputManager.UserInputToInt("Vilket år söker du efter?"));
                         Console.ReadLine();
                         break;

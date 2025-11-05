@@ -14,14 +14,19 @@ namespace Bokningssystem.Persistence
         /// <returns></returns>
         public static string GetPath()
         {
+            //Hämtar systemets standardplats för applikationsdata
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            //Kombinerar standardplatsen och mappnamnet
             string directoryPath = Path.Combine(appDataPath, _appFolder);
 
-            //Skapar mappen om den inte finns
+            //Kontrollerar om mappen finns
             if (!Directory.Exists(directoryPath))
             {
+                //Om den inte finns, skapas den
                 Directory.CreateDirectory(directoryPath);
             }
+            //returnar fullständiga sökvägen till datafilen. Kombinerar mappens sökväg med filnamnet
             return Path.Combine(directoryPath, _fileName);
         }
     }
