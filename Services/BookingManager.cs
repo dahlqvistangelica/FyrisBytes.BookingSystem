@@ -156,19 +156,29 @@ namespace Bokningssystem.Services
             DateOnly dateOnly = UserInputManager.UserCreateDate();
             TimeOnly timeOnly = new TimeOnly(00, 00, 00);
             DateTime date = new DateTime(dateOnly, timeOnly);
-            Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
             int counter = 1;
             List<Booking> changeBooking = new List<Booking>();
-            foreach (Booking booking in _repository.AllBookings)
+            if (_repository.AllBookings.Count() != 0)
             {
-                if (date.Date >= booking.BookingStart.Date && date.Date <= booking.BookingEnd.Date)
+                Console.WriteLine($"Följande bokningar finns i systemet {date:dddd} {date:D}:");
+
+                foreach (Booking booking in _repository.AllBookings)
                 {
-                    Console.WriteLine($"[{counter}] {booking.Info.ToString()}");
-                    counter++;
-                    changeBooking.Add(booking);
+                    if (date.Date >= booking.BookingStart.Date && date.Date <= booking.BookingEnd.Date)
+                    {
+                        Console.WriteLine($"[{counter}] {booking.Info.ToString()}");
+                        counter++;
+                        changeBooking.Add(booking);
+                    }
+                    else
+                        continue;
                 }
-                else
-                    continue;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Det finns inga bokningar");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
             int whichBookingToChange = UserInputManager.UserInputToInt("Ange nummer för bokningen du vill uppdatera (0 för att backa): ");
             if (whichBookingToChange <= 0)
@@ -360,20 +370,30 @@ namespace Bokningssystem.Services
         {
             int index = 0;
             Console.WriteLine("[0] AVBRYT");
-            foreach (var item in _repository.AllBookings)
+            if (_repository.AllBookings.Count != 0)
             {
-                Console.WriteLine($"[{index + 1}]" + item.Info.ToString());
-                index++;
-            }
-            int indexToRemove = UserInputManager.UserInputToIntWithLimitations("Vilken bokning skulle du vilja ta bort?", _repository.AllBookings.Count, 0) - 1;
-            if (indexToRemove >= 0)
-            {
-                Booking chosenBooking = _repository.AllBookings[indexToRemove]; //Hämtar från listan med tillgängliga bokningar.
-                int roomId = _repository.AllRooms.FindIndex(r => r.RoomID == chosenBooking.BookedRoomID); //Hittar RoomID för bokningen i rummets lista. 
-                if ((_repository.AllBookings.Remove(chosenBooking)) && (_repository.AllRooms[roomId].roomBookings.Remove(chosenBooking)))
+
+                foreach (var item in _repository.AllBookings)
                 {
-                    Console.WriteLine("Bokning borttagen.");
+                    Console.WriteLine($"[{index + 1}]" + item.Info.ToString());
+                    index++;
                 }
+                int indexToRemove = UserInputManager.UserInputToIntWithLimitations("Vilken bokning skulle du vilja ta bort?", _repository.AllBookings.Count, 0) - 1;
+                if (indexToRemove >= 0)
+                {
+                    Booking chosenBooking = _repository.AllBookings[indexToRemove]; //Hämtar från listan med tillgängliga bokningar.
+                    int roomId = _repository.AllRooms.FindIndex(r => r.RoomID == chosenBooking.BookedRoomID); //Hittar RoomID för bokningen i rummets lista. 
+                    if ((_repository.AllBookings.Remove(chosenBooking)) && (_repository.AllRooms[roomId].roomBookings.Remove(chosenBooking)))
+                    {
+                        Console.WriteLine("Bokning borttagen.");
+                    }
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Det finns inga inga bokningar att ta bort.");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
             _storeData.SaveToFile(_repository);
         }

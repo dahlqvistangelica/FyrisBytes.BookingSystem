@@ -142,13 +142,22 @@ namespace Bokningssystem.Services
             const int BOOL_WIDTH = -15;
             Console.WriteLine($"{"===== ALLA KLASSRUM =====",50}");
             Console.WriteLine($"{"Rum ID",ID_WIDTH * -1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH * -1}{"Handikappanpassat",LONG_BOOL_WIDTH * -1}{"Projektor",BOOL_WIDTH * -1}{"Högtalare",BOOL_WIDTH * -1}");
-
-            foreach (ClassRoom room in _repository.AllClassRooms)
+            if (_repository.AllClassRooms.Count() != 0)
             {
 
-                Console.Write($"{room.RoomID,ID_WIDTH * -1}{room.SeatAmount,AMOUNT_WIDTH}{room.EmergencyExits,AMOUNT_WIDTH}{(room.WhiteBoard ? "ja" : "nej"),BOOL_WIDTH * -1}{(room.DisablityAdapted ? "ja" : "nej"),LONG_BOOL_WIDTH * -1}{(room.Projector ? "ja" : "nej"),BOOL_WIDTH * -1}{(room.SpeakerSystem ? "ja" : "nej"),BOOL_WIDTH * -1}");
+                foreach (ClassRoom room in _repository.AllClassRooms)
+                {
 
-                Console.WriteLine();
+                    Console.Write($"{room.RoomID,ID_WIDTH * -1}{room.SeatAmount,AMOUNT_WIDTH}{room.EmergencyExits,AMOUNT_WIDTH}{(room.WhiteBoard ? "ja" : "nej"),BOOL_WIDTH * -1}{(room.DisablityAdapted ? "ja" : "nej"),LONG_BOOL_WIDTH * -1}{(room.Projector ? "ja" : "nej"),BOOL_WIDTH * -1}{(room.SpeakerSystem ? "ja" : "nej"),BOOL_WIDTH * -1}");
+
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Det finns inga klassrum");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
         }
         /// <summary>
@@ -163,14 +172,25 @@ namespace Bokningssystem.Services
 
             Console.WriteLine($"{"===== ALLA GRUPPRUM =====",50}");
             Console.WriteLine($"{"Rum ID",ID_WIDTH * -1}{"Sittplatser",AMOUNT_WIDTH}{"Nödutgångar",AMOUNT_WIDTH}{"Whiteboard",BOOL_WIDTH * -1}{"Handikappanpassat",LONG_BOOL_WIDTH * -1}");
-            foreach (GroupRoom room in _repository.AllGroupRooms)
+            if (_repository.AllGroupRooms.Count() != 0)
             {
 
-                Console.Write($"{room.RoomID,ID_WIDTH * -1}{room.SeatAmount,AMOUNT_WIDTH}{room.EmergencyExits,AMOUNT_WIDTH}{(room.WhiteBoard ? "ja" : "nej"),BOOL_WIDTH * -1}{(room.DisablityAdapted ? "ja" : "nej"),LONG_BOOL_WIDTH * -1}");
-                Console.WriteLine();
+                foreach (GroupRoom room in _repository.AllGroupRooms)
+                {
+
+                    Console.Write($"{room.RoomID,ID_WIDTH * -1}{room.SeatAmount,AMOUNT_WIDTH}{room.EmergencyExits,AMOUNT_WIDTH}{(room.WhiteBoard ? "ja" : "nej"),BOOL_WIDTH * -1}{(room.DisablityAdapted ? "ja" : "nej"),LONG_BOOL_WIDTH * -1}");
+                    Console.WriteLine();
+
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Det finns inga grupprum");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
         }
-        
+
         /// <summary>
         /// Metod för att kunna ta tillagda rum och tillhörande bokningar på rummet.
         /// </summary>
@@ -188,7 +208,7 @@ namespace Bokningssystem.Services
             {
                 _repository.AllGroupRooms.RemoveAll(r => r.RoomID == idToRemove);
                 _repository.AllClassRooms.RemoveAll(r => r.RoomID == idToRemove);
-                
+
                 Console.WriteLine($"Rum med id {idToRemove} samt {bookingsRemovedCount} bokning(ar) på detta rum togs bort ur systemet.");
             }
             else
