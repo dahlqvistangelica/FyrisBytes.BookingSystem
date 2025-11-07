@@ -256,7 +256,7 @@ namespace Bokningssystem.Services
 
             bookingToChange.BookingStart = newStart;
             bookingToChange.BookingEnd = newEnd;
-            bookingToChange.BookingSpan = newStart - newEnd;
+            bookingToChange.BookingSpan = newEnd - newStart;
             return bookingToChange;
         }
         /// <summary>
@@ -287,7 +287,7 @@ namespace Bokningssystem.Services
 
             bookingToChange.BookingStart = newStart;
             bookingToChange.BookingEnd = newEnd;
-            bookingToChange.BookingSpan = newStart - newEnd;
+            bookingToChange.BookingSpan = newEnd - newStart;
             return bookingToChange;
         }
         /// <summary>

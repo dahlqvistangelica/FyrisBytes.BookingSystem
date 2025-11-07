@@ -18,7 +18,7 @@ namespace Bokningssystem.Models
         {
             get
             {
-                string Info = $"Bokat rum: {BookedRoomID.ToString()}, {BookingStart.ToString("g")} - {BookingEnd.ToString("g")} ({BookingSpan.ToString("hh':'mm")})";
+                string Info = $"Bokat rum: {BookedRoomID.ToString()}, {BookingStart.ToString("g")} - {BookingEnd.ToString("g")} ({BookingSpan.TotalHours.ToString("f2")})";
                 return Info;
             }
             set

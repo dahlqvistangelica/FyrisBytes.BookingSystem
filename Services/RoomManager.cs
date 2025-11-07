@@ -93,6 +93,7 @@ namespace Bokningssystem.Services
             bool disabilityAccess = GetDisabilityAccess();
             bool whiteboard = GetWhiteBoard();
             GroupRoom groupRoom = new GroupRoom(roomID, seats, disabilityAccess, emergencyExits, whiteboard);
+            _repository.RebuildListAllRooms();
             _storeData.SaveToFile(_repository);
             return groupRoom;
         }
@@ -116,6 +117,7 @@ namespace Bokningssystem.Services
             bool projector = GetProjector();
             bool speaker = GetSpeaker();
             ClassRoom classRoom = new ClassRoom(roomID, seats, disablityAccess, emergencyExits, whiteboard, projector, speaker);
+            _repository.RebuildListAllRooms();
             _storeData.SaveToFile(_repository);
             return classRoom;
 
@@ -191,6 +193,7 @@ namespace Bokningssystem.Services
             }
             else
             { Console.WriteLine($"Fel: Rum med id {idToRemove} hittades inte."); }
+            _repository.RebuildListAllRooms();
             _storeData.SaveToFile(_repository);
 
         }
