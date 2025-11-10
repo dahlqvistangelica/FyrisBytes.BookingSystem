@@ -25,6 +25,7 @@ Programmet skapar en mapp i användarens AppData\Roaming som heter BokningsSyste
 Begränsningar:
 Vid borttagning av rum tas även befintliga bokningar på rummet bort, önskvärt kanske hade varit att dessa bokningar fick tilldelas ett nytt rum av användaren. 
 Vid borttagning av bokning listas alla befintliga bokningar inlagda i systemet. Vid en större organisation behövs det en funktion för att filtrera bokningarna på något sätt. 
+Vid sökning av bokningsår så visas inte bokningar som sträcker sig före till efter det valda året som sökts.
 
 Ansvarsfördelning:
 Angelica Dahlqvist - Room och RoomManager
